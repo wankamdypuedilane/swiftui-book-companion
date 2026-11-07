@@ -10,8 +10,9 @@ struct MapBasicsView: View {
     }
 
     let stops = [
-        Stop(id: 1, name: "Glasshouse",
-             coordinate: .init(latitude: 48.3905, longitude: -4.4860)),
+        Stop(
+            id: 1, name: "Glasshouse",
+            coordinate: .init(latitude: 48.3905, longitude: -4.4860)),
         Stop(id: 2, name: "Swap box", coordinate: .init(latitude: 48.4011, longitude: -4.4826)),
         Stop(id: 3, name: "Orchard", coordinate: .init(latitude: 48.3992, longitude: -4.5096)),
     ]

@@ -1,4 +1,5 @@
 import CoreLocation
+import MapKit
 import SwiftUI
 import VerdantKit
 
@@ -25,6 +26,16 @@ struct PlaceDetailSheet: View {
                         .formatted(.measurement(width: .abbreviated, usage: .road)),
                     systemImage: "figure.walk")
             }
+            // <directions>
+            Button("Walking directions", systemImage: "map") {
+                let item = MKMapItem(placemark: MKPlacemark(coordinate: place.coordinate))
+                item.name = place.name
+                item.openInMaps(launchOptions: [
+                    MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeWalking
+                ])
+            }
+            .buttonStyle(.bordered)
+            // </directions>
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()

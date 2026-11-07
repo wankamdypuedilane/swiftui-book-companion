@@ -35,6 +35,13 @@ struct PlacesMapView: View {
                 PlaceDetailSheet(place: place, userLocation: location.location)
                     .presentationDetents([.fraction(0.3), .medium])
             }
+            .safeAreaInset(edge: .bottom) {
+                if let here = location.location?.coordinate, !usesClustering {
+                    NearestPlaces(places: model.nearest(to: here.latitude, here.longitude)) {
+                        model.selectedPlaceID = $0
+                    }
+                }
+            }
             .overlay(alignment: .top) {
                 if let error = model.error {
                     Text(error.userMessage)
@@ -108,6 +115,31 @@ struct PlacesMapView: View {
     }
 }
 // </map>
+
+// <nearest>
+/// Exercise 16.2: the three nearest places, shown when the user's location is known.
+struct NearestPlaces: View {
+    let places: [(place: Place, metres: Double)]
+    let select: (Place.ID) -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            ForEach(places, id: \.place.id) { item in
+                Button {
+                    select(item.place.id)
+                } label: {
+                    LabeledContent(
+                        item.place.name,
+                        value: Measurement(value: item.metres, unit: UnitLength.meters),
+                        format: .measurement(width: .abbreviated, usage: .road))
+                }
+            }
+        }
+        .padding()
+        .background(.regularMaterial)
+    }
+}
+// </nearest>
 
 // <mapextensions>
 extension Place {
