@@ -81,7 +81,14 @@ extension VerdantUITests {
         for tab in ["Today", "Garden", "Settings"] {
             app.tabBars.buttons[tab].tap()
             try app.performAccessibilityAudit { issue in
-                // Print where the issue is, then let it fail the test.
+                // Text in navigation bar buttons stops growing at large sizes by design;
+                // the system shows it in the Large Content Viewer on a long press instead.
+                if issue.auditType == .dynamicType, let label = issue.element?.label,
+                    app.navigationBars.buttons[label].exists
+                {
+                    return true  // true: a known limitation of a system control, ignored
+                }
+                // Anything else: print where the issue is, then let it fail the test.
                 print(
                     "Audit issue on \(tab):", issue.compactDescription, "-",
                     issue.detailedDescription)
