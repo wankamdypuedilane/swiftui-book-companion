@@ -16,7 +16,15 @@ jobs:
         run: swift --version
       - name: Run the examples and compare with the recorded output
         run: tools/run-swift-examples.sh --check
+      - name: Start the demonstration API
+        run: |
+          apt-get update -qq && apt-get install -y -qq nodejs > /dev/null
+          node --version
+          (cd book-api && node server.js > /tmp/api.log 2>&1 &)
+          sleep 1 && curl -s http://localhost:8080/health
       - name: Test the Swift packages
+        env:
+          VERDANT_API_URL: http://localhost:8080/verdant/v1/
         run: |
           for p in $(find . -name Package.swift -not -path "*/.build/*" | grep -v '/Projects/' | sort); do
             d=$(dirname "$p"); echo "::group::$d"; (cd "$d" && swift build && (swift test || [ ! -d Tests ])); echo "::endgroup::"
