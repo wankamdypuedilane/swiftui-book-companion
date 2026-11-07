@@ -34,6 +34,7 @@ struct SettingsView: View {
                     Text("Verdant schedules one reminder per plant, on the day it needs water.")
                 }
                 AccountSection()
+                    .privacySensitiveWhenInactive()
                 Section("About") {
                     Button("Show the introduction again") { hasCompletedOnboarding = false }
                     LabeledContent("Version", value: Bundle.main.versionString)
