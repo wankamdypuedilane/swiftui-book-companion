@@ -1,0 +1,32 @@
+name: Smoke
+options:
+  bundleIdPrefix: com.example.book
+  deploymentTarget:
+    iOS: "18.0"
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    CODE_SIGNING_ALLOWED: "NO"
+targets:
+  Smoke:
+    type: application
+    platform: iOS
+    sources: [Smoke]
+    info:
+      path: Smoke/Info.plist
+      properties:
+        UILaunchScreen: {}
+  SmokeTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [SmokeTests]
+    dependencies: [{target: Smoke}]
+  SmokeUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [SmokeUITests]
+    dependencies: [{target: Smoke}]
+schemes:
+  Smoke:
+    build: {targets: {Smoke: all}}
+    test: {targets: [SmokeTests, SmokeUITests]}
