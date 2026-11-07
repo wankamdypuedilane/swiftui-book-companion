@@ -17,6 +17,9 @@ for src in $(find examples/swift -name '*.swift' | sort); do
       echo "FAIL (compiled but should not): $src"; status=1; continue
     fi
     grep -E '^[^ ].*(error|warning): ' "$TMP/log" | sed -E 's#^.*/([^/]+\.swift)#\1#' > "$TMP/result"
+    # Diagnostics are worded slightly differently by each compiler version:
+    # in --check mode, only the failure itself is verified.
+    if [ "$MODE" = "--check" ]; then continue; fi
   else
     if ! swiftc -swift-version 6 "$src" -o "$bin" $EXTRA >"$TMP/log" 2>&1; then
       echo "FAIL (compile): $src"; sed -n 1,20p "$TMP/log"; status=1; continue
