@@ -9,5 +9,7 @@ extension GalleryChapter {
             number: 8, title: "Buttons, Interactions, State, and Binding", examples: ch08),
         GalleryChapter(number: 9, title: "Navigation and Modal Presentations", examples: ch09),
         GalleryChapter(number: 11, title: "Tabs, Lists, and Dynamic Content", examples: ch11),
+        GalleryChapter(
+            number: 12, title: "Grids, Dates, Text Input, and Forms", examples: ch12),
     ]
 }
