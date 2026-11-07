@@ -7,7 +7,7 @@
 set -u
 cd "$(dirname "$0")/.."
 MODE="${1:-record}"
-EXTRA=${SWIFT_LINK_FLAGS:-}
+EXTRA="-lm ${SWIFT_LINK_FLAGS:-}"   # libm: some Linux toolchains need it explicitly
 TMP=$(mktemp -d)
 status=0; n=0
 for src in $(find examples/swift -name '*.swift' | sort); do

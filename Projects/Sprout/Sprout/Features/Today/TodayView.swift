@@ -34,7 +34,9 @@ struct TodayView: View {
 }
 
 #Preview {
+    // A literal URL cannot fail to parse, so force unwrapping is acceptable here.
+    // swiftlint:disable:next force_unwrapping
+    let url = URL(string: "http://localhost:8080")!
     TodayView(seedlings: Seedling.samples,
-              configuration: AppConfiguration(apiBaseURL: URL(string: "http://localhost:8080")!,
-                                              environmentName: "Preview"))
+              configuration: AppConfiguration(apiBaseURL: url, environmentName: "Preview"))
 }
