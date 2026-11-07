@@ -16,5 +16,7 @@ extension GalleryChapter {
         GalleryChapter(number: 14, title: "Records and Persistence", examples: ch14),
         GalleryChapter(number: 15, title: "Notifications, Combine, and Memory", examples: ch15),
         GalleryChapter(number: 16, title: "Maps and Location", examples: ch16),
+        GalleryChapter(
+            number: 22, title: "Accessibility, Localization, Adaptive Design", examples: ch22),
     ]
 }

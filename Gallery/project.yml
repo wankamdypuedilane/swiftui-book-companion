@@ -3,6 +3,7 @@
 name: Gallery
 options:
   bundleIdPrefix: com.example.masteringswiftui
+  developmentLanguage: en
   deploymentTarget:
     iOS: "18.0"
 settings:
@@ -23,6 +24,7 @@ targets:
       path: Gallery/Info.plist
       properties:
         CFBundleDisplayName: Gallery
+        CFBundleLocalizations: [en, fr]
         UILaunchScreen: {}
         UIAppFonts: [Inconsolata-Bold.otf]
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
