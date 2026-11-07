@@ -7,5 +7,6 @@ extension GalleryChapter {
         GalleryExample("12.3", "Dates") { DatesView() },
         GalleryExample("12.4", "Text input and focus") { TextInputView() },
         GalleryExample("12.5", "Reusable form components") { FormComponentsView() },
+        GalleryExample("12.6", "Exercises: wall and quantity") { FormExercisesView() },
     ]
 }
