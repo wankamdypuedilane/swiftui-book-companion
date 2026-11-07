@@ -29,8 +29,11 @@ jobs:
           VERDANT_API_URL: http://localhost:8080/verdant/v1/
           STREETPATCH_API_URL: http://localhost:8080/streetpatch/v1/
         run: |
-          for p in $(find . -name Package.swift -not -path "*/.build/*" | grep -v '/Projects/' | sort); do
-            d=$(dirname "$p"); echo "::group::$d"; (cd "$d" && swift build && (swift test || [ ! -d Tests ])); echo "::endgroup::"
+          for p in $(find . -name Package.swift -not -path '*/.build/*' \
+                       -not -path './Projects/*' | sort); do
+            d=$(dirname "$p"); echo "::group::$d"
+            (cd "$d" && swift build && (swift test || [ ! -d Tests ]))
+            echo "::endgroup::"
           done
   apple:
     name: Xcode projects (iOS simulator)
@@ -38,11 +41,9 @@ jobs:
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
-      - name: Select the newest Xcode
+      - name: Select Xcode 26.6, the version the book was tested with
         run: |
-          ls -d /Applications/Xcode*.app
-          XC=$(ls -d /Applications/Xcode_*.app | sort -V | tail -1)
-          sudo xcode-select -s "$XC"
+          sudo xcode-select -s /Applications/Xcode_26.6.app
           xcodebuild -version
           swift --version
       - name: Install XcodeGen and SwiftLint

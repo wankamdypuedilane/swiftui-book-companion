@@ -81,6 +81,11 @@ public final class APIClient: Sendable {
             guard let authenticator else { throw .unauthorized }
             let token = try await authenticator.validAccessToken()
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        } else if endpoint.authenticatesIfSignedIn,
+            let token = try? await authenticator?.validAccessToken()
+        {
+            // A public route that personalizes its answer (isMine, supportedByMe).
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }
 
         let data: Data, response: URLResponse

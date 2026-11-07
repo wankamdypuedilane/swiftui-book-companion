@@ -55,6 +55,20 @@ struct RemoteServiceTests {
         #expect(request.value(forHTTPHeaderField: "Content-Type") == "image/jpeg")
     }
 
+    @Test func publicReadsSendTheTokenOnlyWhenSignedIn() async throws {
+        let signedIn = StubHTTPClient([.json(200, reportJSON)])
+        _ = try await RemoteReportsService(
+            client: makeClient(signedIn, authenticator: signedInAuthenticator())
+        ).report(id: "KB-0009")
+        let signedOut = StubHTTPClient([.json(200, reportJSON)])
+        _ = try await RemoteReportsService(client: makeClient(signedOut)).report(id: "KB-0009")
+        let withToken = await signedIn.requests.first?.value(
+            forHTTPHeaderField: "Authorization")
+        let without = await signedOut.requests.first?.value(forHTTPHeaderField: "Authorization")
+        #expect(withToken == "Bearer token-1")  // so that isMine is right
+        #expect(without == nil)
+    }
+
     @Test func validationErrorsCarryTheServerMessage() async {
         let stub = StubHTTPClient([
             .json(422, #"{"error":"This place is outside Kerbrume.","field":"location"}"#)

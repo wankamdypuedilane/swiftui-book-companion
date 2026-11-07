@@ -15,12 +15,15 @@ actor FakeReportsService: ReportsService {
     var supportFailure: APIError?
     /// Simulates a lost response: the report is created, then the call fails.
     var loseNextCreateResponse = false
+    /// How long each creation takes, to let other work happen meanwhile.
+    var createDelay = Duration.zero
 
     func failCreates(_ errors: APIError...) { createFailures = errors }
     func failPhotos(_ errors: APIError...) { photoFailures = errors }
     func failSupport(_ error: APIError?) { supportFailure = error }
     func loseNextResponse() { loseNextCreateResponse = true }
     func seed(_ reports: [Report]) { stored = reports }
+    func slowCreates(_ delay: Duration) { createDelay = delay }
 
     func reports(_ filter: ReportFilter, page: Int) throws(APIError) -> Page<Report> {
         let items = stored.filter { !filter.mineOnly || $0.isMine }
@@ -34,8 +37,9 @@ actor FakeReportsService: ReportsService {
         return report
     }
 
-    func create(_ draft: ReportDraft, idempotencyKey: UUID) throws(APIError) -> Report {
+    func create(_ draft: ReportDraft, idempotencyKey: UUID) async throws(APIError) -> Report {
         createCalls += 1
+        if createDelay > .zero { try? await Task.sleep(for: createDelay) }
         if !createFailures.isEmpty { throw createFailures.removeFirst() }
         if let id = keys[idempotencyKey] { return try report(id: id) }  // a replay
         let id = String(format: "KB-%04d", stored.count + 1)

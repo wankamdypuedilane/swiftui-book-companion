@@ -81,6 +81,21 @@ struct OutboxTests {
         #expect(results.map(\.sent.count).reduce(0, +) >= 1)
     }
 
+    @Test func aReportQueuedDuringAPassIsKept() async {
+        let outbox = outbox
+        await service.slowCreates(.milliseconds(200))
+        await outbox.enqueue(validDraft, photo: nil)
+        let pass = Task { await outbox.flush() }
+        try? await Task.sleep(for: .milliseconds(50))  // the first request is in flight
+        var second = validDraft
+        second.title = "Queued meanwhile"
+        await outbox.enqueue(second, photo: nil)
+        let result = await pass.value
+        #expect(result.sent.count == 2)  // the pass picked it up too
+        #expect(await service.stored.map(\.title) == [validDraft.title, "Queued meanwhile"])
+        #expect(await outbox.pending.isEmpty)
+    }
+
     @Test func theFileStorageRoundTrips() async throws {
         let url = FileManager.default.temporaryDirectory
             .appendingPathComponent("outbox-\(UUID().uuidString).json")

@@ -74,6 +74,12 @@ public actor Authenticator {
         if let refreshTask {  // a refresh is already running: wait for it
             return try await Self.value(of: refreshTask)
         }
+        // Another caller may have refreshed while this one was suspended: use its new
+        // session rather than spend the single-use refresh token a second time.
+        if let current = await store.load(), current.refreshToken != session.refreshToken {
+            return current
+        }
+        if let refreshTask { return try await Self.value(of: refreshTask) }  // started meanwhile
         let task = Task { [refresher] () async throws -> AuthSession in
             try await refresher(session.refreshToken)
         }

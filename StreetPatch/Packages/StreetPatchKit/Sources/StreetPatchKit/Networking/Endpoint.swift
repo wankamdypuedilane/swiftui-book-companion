@@ -5,7 +5,8 @@ import FoundationNetworking
 
 // <endpoint>
 /// One API call and the type of its response. Compared with Verdant's version, it
-/// carries extra headers (Idempotency-Key) and bodies of any content type (JPEG).
+/// carries extra headers (Idempotency-Key), bodies of any content type (JPEG), and
+/// an optional token for public routes whose answer depends on who asks.
 public struct Endpoint<Response: Decodable & Sendable>: Sendable {
     public enum Method: String, Sendable {
         case get = "GET", post = "POST", put = "PUT",
@@ -19,11 +20,14 @@ public struct Endpoint<Response: Decodable & Sendable>: Sendable {
     public var contentType: String
     public var headers: [String: String]
     public var requiresAuthentication: Bool
+    /// Sends the token when there is a session, and the request anonymously otherwise.
+    public var authenticatesIfSignedIn: Bool
 
     public init(
         _ method: Method = .get, _ path: String, query: [URLQueryItem] = [],
         body: Data? = nil, contentType: String = "application/json",
-        headers: [String: String] = [:], requiresAuthentication: Bool = false
+        headers: [String: String] = [:], requiresAuthentication: Bool = false,
+        authenticatesIfSignedIn: Bool = false
     ) {
         self.method = method
         self.path = path
@@ -32,6 +36,7 @@ public struct Endpoint<Response: Decodable & Sendable>: Sendable {
         self.contentType = contentType
         self.headers = headers
         self.requiresAuthentication = requiresAuthentication
+        self.authenticatesIfSignedIn = authenticatesIfSignedIn
     }
 
     func urlRequest(baseURL: URL, timeout: TimeInterval) throws(APIError) -> URLRequest {

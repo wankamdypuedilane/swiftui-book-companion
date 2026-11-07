@@ -73,11 +73,13 @@ public struct RemoteReportsService: ReportsService {
         let query = filter.queryItems + [URLQueryItem(name: "page", value: String(page))]
         return try await client.send(
             Endpoint<Page<Report>>(
-                .get, "reports", query: query, requiresAuthentication: filter.mineOnly))
+                .get, "reports", query: query, requiresAuthentication: filter.mineOnly,
+                authenticatesIfSignedIn: true))
     }
 
     public func report(id: String) async throws(APIError) -> Report {
-        try await client.send(Endpoint<Report>(.get, "reports/\(id)"))
+        try await client.send(
+            Endpoint<Report>(.get, "reports/\(id)", authenticatesIfSignedIn: true))
     }
 
     private struct NewReport: Encodable {

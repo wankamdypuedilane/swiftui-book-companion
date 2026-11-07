@@ -33,23 +33,21 @@ public actor ReportOutbox {
     @discardableResult
     public func enqueue(_ draft: ReportDraft, photo: Data?) async -> PendingReport {
         let item = PendingReport(draft: draft, photo: photo, queuedAt: now())
-        var all = await loaded()
-        all.append(item)
-        await update(all)
+        await change { $0.append(item) }
         return item
     }
 
     public func discard(_ id: UUID) async {
-        await update(await loaded().filter { $0.id != id })
+        await change { $0.removeAll { $0.id == id } }
     }
 
     /// Replaces the draft of a refused item and queues it again with a new key.
     public func retry(_ id: UUID, with draft: ReportDraft) async {
-        var all = await loaded()
-        guard let index = all.firstIndex(where: { $0.id == id }) else { return }
-        let old = all[index]
-        all[index] = PendingReport(draft: draft, photo: old.photo, queuedAt: old.queuedAt)
-        await update(all)
+        await change { all in
+            guard let index = all.firstIndex(where: { $0.id == id }) else { return }
+            let old = all[index]
+            all[index] = PendingReport(draft: draft, photo: old.photo, queuedAt: old.queuedAt)
+        }
     }
 
     /// Sends what can be sent, oldest first. Concurrent calls (a network change and a
@@ -63,31 +61,30 @@ public actor ReportOutbox {
         return await task.value
     }
 
+    /// Works item by item on the stored queue, never on a copy: a report queued or
+    /// discarded while a request is in flight is not overwritten by this pass.
     private func sendAll() async -> FlushResult {
         var result = FlushResult()
-        var all = await loaded()
-        var index = 0
-        while index < all.count {
-            if all[index].needsAttention {
+        var done: Set<UUID> = []  // sent, refused or skipped during this pass
+        while let item = await loaded().first(where: { !done.contains($0.id) }) {
+            done.insert(item.id)
+            if item.needsAttention {
                 result.refused += 1
-                index += 1
                 continue
             }
-            switch await send(&all[index]) {
+            switch await send(item) {
             case .sent(let report):
-                result.sent[all[index].id] = report
-                all.remove(at: index)
-                await update(all)
+                result.sent[item.id] = report
+                await change { $0.removeAll { $0.id == item.id } }
             case .refused(let message):
-                all[index].failure = message
-                await update(all)
+                await change(item.id) { $0.failure = message }
                 result.refused += 1
-                index += 1
             case .later:
-                await update(all)  // keep the serverID if the report itself got through
-                result.waiting = all[index...].count { !$0.needsAttention }
-                result.refused += all[index...].count { $0.needsAttention }
-                return result  // offline or signed out: the rest would fail the same way
+                // Offline or signed out: the rest would fail the same way.
+                let rest = await loaded().filter { $0.id == item.id || !done.contains($0.id) }
+                result.waiting = rest.count { !$0.needsAttention }
+                result.refused += rest.count { $0.needsAttention }
+                return result
             }
         }
         return result
@@ -95,14 +92,16 @@ public actor ReportOutbox {
 
     private enum Outcome { case sent(Report), refused(String), later }
 
-    private func send(_ item: inout PendingReport) async -> Outcome {
+    private func send(_ item: PendingReport) async -> Outcome {
         do {
             var report: Report
             if let serverID = item.serverID {
                 report = try await service.report(id: serverID)
             } else {
                 report = try await service.create(item.draft, idempotencyKey: item.id)
-                item.serverID = report.id
+                let serverID = report.id
+                // Saved before the next request: a relaunch will not create it again.
+                await change(item.id) { $0.serverID = serverID }
             }
             if let photo = item.photo {
                 do {
@@ -111,7 +110,6 @@ public actor ReportOutbox {
                 } catch  where !Self.isTemporary(error) {
                     // The report exists; only the photo was refused. Keep the report.
                 }
-                item.photo = nil
             }
             return .sent(report)
         } catch {
@@ -132,9 +130,19 @@ public actor ReportOutbox {
         return stored
     }
 
-    private func update(_ all: [PendingReport]) async {
+    /// Reads, changes and stores the queue with no suspension in between, so that
+    /// concurrent calls on the actor cannot interleave inside the change.
+    private func change(_ modify: (inout [PendingReport]) -> Void) async {
+        var all = await loaded()
+        modify(&all)
         items = all
         await storage.save(all)
+    }
+
+    private func change(_ id: UUID, _ modify: (inout PendingReport) -> Void) async {
+        await change { all in
+            if let index = all.firstIndex(where: { $0.id == id }) { modify(&all[index]) }
+        }
     }
 }
 // </outbox>
