@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 concurrency:
   group: ci-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 jobs:
   linux:
     name: Swift examples and packages (Linux)
