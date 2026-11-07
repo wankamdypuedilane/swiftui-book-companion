@@ -1,5 +1,6 @@
 import SwiftUI
 
+// <view>
 struct TodayView: View {
     let seedlings: [Seedling]
     let configuration: AppConfiguration
@@ -8,8 +9,10 @@ struct TodayView: View {
         NavigationStack {
             List {
                 Section("Tray") {
-                    ForEach(Array(Seedling.trayRows(seedlings, columns: 3).enumerated()), id: \.offset) { index, row in
-                        LabeledContent("Row \(index + 1)", value: row.map(\.variety).joined(separator: ", "))
+                    let rows = Seedling.trayRows(seedlings, columns: 3)
+                    ForEach(rows.indices, id: \.self) { index in
+                        let names = rows[index].map(\.variety)
+                        LabeledContent("Row \(index + 1)", value: names.joined(separator: ", "))
                     }
                 }
                 Section("Seedlings") {
@@ -28,10 +31,12 @@ struct TodayView: View {
                 }
             }
             .navigationTitle("Sprout")
+            .onAppear { Log.data.debug("Showing \(seedlings.count) seedlings") }
         }
         .tint(Color(.leafGreen))            // symbol generated from the asset catalog
     }
 }
+// </view>
 
 #Preview {
     // A literal URL cannot fail to parse, so force unwrapping is acceptable here.

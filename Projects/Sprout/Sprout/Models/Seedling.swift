@@ -17,13 +17,15 @@ struct Seedling: Identifiable, Hashable {
     }
 
     func ageInDays(on date: Date, calendar: Calendar = .current) -> Int {
-        calendar.dateComponents([.day], from: calendar.startOfDay(for: sownOn),
-                                to: calendar.startOfDay(for: date)).day ?? 0
+        let start = calendar.startOfDay(for: sownOn)
+        let end = calendar.startOfDay(for: date)
+        return calendar.dateComponents([.day], from: start, to: end).day ?? 0
     }
 }
 
 extension Seedling {
-    /// Splits seedlings into rows of a tray, using `chunks(ofCount:)` from swift-algorithms.
+    /// Splits seedlings into rows of a tray with `chunks(ofCount:)`,
+    /// an algorithm from the swift-algorithms package.
     static func trayRows(_ seedlings: [Seedling], columns: Int) -> [[Seedling]] {
         seedlings.sorted { $0.trayPosition < $1.trayPosition }
             .chunks(ofCount: columns)
@@ -37,8 +39,8 @@ extension Seedling {
         let today = Date()
         let varieties = ["Basil", "Tomato", "Chili", "Lettuce", "Parsley", "Marigold"]
         return varieties.enumerated().map { index, name in
-            Seedling(variety: name, sownOn: today.addingTimeInterval(-Double(index * 2) * 86_400),
-                     trayPosition: index)
+            let sown = today.addingTimeInterval(-Double(index * 2) * 86_400)
+            return Seedling(variety: name, sownOn: sown, trayPosition: index)
         }
     }()
 }

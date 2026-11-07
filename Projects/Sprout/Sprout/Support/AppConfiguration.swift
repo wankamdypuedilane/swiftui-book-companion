@@ -12,8 +12,8 @@ struct AppConfiguration {
         guard let text = info["APIBaseURL"] as? String, let url = URL(string: text) else {
             fatalError("APIBaseURL is missing from Info.plist: check the .xcconfig files")
         }
-        return AppConfiguration(apiBaseURL: url,
-                                environmentName: info["SproutEnvironmentName"] as? String ?? "?")
+        let name = info["SproutEnvironmentName"] as? String ?? "Unknown"
+        return AppConfiguration(apiBaseURL: url, environmentName: name)
     }()
 }
 // </config>
