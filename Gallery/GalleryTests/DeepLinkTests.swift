@@ -18,7 +18,8 @@ struct DeepLinkTests {
         #expect(DeepLink.routes(from: url, specimens: specimens) == [.settings])
     }
 
-    @Test(arguments: ["https://rooms/Kitchen", "verdant://plants/99", "verdant://unknown/1"])
+    @Test(arguments: ["https://rooms/Kitchen", "verdant://plants/99",
+                      "verdant://unknown/1"])
     func invalidLinksOpenNothing(link: String) throws {
         let url = try #require(URL(string: link))
         #expect(DeepLink.routes(from: url, specimens: specimens).isEmpty)
