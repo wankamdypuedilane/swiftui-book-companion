@@ -84,3 +84,23 @@ extension VerdantUITests {
     }
 }
 // </audit>
+
+extension VerdantUITests {
+    /// Exercise 21.4: deleting a plant, then checking that UI tests start fresh.
+    // <deletion>
+    @MainActor
+    func testDeletingAPlant() {
+        var app = launch()
+        app.tabBars.buttons["Garden"].tap()
+        let goldie = app.staticTexts["Goldie"]
+        XCTAssertTrue(goldie.waitForExistence(timeout: 5))
+        goldie.swipeLeft()
+        app.buttons["Delete"].tap()
+        XCTAssertFalse(goldie.waitForExistence(timeout: 2))
+        app.terminate()
+        app = launch()
+        app.tabBars.buttons["Garden"].tap()
+        XCTAssertTrue(app.staticTexts["Goldie"].waitForExistence(timeout: 5))
+    }
+    // </deletion>
+}
