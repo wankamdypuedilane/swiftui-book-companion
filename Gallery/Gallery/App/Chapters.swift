@@ -11,5 +11,7 @@ extension GalleryChapter {
         GalleryChapter(number: 11, title: "Tabs, Lists, and Dynamic Content", examples: ch11),
         GalleryChapter(
             number: 12, title: "Grids, Dates, Text Input, and Forms", examples: ch12),
+        GalleryChapter(
+            number: 13, title: "Architecture, MVVM, and Observation", examples: ch13),
     ]
 }

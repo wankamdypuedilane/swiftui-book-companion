@@ -1,0 +1,8 @@
+LevelView shows: 1000 ml
+ColourView shows: green
+Changing the colour:
+  -> ColourView must be redrawn
+Changing an ignored property:
+Changing the level:
+  -> LevelView must be redrawn
+Changing the level again:
