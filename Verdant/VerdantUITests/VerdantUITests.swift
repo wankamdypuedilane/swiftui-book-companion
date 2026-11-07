@@ -80,7 +80,12 @@ extension VerdantUITests {
         let app = launch()
         for tab in ["Today", "Garden", "Settings"] {
             app.tabBars.buttons[tab].tap()
-            try app.performAccessibilityAudit()
+            try app.performAccessibilityAudit { issue in
+                // Print the element so a failure says where to look, then fail.
+                print("Audit issue on \(tab): \(issue.compactDescription)",
+                      issue.element?.debugDescription ?? "no element")
+                return false  // false: not ignored, the test fails
+            }
         }
     }
 }
@@ -96,7 +101,9 @@ extension VerdantUITests {
         let goldie = app.staticTexts["Goldie"]
         XCTAssertTrue(goldie.waitForExistence(timeout: 5))
         goldie.swipeLeft()
-        app.buttons["Delete"].tap()
+        // A short swipe reveals the button; a long one deletes at once (full swipe).
+        let delete = app.buttons["Delete"]
+        if delete.waitForExistence(timeout: 2) { delete.tap() }
         XCTAssertFalse(goldie.waitForExistence(timeout: 2))
         app.terminate()
         app = launch()

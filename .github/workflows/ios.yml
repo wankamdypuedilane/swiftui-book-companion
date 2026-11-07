@@ -20,11 +20,14 @@ jobs:
           node --version
           (cd book-api && node server.js > /tmp/api.log 2>&1 &)
           for i in $(seq 1 30); do curl -s http://localhost:8080/health && break; sleep 1; done
+      - name: Test the demonstration API
+        run: node --test book-api/test/*.test.js
       - name: Run the examples and compare with the recorded output
         run: tools/run-swift-examples.sh --check
       - name: Test the Swift packages
         env:
           VERDANT_API_URL: http://localhost:8080/verdant/v1/
+          STREETPATCH_API_URL: http://localhost:8080/streetpatch/v1/
         run: |
           for p in $(find . -name Package.swift -not -path "*/.build/*" | grep -v '/Projects/' | sort); do
             d=$(dirname "$p"); echo "::group::$d"; (cd "$d" && swift build && (swift test || [ ! -d Tests ])); echo "::endgroup::"

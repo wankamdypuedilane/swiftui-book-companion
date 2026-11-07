@@ -13,6 +13,7 @@ const TOKEN_TTL = Number(process.env.TOKEN_TTL || 900);           // seconds
 const DEMO_USERS = new Map([
   ['demo@verdant.example', 'local-only-demo-password'],           // LOCAL ONLY
   ['resident@streetpatch.example', 'local-only-demo-password'],   // LOCAL ONLY
+  ['staff@streetpatch.example', 'local-only-demo-password'],      // LOCAL ONLY
 ]);
 const load = (file) => JSON.parse(fs.readFileSync(path.join(__dirname, 'data', file), 'utf8'));
 const species = load('species.json');
@@ -143,7 +144,7 @@ const server = http.createServer(async (req, res) => {
       return await streetpatch.handle(req, res, url.pathname.slice('/streetpatch/v1'.length),
                                       url.searchParams, { send, readJSON, paginate,
                                                           authenticatedEmail, issueTokens,
-                                                          DEMO_USERS, refreshTokens });
+                                                          DEMO_USERS, refreshTokens, isoDate });
     return send(res, 404, { error: 'Not found.' });
   } catch (error) {
     console.error(error);
