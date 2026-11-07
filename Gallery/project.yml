@@ -35,6 +35,10 @@ targets:
   GalleryUITests:
     type: bundle.ui-testing
     platform: iOS
+    settings:
+      base:
+        # XCTestCase's initializers are nonisolated: subclasses cannot default to MainActor.
+        SWIFT_DEFAULT_ACTOR_ISOLATION: nonisolated
     sources: [GalleryUITests]
     dependencies:
       - target: Gallery
