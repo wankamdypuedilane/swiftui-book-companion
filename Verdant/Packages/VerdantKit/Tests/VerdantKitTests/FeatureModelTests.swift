@@ -90,3 +90,18 @@ struct FeatureModelTests {
     }
 }
 // </modeltests>
+
+// <favoritestests>
+@MainActor
+@Test func favoritesFollowTheGarden() async {
+    let fern = makePlant("Fern", interval: 3)
+    let garden = Garden(store: InMemoryPlantStore(plants: [fern]))
+    await garden.load()
+    let model = FavoritesModel(garden: garden, schedule: .init(calendar: utc))
+    #expect(model.favorites.isEmpty)
+    await garden.toggleFavorite(fern.id)
+    #expect(model.favorites.map(\.nickname) == ["Fern"])
+    await model.unfavorite(fern)
+    #expect(model.favorites.isEmpty)
+}
+// </favoritestests>
