@@ -5,7 +5,9 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 DIRS=("$@")
 if [ ${#DIRS[@]} -eq 0 ]; then
-  while IFS= read -r f; do DIRS+=("$(dirname "$f")"); done < <(find . -name project.yml -not -path "*/.build/*" | sort)
+  while IFS= read -r f; do
+    d=$(dirname "$f"); [ -f "$d/.ci-skip" ] || DIRS+=("$d")      # .ci-skip: work in progress
+  done < <(find . -name project.yml -not -path "*/.build/*" | sort)
 fi
 SIM_NAME=${SIM_NAME:-iPhone 17}
 DEST_ID=$(xcrun simctl list devices available -j | python3 -c '
