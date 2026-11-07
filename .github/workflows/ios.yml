@@ -44,6 +44,10 @@ jobs:
           swift --version
       - name: Install XcodeGen and SwiftLint
         run: brew install xcodegen swiftlint
+      - name: Start the demonstration API
+        run: |
+          (cd book-api && node server.js > "$RUNNER_TEMP/api.log" 2>&1 &)
+          sleep 1 && curl -s http://localhost:8080/health
       - name: Build and test the projects
         run: tools/ci-apple.sh
       - name: Upload screenshots

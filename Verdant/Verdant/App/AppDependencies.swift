@@ -1,5 +1,6 @@
 import Foundation
 import SwiftData
+import UserNotifications
 import VerdantKit
 
 // <dependencies>
@@ -14,6 +15,7 @@ final class AppDependencies {
     let reminders: ReminderScheduler
     let network: NetworkMonitor
     let router: Router
+    private let notificationHandler: NotificationHandler
 
     init(store: any PlantStore, tokenStore: any TokenStore, apiBaseURL: URL,
          remindersEnabled: Bool) {
@@ -38,10 +40,12 @@ final class AppDependencies {
         reminders = ReminderScheduler(garden: garden, isEnabled: remindersEnabled)
         network = NetworkMonitor()
         router = Router()
+        notificationHandler = NotificationHandler(router: router)
     }
 
     /// Loads the saved data once the first window appears.
     func start() async {
+        UNUserNotificationCenter.current().delegate = notificationHandler
         network.start()
         await garden.load()
         await account.restore()
