@@ -70,3 +70,17 @@ final class VerdantUITests: XCTestCase {
     }
 }
 // </uitests>
+
+// <audit>
+extension VerdantUITests {
+    /// Runs Xcode's automated accessibility audit on the main screens (iOS 17+).
+    @MainActor
+    func testMainScreensPassTheAccessibilityAudit() throws {
+        let app = launch()
+        for tab in ["Today", "Garden", "Settings"] {
+            app.tabBars.buttons[tab].tap()
+            try app.performAccessibilityAudit()
+        }
+    }
+}
+// </audit>
