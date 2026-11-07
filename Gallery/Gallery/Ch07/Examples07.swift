@@ -10,6 +10,7 @@ extension GalleryChapter {
         GalleryExample("7.6", "Lazy stacks") { LazyStacksView() },
         GalleryExample("7.7", "Responsive layout") { ResponsiveLayoutView() },
         GalleryExample("7.8", "Composition") { GardenDashboard() },
-        GalleryExample("7.9", "Exercise: flow layout") { FlowLayoutView() },
+        GalleryExample("7.9", "Exercises: badge and timeline") { LayoutExercisesView() },
+        GalleryExample("7.10", "Exercise: flow layout") { FlowLayoutView() },
     ]
 }
