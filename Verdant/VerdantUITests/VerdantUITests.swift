@@ -81,9 +81,11 @@ extension VerdantUITests {
         for tab in ["Today", "Garden", "Settings"] {
             app.tabBars.buttons[tab].tap()
             try app.performAccessibilityAudit { issue in
-                // Print the element so a failure says where to look, then fail.
-                print("Audit issue on \(tab): \(issue.compactDescription)",
-                      issue.element?.debugDescription ?? "no element")
+                // Print where the issue is, then let it fail the test.
+                print(
+                    "Audit issue on \(tab):", issue.compactDescription, "-",
+                    issue.detailedDescription)
+                print(issue.element?.debugDescription ?? "no element")
                 return false  // false: not ignored, the test fails
             }
         }

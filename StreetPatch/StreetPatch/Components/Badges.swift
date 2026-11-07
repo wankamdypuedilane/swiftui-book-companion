@@ -17,17 +17,24 @@ struct CategoryIcon: View {
     }
 }
 
-/// The status as text in a capsule. Colour repeats the word, it never replaces it.
+/// The status as text in a capsule. The text stays in the primary colour, which keeps
+/// its contrast in light and dark mode; the status colour is a dot that repeats it.
 struct StatusPill: View {
     let status: ReportStatus
 
     var body: some View {
-        Text(status.title)
-            .font(.caption.weight(.semibold))
-            .padding(.horizontal, 8)
-            .padding(.vertical, 3)
-            .foregroundStyle(status.tint)
-            .background(status.tint.opacity(0.15), in: .capsule)
+        HStack(spacing: 4) {
+            Circle()
+                .fill(status.tint)
+                .frame(width: 8, height: 8)
+                .accessibilityHidden(true)
+            Text(status.title)
+        }
+        .font(.caption.weight(.semibold))
+        .foregroundStyle(.primary)
+        .padding(.horizontal, 8)
+        .padding(.vertical, 3)
+        .background(status.tint.opacity(0.12), in: .capsule)
     }
 }
 

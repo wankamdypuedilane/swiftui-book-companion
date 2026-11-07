@@ -84,10 +84,12 @@ final class StreetPatchUITests: XCTestCase {
             app.tabBars.buttons[tab].tap()
             _ = app.navigationBars.firstMatch.waitForExistence(timeout: 5)
             try app.performAccessibilityAudit { issue in
+                // Print where the issue is, then let it fail the test.
                 print(
-                    "Audit issue on \(tab): \(issue.compactDescription)",
-                    issue.element?.debugDescription ?? "no element")
-                return false
+                    "Audit issue on \(tab):", issue.compactDescription, "-",
+                    issue.detailedDescription)
+                print(issue.element?.debugDescription ?? "no element")
+                return false  // false: not ignored, the test fails
             }
         }
     }
