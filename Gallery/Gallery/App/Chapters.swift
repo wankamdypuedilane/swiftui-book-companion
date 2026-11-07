@@ -14,5 +14,6 @@ extension GalleryChapter {
         GalleryChapter(
             number: 13, title: "Architecture, MVVM, and Observation", examples: ch13),
         GalleryChapter(number: 14, title: "Records and Persistence", examples: ch14),
+        GalleryChapter(number: 15, title: "Notifications, Combine, and Memory", examples: ch15),
     ]
 }
