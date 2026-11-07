@@ -27,12 +27,19 @@ struct TodayView: View {
 
 private struct TodayContent: View {
     let model: TodayModel
+    @Environment(\.dynamicTypeSize) private var typeSize
 
     var body: some View {
         let summary = model.summary
         List {
             Section {
-                HStack(spacing: 12) {
+                // Three tiles side by side do not fit at accessibility text sizes:
+                // stack them instead of shrinking or truncating the text.
+                let layout =
+                    typeSize.isAccessibilitySize
+                    ? AnyLayout(VStackLayout(spacing: 12))
+                    : AnyLayout(HStackLayout(spacing: 12))
+                layout {
                     StatTile(
                         value: summary.plantCount, label: "Plants", systemImage: "leaf.fill")
                     StatTile(

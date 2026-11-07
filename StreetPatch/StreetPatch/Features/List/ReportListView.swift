@@ -108,7 +108,7 @@ struct ReportRow: View {
                             .labelStyle(.titleAndIcon)
                     }
                 }
-                .font(.caption)
+                .font(.subheadline)  // secondary text needs this size for contrast
                 .foregroundStyle(.secondary)
             }
         }

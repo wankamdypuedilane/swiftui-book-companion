@@ -51,7 +51,7 @@ for dir in "${DIRS[@]}"; do
   set -e
   grep -E "(error|warning): " "$log" | grep -v "appintentsmetadataprocessor" | sort -u | head -40 || true
   grep -E "^Test Suite '.*xctest' (passed|failed)|Test run with|\*\* (BUILD|TEST) " "$log" | tail -6 || true
-  grep -A4 "Audit issue" "$log" | head -60 || true    # details printed by the audit tests
+  grep -A60 "Audit issue" "$log" | grep -v "^ *t = " | head -80 || true    # details printed by the audit tests
   # Apps with an archive configuration are also built in Release for a real device
   # (without signing): the configuration used for TestFlight and the App Store.
   if [ $rc -eq 0 ] && grep -q "archive:" "$dir/project.yml"; then
