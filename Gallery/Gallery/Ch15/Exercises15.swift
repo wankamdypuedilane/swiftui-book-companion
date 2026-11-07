@@ -33,19 +33,26 @@ final class CountdownModel {
     @ObservationIgnored private var timer: Timer?
 
     func start() {
-        timer?.invalidate()
+        stop()
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] timer in
-            MainActor.assumeIsolated {  // scheduled timers fire on the main thread
-                guard let self, self.remaining > 0 else {
-                    timer.invalidate()
-                    return
-                }
-                self.remaining -= 1
+            guard let self else {
+                timer.invalidate()  // the model is gone: stop the timer too
+                return
             }
+            // Timers scheduled from the main thread fire on it.
+            MainActor.assumeIsolated { self.tick() }
         }
     }
 
-    deinit { timer?.invalidate() }
+    func stop() {
+        timer?.invalidate()
+        timer = nil
+    }
+
+    private func tick() {
+        remaining -= 1
+        if remaining == 0 { stop() }
+    }
 }
 // </countdown>
 

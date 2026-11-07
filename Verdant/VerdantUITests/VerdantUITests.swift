@@ -10,11 +10,12 @@ final class VerdantUITests: XCTestCase {
     @MainActor
     private func launch(onboardingDone: Bool = true) -> XCUIApplication {
         let app = XCUIApplication()
-        // "-key value" arguments set UserDefaults values, read by @AppStorage.
-        app.launchArguments = [
-            "-uiTesting", "-hasCompletedOnboarding", onboardingDone ? "YES" : "NO",
-            "-remindersOn", "NO",
-        ]
+        // "-key value" arguments set UserDefaults values, read by @AppStorage, for this
+        // run only: the app cannot override them, so the onboarding test asks the app
+        // to store false instead.
+        app.launchArguments = ["-uiTesting", "-remindersOn", "NO"]
+        app.launchArguments +=
+            onboardingDone ? ["-hasCompletedOnboarding", "YES"] : ["-showOnboarding"]
         app.launch()
         return app
     }

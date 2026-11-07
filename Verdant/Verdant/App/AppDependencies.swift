@@ -62,6 +62,10 @@ final class AppDependencies {
         let arguments = ProcessInfo.processInfo.arguments
         let baseURL = AppConfiguration.apiBaseURL
         if arguments.contains("-uiTesting") {
+            if arguments.contains("-showOnboarding") {
+                // A stored value, not an argument: the app can then change it.
+                UserDefaults.standard.set(false, forKey: SettingsKey.hasCompletedOnboarding)
+            }
             // UI tests: sample data in memory, no keychain, no notifications.
             return AppDependencies(
                 store: InMemoryPlantStore(plants: SampleData.garden()),
