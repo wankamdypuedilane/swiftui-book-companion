@@ -1,0 +1,3 @@
+#include "Shared.xcconfig"
+API_BASE_URL = https:/$()/api.sprout.example
+SPROUT_ENVIRONMENT = Production

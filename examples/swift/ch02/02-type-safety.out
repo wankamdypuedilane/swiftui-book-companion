@@ -1,0 +1,2 @@
+02-type-safety.swift:5:19: error: binary operator '*' cannot be applied to operands of type 'Int' and 'Double'
+02-type-safety.swift:7:8: error: cannot assign value of type 'Int' to type 'String'

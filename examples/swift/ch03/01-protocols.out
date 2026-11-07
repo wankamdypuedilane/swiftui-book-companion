@@ -1,0 +1,4 @@
+Water 300 ml every 7 days -> due after 40 days: true
+Fertilize every 30 days -> due after 40 days: false
+Water 200 ml every 7 days
+["Water 100 ml every 7 days", "Water 150 ml every 7 days"]

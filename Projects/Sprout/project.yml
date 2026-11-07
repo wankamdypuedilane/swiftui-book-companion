@@ -1,0 +1,63 @@
+# Sprout: the small project of Chapter 4, organized the way the rest of the book's
+# apps are organized. Generate the Xcode project with: xcodegen generate
+name: Sprout
+options:
+  bundleIdPrefix: com.example.masteringswiftui
+  deploymentTarget:
+    iOS: "18.0"
+packages:
+  swift-algorithms:
+    url: https://github.com/apple/swift-algorithms
+    from: "1.2.0"
+configs:
+  Debug: debug
+  Release: release
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    SWIFT_DEFAULT_ACTOR_ISOLATION: MainActor
+    SWIFT_APPROACHABLE_CONCURRENCY: YES
+targets:
+  Sprout:
+    type: application
+    platform: iOS
+    sources: [Sprout]
+    configFiles:
+      Debug: Config/Debug.xcconfig
+      Release: Config/Release.xcconfig
+    dependencies:
+      - package: swift-algorithms
+        product: Algorithms
+    info:
+      path: Sprout/Support/Info.plist
+      properties:
+        CFBundleDisplayName: Sprout
+        UILaunchScreen: {}
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+        APIBaseURL: $(API_BASE_URL)
+        SproutEnvironmentName: $(SPROUT_ENVIRONMENT)
+    settings:
+      base:
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS: YES
+  SproutTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [SproutTests]
+    dependencies:
+      - target: Sprout
+schemes:
+  Sprout:
+    build:
+      targets: {Sprout: all}
+    test:
+      config: Debug
+      targets: [SproutTests]
+    run:
+      config: Debug
+    archive:
+      config: Release

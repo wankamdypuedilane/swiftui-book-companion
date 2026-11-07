@@ -1,0 +1,22 @@
+# XcodeGen description of the project (generate it with: xcodegen generate).
+# Chapter 1 builds the same app with Xcode's File > New > Project template.
+name: HelloSwiftUI
+options:
+  bundleIdPrefix: com.example.masteringswiftui
+  deploymentTarget:
+    iOS: "18.0"
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    GENERATE_INFOPLIST_FILE: YES
+    INFOPLIST_KEY_UILaunchScreen_Generation: YES
+    INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+    SWIFT_DEFAULT_ACTOR_ISOLATION: MainActor
+    SWIFT_APPROACHABLE_CONCURRENCY: YES
+targets:
+  HelloSwiftUI:
+    type: application
+    platform: iOS
+    sources: [HelloSwiftUI]

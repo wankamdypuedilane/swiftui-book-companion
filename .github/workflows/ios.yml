@@ -1,25 +1,37 @@
-name: iOS build and tests
+name: Companion CI
 on:
   push:
   workflow_dispatch:
 jobs:
-  smoke:
-    runs-on: macos-26
-    timeout-minutes: 40
+  linux:
+    name: Swift examples and packages (Linux)
+    runs-on: ubuntu-latest
+    container: swift:6.3
     steps:
       - uses: actions/checkout@v4
-      - name: Toolchain info
+      - name: Swift version
+        run: swift --version
+      - name: Run the examples and compare with the recorded output
+        run: tools/run-swift-examples.sh --check
+      - name: Test the Swift packages
         run: |
-          ls /Applications | grep -i xcode || true
-          XC=$(ls -d /Applications/Xcode_*.app | sort -V | tail -1); echo "Using $XC"
+          for p in $(find . -name Package.swift -not -path "*/.build/*" | grep -v '/Projects/' | sort); do
+            d=$(dirname "$p"); echo "::group::$d"; (cd "$d" && swift build && (swift test || [ ! -d Tests ])); echo "::endgroup::"
+          done
+  apple:
+    name: Xcode projects (iOS simulator)
+    runs-on: macos-26
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - name: Select the newest Xcode
+        run: |
+          ls -d /Applications/Xcode*.app
+          XC=$(ls -d /Applications/Xcode_*.app | sort -V | tail -1)
           sudo xcode-select -s "$XC"
-          xcodebuild -version; swift --version
-          xcrun simctl list runtimes
-          xcrun simctl list devices available | grep -i iphone | head -5
-      - name: Generate project
-        run: brew install xcodegen && cd ci-smoke && xcodegen generate
-      - name: Build and test
-        run: |
-          cd ci-smoke
-          DEST_ID=$(xcrun simctl list devices available -j | python3 -c "import json,sys;d=json.load(sys.stdin)['devices'];print(next(x['udid'] for k in sorted(d,reverse=True) if 'iOS' in k for x in d[k] if 'iPhone' in x['name']))")
-          xcodebuild test -project Smoke.xcodeproj -scheme Smoke -destination "id=$DEST_ID" | tee build.log | grep -E "error:|warning:|Test Case|Test Suite|passed|failed|\*\*" 
+          xcodebuild -version
+          swift --version
+      - name: Install XcodeGen and SwiftLint
+        run: brew install xcodegen swiftlint
+      - name: Build and test the projects
+        run: tools/ci-apple.sh

@@ -1,0 +1,10 @@
+["gloves", "potting soil", "clay pot", "fertilizer"] 4
+potting soil true
+removed gloves: ["potting soil", "clay pot", "fertilizer"]
+nothing false
+3 nil
+  Fern: every 3 days
+  Pothos: every 7 days
+["basil", "mint"]
+["basil", "chives", "mint", "tomato"]
+["chives"]

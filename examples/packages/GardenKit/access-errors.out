@@ -1,0 +1,2 @@
+Sources/garden-report/main.swift:9:6: error: cannot assign to property: 'intervalDays' setter is inaccessible
+Sources/garden-report/main.swift:10:12: error: 'history' is inaccessible due to 'internal' protection level

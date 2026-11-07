@@ -1,0 +1,4 @@
+Parsed: Cactus=21, Fern=3, Snake plant=14
+Skipped line 3: expected name:days
+Skipped line 4: the name is empty
+Skipped line 5: "often" is not a number of days

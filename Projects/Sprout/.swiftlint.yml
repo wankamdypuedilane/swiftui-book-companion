@@ -1,0 +1,20 @@
+# SwiftLint configuration for Sprout (Chapter 4).
+included:
+  - Sprout
+  - SproutTests
+disabled_rules:
+  - todo
+opt_in_rules:
+  - empty_count
+  - first_where
+  - sorted_first_last
+  - closure_spacing
+  - force_unwrapping
+line_length:
+  warning: 120
+  error: 160
+identifier_name:
+  min_length: 2
+  excluded: [id, x, y]
+force_unwrapping:
+  severity: warning
