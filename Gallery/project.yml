@@ -25,6 +25,12 @@ targets:
         UILaunchScreen: {}
         UIAppFonts: [Inconsolata-Bold.otf]
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
+  GalleryTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [GalleryTests]
+    dependencies:
+      - target: Gallery
   GalleryUITests:
     type: bundle.ui-testing
     platform: iOS
@@ -36,4 +42,4 @@ schemes:
     build:
       targets: {Gallery: all}
     test:
-      targets: [GalleryUITests]
+      targets: [GalleryTests, GalleryUITests]

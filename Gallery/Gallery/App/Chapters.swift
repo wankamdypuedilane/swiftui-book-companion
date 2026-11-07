@@ -5,5 +5,6 @@ extension GalleryChapter {
         GalleryChapter(number: 6, title: "Images, Icons, and Visual Resources", examples: ch06),
         GalleryChapter(number: 7, title: "Shapes, Layouts, and View Composition", examples: ch07),
         GalleryChapter(number: 8, title: "Buttons, Interactions, State, and Binding", examples: ch08),
+        GalleryChapter(number: 9, title: "Navigation and Modal Presentations", examples: ch09),
     ]
 }
