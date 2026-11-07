@@ -51,6 +51,16 @@ for dir in "${DIRS[@]}"; do
   set -e
   grep -E "(error|warning): " "$log" | grep -v "appintentsmetadataprocessor" | sort -u | head -40 || true
   grep -E "^Test Suite '.*xctest' (passed|failed)|Test run with|\*\* (BUILD|TEST) " "$log" | tail -6 || true
+  # Apps with an archive configuration are also built in Release for a real device
+  # (without signing): the configuration used for TestFlight and the App Store.
+  if [ $rc -eq 0 ] && grep -q "archive:" "$dir/project.yml"; then
+    if xcodebuild build -project "$dir/$name.xcodeproj" -scheme "$name" -configuration Release \
+         -destination "generic/platform=iOS" CODE_SIGNING_ALLOWED=NO > "$log.release" 2>&1; then
+      echo "Release build for devices: OK"
+    else
+      grep -E "error: " "$log.release" | head -20; rc=1
+    fi
+  fi
   echo "::endgroup::"
   if [ $rc -ne 0 ]; then tail -60 "$log"; summary+=("FAIL $name"); else summary+=("OK   $name ($action)"); fi
 done
