@@ -2,6 +2,9 @@ name: Companion CI
 on:
   push:
   workflow_dispatch:
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   linux:
     name: Swift examples and packages (Linux)
