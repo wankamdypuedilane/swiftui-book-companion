@@ -7,15 +7,25 @@ DIRS=("$@")
 if [ ${#DIRS[@]} -eq 0 ]; then
   while IFS= read -r f; do DIRS+=("$(dirname "$f")"); done < <(find . -name project.yml -not -path "*/.build/*" | sort)
 fi
+SIM_NAME=${SIM_NAME:-iPhone 17}
 DEST_ID=$(xcrun simctl list devices available -j | python3 -c '
 import json, sys
 d = json.load(sys.stdin)["devices"]
 runtimes = sorted((k for k in d if "iOS" in k), key=lambda k: [int(x) for x in k.split("iOS-")[1].split("-")])
 for k in reversed(runtimes):
     for dev in d[k]:
-        if dev["name"].startswith("iPhone 1") or dev["name"].startswith("iPhone"):
+        if dev["name"] == "'"$SIM_NAME"'":
+            print(dev["udid"]); sys.exit()
+for k in reversed(runtimes):
+    for dev in d[k]:
+        if dev["name"].startswith("iPhone"):
             print(dev["udid"]); sys.exit()')
 echo "Simulator: $DEST_ID"
+xcrun simctl list devices available | grep "$DEST_ID" || true
+# Light appearance, 9:41 in the status bar: clean screenshots for the book
+xcrun simctl boot "$DEST_ID" 2>/dev/null || true
+xcrun simctl status_bar "$DEST_ID" override --time "9:41" --batteryState charged --batteryLevel 100 --cellularBars 4 --wifiBars 3 || true
+xcrun simctl ui "$DEST_ID" appearance light || true
 summary=()
 for dir in "${DIRS[@]}"; do
   name=$(awk '/^name:/{print $2; exit}' "$dir/project.yml")
@@ -26,10 +36,16 @@ for dir in "${DIRS[@]}"; do
   if grep -q "^    test:" "$dir/project.yml" || grep -q "test:" "$dir/project.yml"; then action=test; fi
   log="$RUNNER_TEMP/$name.log"
   set +e
+  result="$RUNNER_TEMP/$name.xcresult"; rm -rf "$result"
   xcodebuild "$action" -project "$dir/$name.xcodeproj" -scheme "$name" \
-    -destination "id=$DEST_ID" -skipPackagePluginValidation \
+    -destination "id=$DEST_ID" -skipPackagePluginValidation -resultBundlePath "$result" \
     CODE_SIGNING_ALLOWED=NO > "$log" 2>&1
   rc=$?
+  if [ "$action" = test ] && [ -d "$result" ]; then
+    mkdir -p "$RUNNER_TEMP/screenshots/$name"
+    xcrun xcresulttool export attachments --path "$result" \
+      --output-path "$RUNNER_TEMP/screenshots/$name" >/dev/null 2>&1 || true
+  fi
   set -e
   grep -E "(error|warning): " "$log" | grep -v "appintentsmetadataprocessor" | sort -u | head -40 || true
   grep -E "^Test Suite '.*xctest' (passed|failed)|Test run with|\*\* (BUILD|TEST) " "$log" | tail -6 || true
