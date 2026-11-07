@@ -1,0 +1,10 @@
+GET http://localhost:8080/verdant/v1/species?perPage=3&light=low
+Status: 200 | Content-Type: application/json; charset=utf-8
+Page 1 of 3, 9 species with low light:
+ - Chinese evergreen every 7 days
+ - Cylindrical snake plant every 21 days
+ - Golden pothos every 7 days
+POST auth/token -> 200 | token of 48 characters, valid 900 s
+species/aloe-vera -> 200 OK
+species/unicorn-plant -> 404 Unknown species.
+me/garden -> 401 Authentication required.
