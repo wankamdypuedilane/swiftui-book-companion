@@ -9,5 +9,6 @@ extension GalleryChapter {
         GalleryExample("6.5", "Background image") { BackgroundImageView() },
         GalleryExample("6.6", "Remote image") { RemoteImageView() },
         GalleryExample("6.7", "Exercises") { ImageExercisesView() },
+        GalleryExample("6.8", "Exercise: symbol variants") { VariantPicker() },
     ]
 }

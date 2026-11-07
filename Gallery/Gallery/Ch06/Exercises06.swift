@@ -79,3 +79,31 @@ struct ImageExercisesView: View {
 }
 
 #Preview { ImageExercisesView() }
+
+// <variants>
+/// Exercise 6.3: switching the variant of a symbol with a picker.
+struct VariantPicker: View {
+    enum Variant: String, CaseIterable { case none, fill, circle, circleFill }
+    @State private var variant = Variant.none
+
+    var symbolVariant: SymbolVariants {
+        switch variant {
+        case .none: .none
+        case .fill: .fill
+        case .circle: .circle
+        case .circleFill: .circle.fill
+        }
+    }
+
+    var body: some View {
+        VStack(spacing: 20) {
+            Image(systemName: "heart").symbolVariant(symbolVariant).font(.largeTitle)
+            Picker("Variant", selection: $variant) {
+                ForEach(Variant.allCases, id: \.self) { Text($0.rawValue) }
+            }
+            .pickerStyle(.segmented)
+        }
+        .padding()
+    }
+}
+// </variants>

@@ -10,6 +10,7 @@ extension GalleryChapter {
         GalleryExample("5.6", "Accessible text") { AccessibleTextView() },
         GalleryExample("5.7", "Reusable typography") { TypographyStylesView() },
         GalleryExample("5.8", "Exercise: price tag") { PriceTagExercise() },
-        GalleryExample("5.9", "Exercise: adaptive header") { AdaptiveHeaderExercise() },
+        GalleryExample("5.9", "Exercise: care card") { CareCardExercise() },
+        GalleryExample("5.10", "Exercise: adaptive header") { AdaptiveHeaderExercise() },
     ]
 }

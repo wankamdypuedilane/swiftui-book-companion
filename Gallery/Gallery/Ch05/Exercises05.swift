@@ -72,3 +72,45 @@ struct AdaptiveHeaderExercise: View {
         .padding()
     }
 }
+
+// <carecard>
+/// Exercise 5.3: a care-instructions card built only from text styles.
+struct CareCard: View {
+    let name: String
+    let botanicalName: String
+    let instructions: String
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(name).font(.title2.bold())
+            Text(botanicalName)
+                .font(.subheadline)
+                .italic()
+                .foregroundStyle(.secondary)
+            Text(instructions)
+                .font(.body)
+                .lineLimit(4, reservesSpace: true)
+        }
+        .padding()
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(.background.secondary, in: .rect(cornerRadius: 16))
+    }
+}
+// </carecard>
+
+struct CareCardExercise: View {
+    let text = "Keep the soil lightly moist from spring to autumn and let it dry a little "
+        + "more in winter. Mist the leaves in dry rooms and keep away from radiators."
+
+    var body: some View {
+        ScrollView {
+            CareCard(name: "Calathea", botanicalName: "Goeppertia orbifolia",
+                     instructions: text)
+                .padding()
+        }
+    }
+}
+
+#Preview("Largest text") {
+    CareCardExercise().dynamicTypeSize(.accessibility5)
+}
