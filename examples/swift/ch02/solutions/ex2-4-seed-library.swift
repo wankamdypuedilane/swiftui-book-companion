@@ -28,15 +28,18 @@ struct Ledger {
     let loanPeriod = 30
 
     mutating func lend(_ variety: String, to member: String, on day: Int) -> Int {
-        let loan = Loan(id: nextID, member: member, variety: variety, borrowedDay: day,
-                        status: .onLoan(dueDay: day + loanPeriod))
+        let loan = Loan(
+            id: nextID, member: member, variety: variety, borrowedDay: day,
+            status: .onLoan(dueDay: day + loanPeriod))
         loans.append(loan)
         nextID += 1
         return loan.id
     }
 
     mutating func markReturned(_ id: Int, on day: Int) throws(LedgerError) {
-        guard let index = loans.firstIndex(where: { $0.id == id }) else { throw .unknownLoan(id) }
+        guard let index = loans.firstIndex(where: { $0.id == id }) else {
+            throw .unknownLoan(id)
+        }
         guard case .onLoan = loans[index].status else { throw .alreadyClosed(id) }
         loans[index].status = .returned(day: day)
     }
@@ -61,7 +64,7 @@ _ = ledger.lend("Runner bean", to: "Tom", on: 20)
 do {
     try ledger.markReturned(b, on: 25)
     try ledger.markReturned(d, on: 40)
-    try ledger.markReturned(b, on: 41)          // fails: already returned
+    try ledger.markReturned(b, on: 41)  // fails: already returned
 } catch {
     print("Error:", error)
 }
@@ -69,9 +72,14 @@ _ = a
 
 let today = 45
 for loan in ledger.overdue(today: today) {
-    print("Overdue: #\(loan.id) \(loan.variety) (\(loan.member)), \(loan.daysLate(today: today)!) days late")
+    print(
+        "Overdue: #\(loan.id) \(loan.variety) (\(loan.member)),"
+            + " \(loan.daysLate(today: today)!) days late"
+    )
 }
 let perMember = ledger.countBy(\.member)
-for member in perMember.keys.sorted() { let n = perMember[member]!; print("\(member): \(n) loan\(n == 1 ? "" : "s")") }
+for member in perMember.keys.sorted() {
+    let n = perMember[member]!; print("\(member): \(n) loan\(n == 1 ? "" : "s")")
+}
 let onLoan = ledger.loans.filter { if case .onLoan = $0.status { true } else { false } }.count
 print("Still on loan: \(onLoan) of \(ledger.loans.count)")

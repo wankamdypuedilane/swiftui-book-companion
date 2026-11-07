@@ -6,16 +6,20 @@ import SwiftUI
 struct FlowLayout: Layout {
     var spacing: CGFloat = 8
 
-    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews,
-                      cache: inout ()) -> CGSize {
+    func sizeThatFits(
+        proposal: ProposedViewSize, subviews: Subviews,
+        cache: inout ()
+    ) -> CGSize {
         let rows = arrange(subviews, maxWidth: proposal.width ?? .infinity)
         let width = rows.map(\.width).max() ?? 0
         let gaps = spacing * CGFloat(max(rows.count - 1, 0))
         return CGSize(width: width, height: rows.map(\.height).reduce(0, +) + gaps)
     }
 
-    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize,
-                       subviews: Subviews, cache: inout ()) {
+    func placeSubviews(
+        in bounds: CGRect, proposal: ProposedViewSize,
+        subviews: Subviews, cache: inout ()
+    ) {
         var y = bounds.minY
         for row in arrange(subviews, maxWidth: bounds.width) {
             var x = bounds.minX
@@ -41,14 +45,18 @@ struct FlowLayout: Layout {
         for index in subviews.indices {
             let size = subviews[index].sizeThatFits(.unspecified)
             // Width of the current row if this subview were added to it.
-            let widened = current.indices.isEmpty ? size.width
-                                                  : current.width + spacing + size.width
+            let widened =
+                current.indices.isEmpty
+                ? size.width
+                : current.width + spacing + size.width
             if widened > maxWidth, !current.indices.isEmpty {
-                rows.append(current)                  // full: start a new row
+                rows.append(current)  // full: start a new row
                 current = Row()
             }
-            current.width = current.indices.isEmpty ? size.width
-                                                    : current.width + spacing + size.width
+            current.width =
+                current.indices.isEmpty
+                ? size.width
+                : current.width + spacing + size.width
             current.height = max(current.height, size.height)
             current.indices.append(index)
         }
@@ -59,8 +67,10 @@ struct FlowLayout: Layout {
 // </flow>
 
 struct FlowLayoutView: View {
-    let tags = ["low light", "pet safe", "air purifying", "easy", "trailing",
-                "fast growing", "humidity lover", "drought tolerant", "flowering", "edible"]
+    let tags = [
+        "low light", "pet safe", "air purifying", "easy", "trailing",
+        "fast growing", "humidity lover", "drought tolerant", "flowering", "edible",
+    ]
 
     var body: some View {
         FlowLayout {

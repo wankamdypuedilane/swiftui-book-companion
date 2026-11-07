@@ -29,11 +29,14 @@ struct AlertsView: View {
             Text("Check your connection and try again.")
         }
         // A confirmation dialog: a choice related to an action the user started.
-        .confirmationDialog("Delete this plant?",
-                            isPresented: Binding(get: { pendingDeletion != nil },
-                                                 set: { if !$0 { pendingDeletion = nil } }),
-                            titleVisibility: .visible,
-                            presenting: pendingDeletion) { specimen in
+        .confirmationDialog(
+            "Delete this plant?",
+            isPresented: Binding(
+                get: { pendingDeletion != nil },
+                set: { if !$0 { pendingDeletion = nil } }),
+            titleVisibility: .visible,
+            presenting: pendingDeletion
+        ) { specimen in
             Button("Delete \(specimen.name)", role: .destructive) {
                 specimens.removeAll { $0.id == specimen.id }
             }

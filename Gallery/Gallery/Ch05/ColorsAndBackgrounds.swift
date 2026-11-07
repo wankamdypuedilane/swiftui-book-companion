@@ -10,8 +10,10 @@ struct TextColorsView: View {
             Text("Green").foregroundStyle(.green)
             Text("Gradient title")
                 .font(.largeTitle.bold())
-                .foregroundStyle(.linearGradient(colors: [.green, .teal],
-                                                 startPoint: .leading, endPoint: .trailing))
+                .foregroundStyle(
+                    .linearGradient(
+                        colors: [.green, .teal],
+                        startPoint: .leading, endPoint: .trailing))
             Text("On a capsule")
                 .padding(.horizontal, 12)
                 .padding(.vertical, 6)

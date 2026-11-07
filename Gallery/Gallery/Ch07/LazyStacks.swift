@@ -15,7 +15,7 @@ struct LazyStacksView: View {
                                 .padding(.horizontal)
                         }
                     } header: {
-                        Text(room)                      // sticks to the top while scrolling
+                        Text(room)  // sticks to the top while scrolling
                             .font(.headline)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding()

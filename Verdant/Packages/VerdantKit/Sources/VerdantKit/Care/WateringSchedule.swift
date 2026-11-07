@@ -34,7 +34,8 @@ public struct WateringSchedule: Sendable {
     /// last watering, or from the day the plant was acquired.
     public func nextWatering(for plant: Plant) -> Date {
         let start = calendar.startOfDay(for: plant.lastWatered ?? plant.acquiredOn)
-        return calendar.date(byAdding: .day, value: plant.wateringIntervalDays, to: start) ?? start
+        return calendar.date(byAdding: .day, value: plant.wateringIntervalDays, to: start)
+            ?? start
     }
 
     public func status(for plant: Plant, on date: Date) -> WateringStatus {
@@ -50,7 +51,11 @@ public struct WateringSchedule: Sendable {
         plants
             .map { (plant: $0, status: status(for: $0, on: date)) }
             .filter { $0.status.needsWater }
-            .sorted { ($0.status.daysUntilDue, $0.plant.nickname) < ($1.status.daysUntilDue, $1.plant.nickname) }
+            .sorted {
+                ($0.status.daysUntilDue, $0.plant.nickname) < (
+                    $1.status.daysUntilDue, $1.plant.nickname
+                )
+            }
             .map(\.plant)
     }
 }

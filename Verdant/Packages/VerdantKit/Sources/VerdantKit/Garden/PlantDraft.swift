@@ -16,7 +16,8 @@ public struct PlantDraft: Equatable, Sendable {
     public static let intervalRange = 1...60
 
     public enum Issue: Hashable, Sendable {
-        case nicknameTooShort, nicknameTooLong, speciesMissing, intervalOutOfRange, acquiredInFuture
+        case nicknameTooShort, nicknameTooLong, speciesMissing, intervalOutOfRange,
+            acquiredInFuture
 
         public var message: String {
             switch self {
@@ -51,14 +52,24 @@ public struct PlantDraft: Equatable, Sendable {
         wateringIntervalDays = species.wateringDays
     }
 
-    private var trimmedNickname: String { nickname.trimmingCharacters(in: .whitespacesAndNewlines) }
+    private var trimmedNickname: String {
+        nickname.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
 
     public func issues(today: Date, calendar: Calendar = .current) -> [Issue] {
         var issues: [Issue] = []
-        if trimmedNickname.count < Self.nicknameLength.lowerBound { issues.append(.nicknameTooShort) }
-        if trimmedNickname.count > Self.nicknameLength.upperBound { issues.append(.nicknameTooLong) }
-        if speciesName.trimmingCharacters(in: .whitespaces).isEmpty { issues.append(.speciesMissing) }
-        if !Self.intervalRange.contains(wateringIntervalDays) { issues.append(.intervalOutOfRange) }
+        if trimmedNickname.count < Self.nicknameLength.lowerBound {
+            issues.append(.nicknameTooShort)
+        }
+        if trimmedNickname.count > Self.nicknameLength.upperBound {
+            issues.append(.nicknameTooLong)
+        }
+        if speciesName.trimmingCharacters(in: .whitespaces).isEmpty {
+            issues.append(.speciesMissing)
+        }
+        if !Self.intervalRange.contains(wateringIntervalDays) {
+            issues.append(.intervalOutOfRange)
+        }
         if calendar.startOfDay(for: acquiredOn) > calendar.startOfDay(for: today) {
             issues.append(.acquiredInFuture)
         }
@@ -67,9 +78,12 @@ public struct PlantDraft: Equatable, Sendable {
 
     /// Applies the draft to an existing plant, or creates a new one.
     public func makePlant(updating existing: Plant? = nil) -> Plant {
-        var plant = existing ?? Plant(nickname: "", speciesName: "", room: room,
-                                      wateringIntervalDays: wateringIntervalDays,
-                                      acquiredOn: acquiredOn)
+        var plant =
+            existing
+            ?? Plant(
+                nickname: "", speciesName: "", room: room,
+                wateringIntervalDays: wateringIntervalDays,
+                acquiredOn: acquiredOn)
         plant.nickname = trimmedNickname
         plant.speciesName = speciesName.trimmingCharacters(in: .whitespaces)
         plant.speciesID = speciesID

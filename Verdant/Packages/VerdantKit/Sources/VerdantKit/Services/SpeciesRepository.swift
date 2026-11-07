@@ -17,13 +17,16 @@ public actor SpeciesRepository {
         self.cache = cache
     }
 
-    public func page(_ number: Int, query: String?, light: LightLevel?) async throws(APIError) -> Result {
+    public func page(
+        _ number: Int, query: String?, light: LightLevel?
+    ) async throws(APIError) -> Result {
         let key = SpeciesCacheKey(page: number, query: query ?? "", light: light)
         do {
-            let page = try await service.species(page: number, perPage: 20, query: query, light: light)
+            let page = try await service.species(
+                page: number, perPage: 20, query: query, light: light)
             await cache.store(page, for: key)
             return Result(page: page, isFromCache: false)
-        } catch where error.isRetryable {
+        } catch  where error.isRetryable {
             if let cached = await cache.page(for: key) {
                 return Result(page: cached, isFromCache: true)
             }
@@ -53,7 +56,9 @@ public actor MemorySpeciesCache: SpeciesCache {
     private var pages: [SpeciesCacheKey: Page<Species>] = [:]
     public init() {}
     public func page(for key: SpeciesCacheKey) async -> Page<Species>? { pages[key] }
-    public func store(_ page: Page<Species>, for key: SpeciesCacheKey) async { pages[key] = page }
+    public func store(_ page: Page<Species>, for key: SpeciesCacheKey) async {
+        pages[key] = page
+    }
 }
 
 /// Keeps pages as JSON files in the Caches folder, which the system may purge.
@@ -63,9 +68,11 @@ public actor FileSpeciesCache: SpeciesCache {
     public init(folder: URL) { self.folder = folder }
 
     public static func defaultFolder() throws -> URL {
-        try FileManager.default.url(for: .cachesDirectory, in: .userDomainMask,
-                                    appropriateFor: nil, create: true)
-            .appendingPathComponent("species", isDirectory: true)
+        try FileManager.default.url(
+            for: .cachesDirectory, in: .userDomainMask,
+            appropriateFor: nil, create: true
+        )
+        .appendingPathComponent("species", isDirectory: true)
     }
 
     public func page(for key: SpeciesCacheKey) async -> Page<Species>? {

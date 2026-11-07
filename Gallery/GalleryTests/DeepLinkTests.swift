@@ -9,7 +9,8 @@ struct DeepLinkTests {
 
     @Test func roomThenPlant() throws {
         let url = try #require(URL(string: "verdant://rooms/Kitchen/plants/3"))
-        #expect(DeepLink.routes(from: url, specimens: specimens)
+        #expect(
+            DeepLink.routes(from: url, specimens: specimens)
                 == [.room("Kitchen"), .specimen(specimens[2])])
     }
 
@@ -18,8 +19,10 @@ struct DeepLinkTests {
         #expect(DeepLink.routes(from: url, specimens: specimens) == [.settings])
     }
 
-    @Test(arguments: ["https://rooms/Kitchen", "verdant://plants/99",
-                      "verdant://unknown/1"])
+    @Test(arguments: [
+        "https://rooms/Kitchen", "verdant://plants/99",
+        "verdant://unknown/1",
+    ])
     func invalidLinksOpenNothing(link: String) throws {
         let url = try #require(URL(string: link))
         #expect(DeepLink.routes(from: url, specimens: specimens).isEmpty)

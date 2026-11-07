@@ -15,10 +15,13 @@ func day(_ offset: Int, from date: Date = reference) -> Date {
     utc.date(byAdding: .day, value: offset, to: date) ?? date
 }
 
-func makePlant(_ name: String, interval: Int, lastWatered: Int? = nil, acquired: Int = -100,
-               room: Room = .livingRoom, favorite: Bool = false) -> Plant {
+func makePlant(
+    _ name: String, interval: Int, lastWatered: Int? = nil, acquired: Int = -100,
+    room: Room = .livingRoom, favorite: Bool = false
+) -> Plant {
     let log = lastWatered.map { [CareEvent(kind: .watered, date: day($0))] } ?? []
-    return Plant(nickname: name, speciesName: "Test species", room: room,
-                 wateringIntervalDays: interval, acquiredOn: day(acquired),
-                 careLog: log, isFavorite: favorite)
+    return Plant(
+        nickname: name, speciesName: "Test species", room: room,
+        wateringIntervalDays: interval, acquiredOn: day(acquired),
+        careLog: log, isFavorite: favorite)
 }

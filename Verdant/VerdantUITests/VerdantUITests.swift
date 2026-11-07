@@ -11,8 +11,10 @@ final class VerdantUITests: XCTestCase {
     private func launch(onboardingDone: Bool = true) -> XCUIApplication {
         let app = XCUIApplication()
         // "-key value" arguments set UserDefaults values, read by @AppStorage.
-        app.launchArguments = ["-uiTesting", "-hasCompletedOnboarding", onboardingDone ? "YES" : "NO",
-                               "-remindersOn", "NO"]
+        app.launchArguments = [
+            "-uiTesting", "-hasCompletedOnboarding", onboardingDone ? "YES" : "NO",
+            "-remindersOn", "NO",
+        ]
         app.launch()
         return app
     }
@@ -22,7 +24,7 @@ final class VerdantUITests: XCTestCase {
         let app = launch(onboardingDone: false)
         XCTAssertTrue(app.staticTexts["Welcome to Verdant"].waitForExistence(timeout: 5))
         let primary = app.buttons["onboarding.primary"]
-        for _ in 0..<3 { primary.tap() }               // Next, Next, Next
+        for _ in 0..<3 { primary.tap() }  // Next, Next, Next
         XCTAssertEqual(primary.label, "Get started")
         primary.tap()
         XCTAssertTrue(app.tabBars.buttons["Today"].waitForExistence(timeout: 5))
@@ -33,9 +35,10 @@ final class VerdantUITests: XCTestCase {
         let app = launch()
         app.tabBars.buttons["Garden"].tap()
         app.buttons["garden.add"].tap()
-        app.buttons["editor.save"].tap()               // empty form: refused
-        XCTAssertTrue(app.staticTexts["Give your plant a name of at least 2 characters."]
-            .waitForExistence(timeout: 3))
+        app.buttons["editor.save"].tap()  // empty form: refused
+        XCTAssertTrue(
+            app.staticTexts["Give your plant a name of at least 2 characters."]
+                .waitForExistence(timeout: 3))
         let name = app.textFields["editor.nickname"]
         name.tap()
         name.typeText("Ziggy")
@@ -60,7 +63,8 @@ final class VerdantUITests: XCTestCase {
         let app = launch()
         app.tabBars.buttons["Catalogue"].tap()
         let aloe = app.staticTexts["Aloe"]
-        XCTAssertTrue(aloe.waitForExistence(timeout: 15), "Is book-api running on localhost:8080?")
+        XCTAssertTrue(
+            aloe.waitForExistence(timeout: 15), "Is book-api running on localhost:8080?")
         aloe.tap()
         XCTAssertTrue(app.buttons["Add to my garden"].waitForExistence(timeout: 5))
     }

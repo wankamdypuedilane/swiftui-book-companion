@@ -12,8 +12,8 @@ struct SafeAreaView: View {
             }
             .padding()
         }
-        .background(Color.green.opacity(0.1).ignoresSafeArea())   // colour under the bars
-        .safeAreaInset(edge: .bottom) {                            // content stays above it
+        .background(Color.green.opacity(0.1).ignoresSafeArea())  // colour under the bars
+        .safeAreaInset(edge: .bottom) {  // content stays above it
             Button("Water everything") {}
                 .buttonStyle(.borderedProminent)
                 .frame(maxWidth: .infinity)

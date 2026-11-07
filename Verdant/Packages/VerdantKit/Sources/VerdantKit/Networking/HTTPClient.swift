@@ -1,6 +1,6 @@
 import Foundation
 #if canImport(FoundationNetworking)
-import FoundationNetworking        // URLSession lives here on Linux
+import FoundationNetworking  // URLSession lives here on Linux
 #endif
 
 // <client>

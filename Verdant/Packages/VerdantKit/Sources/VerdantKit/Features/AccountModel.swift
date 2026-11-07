@@ -21,8 +21,10 @@ public final class AccountModel {
     @ObservationIgnored private let backup: any BackupService
     @ObservationIgnored private let garden: Garden
 
-    public init(auth: AuthService, authenticator: Authenticator, backup: any BackupService,
-                garden: Garden) {
+    public init(
+        auth: AuthService, authenticator: Authenticator, backup: any BackupService,
+        garden: Garden
+    ) {
         self.auth = auth
         self.authenticator = authenticator
         self.backup = backup
@@ -46,7 +48,7 @@ public final class AccountModel {
         do {
             let session = try await auth.signIn(email: email, password: password)
             await authenticator.signIn(with: session)
-            password = ""                                   // never keep the password
+            password = ""  // never keep the password
             status = .signedIn(email: session.email)
         } catch {
             status = .signedOut
@@ -61,7 +63,7 @@ public final class AccountModel {
     }
 
     public func backUp() async {
-        await run { () async throws(APIError) -> String in    // typed throws must be spelled out
+        await run { () async throws(APIError) -> String in  // typed throws must be spelled out
             let receipt = try await self.backup.upload(self.garden.plants)
             return "\(receipt.plantCount) plants backed up."
         }

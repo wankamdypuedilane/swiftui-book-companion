@@ -19,8 +19,8 @@ struct BackgroundImageView: View {
             Image(.greenhouse)
                 .resizable()
                 .scaledToFill()
-                .overlay(.black.opacity(0.35))     // darken for contrast
-                .ignoresSafeArea()                 // extend under the status bar
+                .overlay(.black.opacity(0.35))  // darken for contrast
+                .ignoresSafeArea()  // extend under the status bar
                 .accessibilityHidden(true)
         }
     }

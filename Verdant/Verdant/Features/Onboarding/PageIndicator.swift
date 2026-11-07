@@ -14,7 +14,7 @@ struct PageIndicator: View {
                 Capsule()
                     .fill(index == selection ? tint : Color.secondary.opacity(0.35))
                     .frame(width: index == selection ? 24 : 8, height: 8)
-                    .contentShape(.rect.inset(by: -6))            // a larger tap target
+                    .contentShape(.rect.inset(by: -6))  // a larger tap target
                     .onTapGesture { withAnimation(.snappy) { selection = index } }
             }
         }

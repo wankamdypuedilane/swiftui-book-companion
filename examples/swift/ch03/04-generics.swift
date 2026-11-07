@@ -29,7 +29,7 @@ var catalog = MemoryStore<Species>()
 catalog.save(Species(id: "pothos", commonName: "Golden pothos", wateringDays: 7))
 catalog.save(Species(id: "zz", commonName: "ZZ plant", wateringDays: 21))
 catalog.save(Species(id: "fern", commonName: "Boston fern", wateringDays: 3))
-catalog.save(Species(id: "pothos", commonName: "Pothos", wateringDays: 7))   // replaces
+catalog.save(Species(id: "pothos", commonName: "Pothos", wateringDays: 7))  // replaces
 
 print(catalog.all.map(\.commonName))
 print(catalog.item(withID: "zz")?.wateringDays as Any)

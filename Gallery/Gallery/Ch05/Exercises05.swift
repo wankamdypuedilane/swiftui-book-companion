@@ -50,7 +50,8 @@ struct AdaptiveHeader: View {
     let subtitle: String
 
     var body: some View {
-        let layout = typeSize.isAccessibilitySize
+        let layout =
+            typeSize.isAccessibilitySize
             ? AnyLayout(VStackLayout(alignment: .leading, spacing: 4))
             : AnyLayout(HStackLayout(alignment: .firstTextBaseline, spacing: 8))
         layout {
@@ -99,14 +100,17 @@ struct CareCard: View {
 // </carecard>
 
 struct CareCardExercise: View {
-    let text = "Keep the soil lightly moist from spring to autumn and let it dry a little "
+    let text =
+        "Keep the soil lightly moist from spring to autumn and let it dry a little "
         + "more in winter. Mist the leaves in dry rooms and keep away from radiators."
 
     var body: some View {
         ScrollView {
-            CareCard(name: "Calathea", botanicalName: "Goeppertia orbifolia",
-                     instructions: text)
-                .padding()
+            CareCard(
+                name: "Calathea", botanicalName: "Goeppertia orbifolia",
+                instructions: text
+            )
+            .padding()
         }
     }
 }

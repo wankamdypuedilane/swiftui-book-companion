@@ -44,8 +44,10 @@ public actor Authenticator {
     private let now: @Sendable () -> Date
     private var refreshTask: Task<AuthSession, any Error>?
 
-    public init(store: any TokenStore, now: @escaping @Sendable () -> Date = { .now },
-                refresher: @escaping Refresher) {
+    public init(
+        store: any TokenStore, now: @escaping @Sendable () -> Date = { .now },
+        refresher: @escaping Refresher
+    ) {
         self.store = store
         self.now = now
         self.refresher = refresher
@@ -69,7 +71,7 @@ public actor Authenticator {
     public var currentSession: AuthSession? { get async { await store.load() } }
 
     private func refreshed(from session: AuthSession) async throws(APIError) -> AuthSession {
-        if let refreshTask {                          // a refresh is already running: wait for it
+        if let refreshTask {  // a refresh is already running: wait for it
             return try await Self.value(of: refreshTask)
         }
         let task = Task { [refresher] () async throws -> AuthSession in
@@ -82,13 +84,17 @@ public actor Authenticator {
             await store.save(newSession)
             return newSession
         } catch {
-            if error == .unauthorized { await store.save(nil) }   // refresh token rejected
+            if error == .unauthorized { await store.save(nil) }  // refresh token rejected
             throw error
         }
     }
 
-    private static func value(of task: Task<AuthSession, any Error>) async throws(APIError) -> AuthSession {
-        do { return try await task.value } catch { throw (error as? APIError) ?? .transport("\(error)") }
+    private static func value(
+        of task: Task<AuthSession, any Error>
+    ) async throws(APIError) -> AuthSession {
+        do { return try await task.value } catch {
+            throw (error as? APIError) ?? .transport("\(error)")
+        }
     }
 }
 // </authenticator>

@@ -12,7 +12,7 @@ final class NetworkMonitor {
     func start() {
         guard task == nil else { return }
         task = Task { [weak self] in
-            for await path in NWPathMonitor() {           // an AsyncSequence since iOS 17
+            for await path in NWPathMonitor() {  // an AsyncSequence since iOS 17
                 self?.isConnected = path.status == .satisfied
             }
         }

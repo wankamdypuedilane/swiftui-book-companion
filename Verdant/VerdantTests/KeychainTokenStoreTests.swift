@@ -8,8 +8,9 @@ struct KeychainTokenStoreTests {
     let store = KeychainTokenStore(service: "verdant.tests.\(UUID().uuidString)")
 
     @Test func storesReplacesAndDeletesTheSession() async {
-        let first = AuthSession(email: "demo@verdant.example", accessToken: "a1",
-                                refreshToken: "r1", expiresAt: Date(timeIntervalSince1970: 2_000_000_000))
+        let first = AuthSession(
+            email: "demo@verdant.example", accessToken: "a1",
+            refreshToken: "r1", expiresAt: Date(timeIntervalSince1970: 2_000_000_000))
         await store.save(first)
         #expect(await store.load() == first)
         var second = first

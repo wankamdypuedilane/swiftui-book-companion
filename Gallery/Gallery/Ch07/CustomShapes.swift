@@ -20,7 +20,7 @@ struct LeafShape: Shape {
 // <ring>
 /// A progress ring: a background circle and a trimmed circle on top.
 struct ProgressRing: View {
-    let progress: Double            // 0...1
+    let progress: Double  // 0...1
     var lineWidth: CGFloat = 12
 
     var body: some View {
@@ -29,7 +29,7 @@ struct ProgressRing: View {
             Circle()
                 .trim(from: 0, to: progress)
                 .stroke(.green, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
-                .rotationEffect(.degrees(-90))      // start at 12 o'clock
+                .rotationEffect(.degrees(-90))  // start at 12 o'clock
             Text(progress, format: .percent.precision(.fractionLength(0)))
                 .font(.title2.bold())
         }

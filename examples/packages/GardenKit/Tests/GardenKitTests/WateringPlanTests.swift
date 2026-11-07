@@ -1,5 +1,5 @@
 import Testing
-@testable import GardenKit   // @testable also exposes internal members to tests
+@testable import GardenKit  // @testable also exposes internal members to tests
 
 @Test func intervalIsClampedToSixtyDays() {
     let plan = WateringPlan(plantName: "Cactus", intervalDays: 90, today: 0)

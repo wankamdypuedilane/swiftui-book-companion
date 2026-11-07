@@ -5,7 +5,7 @@ struct Trimmed {
     let lowercased: Bool
     init(wrappedValue: String, lowercased: Bool = false) {
         self.lowercased = lowercased
-        self.wrappedValue = wrappedValue          // goes through the setter below
+        self.wrappedValue = wrappedValue  // goes through the setter below
     }
     var wrappedValue: String {
         get { text }

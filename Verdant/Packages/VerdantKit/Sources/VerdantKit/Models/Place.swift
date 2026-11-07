@@ -31,8 +31,10 @@ public struct Place: Identifiable, Codable, Hashable, Sendable {
     public var address: String
     public var openingHours: String
 
-    public init(id: String, name: String, kind: Kind, latitude: Double, longitude: Double,
-                address: String, openingHours: String) {
+    public init(
+        id: String, name: String, kind: Kind, latitude: Double, longitude: Double,
+        address: String, openingHours: String
+    ) {
         self.id = id
         self.name = name
         self.kind = kind

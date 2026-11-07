@@ -10,7 +10,7 @@ enum DeepLink {
         if parts == ["settings"] { return [.settings] }
 
         var routes: [Route] = []
-        var rest = parts[...]                       // an ArraySlice we consume in pairs
+        var rest = parts[...]  // an ArraySlice we consume in pairs
         while rest.count >= 2 {
             let kind = rest.removeFirst(), value = rest.removeFirst()
             switch kind {
@@ -21,7 +21,7 @@ enum DeepLink {
                 guard let specimen = match else { return routes }
                 routes.append(.specimen(specimen))
             default:
-                return routes                       // unknown segment: stop here
+                return routes  // unknown segment: stop here
             }
         }
         return routes

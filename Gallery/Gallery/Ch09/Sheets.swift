@@ -3,7 +3,7 @@ import SwiftUI
 // <sheets>
 struct SheetsView: View {
     @State private var showsTips = false
-    @State private var editing: Specimen?           // non-nil while the sheet is shown
+    @State private var editing: Specimen?  // non-nil while the sheet is shown
     @State private var showsWelcome = false
 
     var body: some View {
@@ -17,10 +17,10 @@ struct SheetsView: View {
         .sheet(isPresented: $showsTips) {
             Text("Water less in winter.")
                 .font(.title2)
-                .presentationDetents([.medium, .large])     // half height, can be enlarged
+                .presentationDetents([.medium, .large])  // half height, can be enlarged
                 .presentationDragIndicator(.visible)
         }
-        .sheet(item: $editing) { specimen in               // one sheet per item
+        .sheet(item: $editing) { specimen in  // one sheet per item
             RenameSheet(specimen: specimen)
         }
         .fullScreenCover(isPresented: $showsWelcome) {
@@ -30,10 +30,10 @@ struct SheetsView: View {
 }
 
 struct RenameSheet: View {
-    @Environment(\.dismiss) private var dismiss         // closes the presentation
+    @Environment(\.dismiss) private var dismiss  // closes the presentation
     @State private var name: String
 
-    init(specimen: Specimen) { _name = State(initialValue: specimen.name) }   // a draft
+    init(specimen: Specimen) { _name = State(initialValue: specimen.name) }  // a draft
 
     var body: some View {
         NavigationStack {

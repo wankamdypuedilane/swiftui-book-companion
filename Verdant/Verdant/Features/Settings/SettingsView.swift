@@ -41,7 +41,9 @@ struct SettingsView: View {
             }
             .navigationTitle("Settings")
             .task(id: remindersOn) {
-                if remindersOn && reminders.permission == .unknown { await reminders.requestPermission() }
+                if remindersOn && reminders.permission == .unknown {
+                    await reminders.requestPermission()
+                }
                 await reminders.reschedule()
             }
             .onChange(of: reminderHour) { _, hour in
@@ -51,14 +53,16 @@ struct SettingsView: View {
     }
 
     private func hourText(_ hour: Int) -> String {
-        let date = Calendar.current.date(bySettingHour: hour, minute: 0, second: 0, of: .now) ?? .now
+        let date =
+            Calendar.current.date(bySettingHour: hour, minute: 0, second: 0, of: .now) ?? .now
         return date.formatted(date: .omitted, time: .shortened)
     }
 }
 
 extension Bundle {
     var versionString: String {
-        let version = object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "?"
+        let version =
+            object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "?"
         let build = object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "?"
         return "\(version) (\(build))"
     }

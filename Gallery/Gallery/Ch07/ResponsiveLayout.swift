@@ -24,8 +24,10 @@ struct ResponsiveLayoutView: View {
                             RoundedRectangle(cornerRadius: 16)
                                 .fill(.green.gradient)
                                 .overlay { Text("Card \(index)").foregroundStyle(.white) }
-                                .containerRelativeFrame(.horizontal, count: 5, span: 4,
-                                                        spacing: 12)
+                                .containerRelativeFrame(
+                                    .horizontal, count: 5, span: 4,
+                                    spacing: 12
+                                )
                                 .frame(height: 120)
                         }
                     }

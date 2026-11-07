@@ -33,10 +33,13 @@ private struct TodayContent: View {
         List {
             Section {
                 HStack(spacing: 12) {
-                    StatTile(value: summary.plantCount, label: "Plants", systemImage: "leaf.fill")
-                    StatTile(value: summary.thirstyCount, label: "Thirsty", systemImage: "drop.fill")
-                    StatTile(value: summary.wateringsThisWeek, label: "This week",
-                             systemImage: "calendar")
+                    StatTile(
+                        value: summary.plantCount, label: "Plants", systemImage: "leaf.fill")
+                    StatTile(
+                        value: summary.thirstyCount, label: "Thirsty", systemImage: "drop.fill")
+                    StatTile(
+                        value: summary.wateringsThisWeek, label: "This week",
+                        systemImage: "calendar")
                 }
                 .listRowInsets(EdgeInsets())
                 .listRowBackground(Color.clear)
@@ -44,8 +47,9 @@ private struct TodayContent: View {
 
             Section {
                 if model.thirstyPlants.isEmpty {
-                    ContentUnavailableView("All watered", systemImage: "checkmark.circle",
-                                           description: Text("No plant needs water today."))
+                    ContentUnavailableView(
+                        "All watered", systemImage: "checkmark.circle",
+                        description: Text("No plant needs water today."))
                 } else {
                     ForEach(model.thirstyPlants) { plant in
                         HStack {

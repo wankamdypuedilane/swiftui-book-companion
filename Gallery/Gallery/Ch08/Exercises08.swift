@@ -10,7 +10,7 @@ struct RatingControl: View {
         HStack(spacing: 4) {
             ForEach(1...maximum, id: \.self) { value in
                 Button {
-                    rating = (rating == value) ? 0 : value    // tap again to clear
+                    rating = (rating == value) ? 0 : value  // tap again to clear
                 } label: {
                     Image(systemName: value <= rating ? "star.fill" : "star")
                         .foregroundStyle(value <= rating ? .yellow : .secondary)

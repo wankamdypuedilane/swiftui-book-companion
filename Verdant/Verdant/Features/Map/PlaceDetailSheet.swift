@@ -16,11 +16,14 @@ struct PlaceDetailSheet: View {
             Text(place.address).foregroundStyle(.secondary)
             Label(place.openingHours, systemImage: "clock")
             if let userLocation {
-                let metres = userLocation.distance(from: CLLocation(latitude: place.latitude,
-                                                                    longitude: place.longitude))
-                Label(Measurement(value: metres, unit: UnitLength.meters)
+                let metres = userLocation.distance(
+                    from: CLLocation(
+                        latitude: place.latitude,
+                        longitude: place.longitude))
+                Label(
+                    Measurement(value: metres, unit: UnitLength.meters)
                         .formatted(.measurement(width: .abbreviated, usage: .road)),
-                      systemImage: "figure.walk")
+                    systemImage: "figure.walk")
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)

@@ -10,12 +10,12 @@ struct ValueNavigationView: View {
             List {
                 Section("Plants") {
                     ForEach(Specimen.samples) { specimen in
-                        NavigationLink(specimen.name, value: specimen)   // a Specimen
+                        NavigationLink(specimen.name, value: specimen)  // a Specimen
                     }
                 }
                 Section("Rooms") {
                     ForEach(rooms, id: \.self) { room in
-                        NavigationLink(room, value: room)                // a String
+                        NavigationLink(room, value: room)  // a String
                     }
                 }
             }
@@ -25,7 +25,7 @@ struct ValueNavigationView: View {
             }
             .navigationDestination(for: String.self) { room in
                 List(Specimen.samples.filter { $0.room == room }) { specimen in
-                    NavigationLink(specimen.name, value: specimen)   // here too
+                    NavigationLink(specimen.name, value: specimen)  // here too
                 }
                 .navigationTitle(room)
             }

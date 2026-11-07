@@ -17,8 +17,9 @@ struct PlantDetailView: View {
         if let plant = garden.plant(withID: plantID) {
             content(for: plant)
         } else {
-            ContentUnavailableView("Plant not found", systemImage: "leaf",
-                                   description: Text("It may have been deleted."))
+            ContentUnavailableView(
+                "Plant not found", systemImage: "leaf",
+                description: Text("It may have been deleted."))
         }
     }
 
@@ -26,11 +27,17 @@ struct PlantDetailView: View {
         List {
             Section {
                 LabeledContent("Species", value: plant.speciesName)
-                LabeledContent("Room") { Label(plant.room.title, systemImage: plant.room.symbolName) }
-                LabeledContent("Light") { Label(plant.light.title, systemImage: plant.light.symbolName) }
+                LabeledContent("Room") {
+                    Label(plant.room.title, systemImage: plant.room.symbolName)
+                }
+                LabeledContent("Light") {
+                    Label(plant.light.title, systemImage: plant.light.symbolName)
+                }
                 LabeledContent("Water every", value: "\(plant.wateringIntervalDays) days")
                 LabeledContent("Next watering") {
-                    Text(schedule.nextWatering(for: plant), format: .dateTime.weekday(.wide).day().month())
+                    Text(
+                        schedule.nextWatering(for: plant),
+                        format: .dateTime.weekday(.wide).day().month())
                 }
                 LabeledContent("At home since") {
                     Text(plant.acquiredOn, format: .dateTime.day().month().year())
@@ -68,8 +75,10 @@ struct PlantDetailView: View {
         .sheet(isPresented: $isEditing) {
             PlantEditorView(model: PlantEditorModel(garden: garden, plant: plant))
         }
-        .confirmationDialog("Delete \(plant.nickname)?", isPresented: $isConfirmingDeletion,
-                            titleVisibility: .visible) {
+        .confirmationDialog(
+            "Delete \(plant.nickname)?", isPresented: $isConfirmingDeletion,
+            titleVisibility: .visible
+        ) {
             Button("Delete", role: .destructive) {
                 Task {
                     await garden.delete([plant.id])

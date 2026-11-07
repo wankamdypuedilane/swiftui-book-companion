@@ -7,7 +7,9 @@ import FoundationNetworking
 /// The catalogue as seen by the rest of the app. Views and view models depend on
 /// this protocol, never on URLs or JSON.
 public protocol SpeciesService: Sendable {
-    func species(page: Int, perPage: Int, query: String?, light: LightLevel?)
+    func species(
+        page: Int, perPage: Int, query: String?, light: LightLevel?
+    )
         async throws(APIError) -> Page<Species>
     func species(id: Species.ID) async throws(APIError) -> Species
 }
@@ -18,10 +20,14 @@ public struct RemoteSpeciesService: SpeciesService {
 
     public init(client: APIClient) { self.client = client }
 
-    public func species(page: Int, perPage: Int = 20, query: String? = nil,
-                        light: LightLevel? = nil) async throws(APIError) -> Page<Species> {
-        var items = [URLQueryItem(name: "page", value: String(page)),
-                     URLQueryItem(name: "perPage", value: String(perPage))]
+    public func species(
+        page: Int, perPage: Int = 20, query: String? = nil,
+        light: LightLevel? = nil
+    ) async throws(APIError) -> Page<Species> {
+        var items = [
+            URLQueryItem(name: "page", value: String(page)),
+            URLQueryItem(name: "perPage", value: String(perPage)),
+        ]
         if let query, !query.isEmpty { items.append(URLQueryItem(name: "q", value: query)) }
         if let light { items.append(URLQueryItem(name: "light", value: light.rawValue)) }
         return try await client.send(Endpoint<Page<Species>>(.get, "species", query: items))

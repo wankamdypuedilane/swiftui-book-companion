@@ -11,12 +11,14 @@ struct GalleryApp: App {
 
 /// One example of the book, shown by the gallery.
 struct GalleryExample: Identifiable {
-    let listing: String          // e.g. "5.1"
+    let listing: String  // e.g. "5.1"
     let title: String
     let content: () -> AnyView
     var id: String { listing + title }
 
-    init<Content: View>(_ listing: String, _ title: String, @ViewBuilder content: @escaping () -> Content) {
+    init<Content: View>(
+        _ listing: String, _ title: String, @ViewBuilder content: @escaping () -> Content
+    ) {
         self.listing = listing
         self.title = title
         self.content = { AnyView(content()) }
@@ -36,7 +38,8 @@ struct GalleryHome: View {
         let all = GalleryChapter.all.flatMap(\.examples)
         let arguments = ProcessInfo.processInfo.arguments
         guard let flag = arguments.firstIndex(of: "-openExample"), flag + 1 < arguments.count,
-              let index = Int(arguments[flag + 1]) else { return [] }
+            let index = Int(arguments[flag + 1])
+        else { return [] }
         return index < all.count ? [all[index].id] : ["none"]
     }()
 
@@ -53,7 +56,9 @@ struct GalleryHome: View {
             }
             .navigationTitle("Gallery")
             .navigationDestination(for: String.self) { id in
-                if let example = GalleryChapter.all.flatMap(\.examples).first(where: { $0.id == id }) {
+                if let example = GalleryChapter.all.flatMap(\.examples).first(where: {
+                    $0.id == id
+                }) {
                     example.content()
                         .navigationTitle(example.title)
                         .navigationBarTitleDisplayMode(.inline)

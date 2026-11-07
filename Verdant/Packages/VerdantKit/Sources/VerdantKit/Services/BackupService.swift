@@ -21,12 +21,15 @@ public struct RemoteBackupService: BackupService {
         do { body = try APIClient.makeEncoder().encode(plants) } catch {
             throw .invalidRequest("Could not encode the garden")
         }
-        return try await client.send(Endpoint<BackupReceipt>(.put, "me/garden", body: body,
-                                                             requiresAuthentication: true))
+        return try await client.send(
+            Endpoint<BackupReceipt>(
+                .put, "me/garden", body: body,
+                requiresAuthentication: true))
     }
 
     public func download() async throws(APIError) -> [Plant] {
-        try await client.send(Endpoint<[Plant]>(.get, "me/garden", requiresAuthentication: true))
+        try await client.send(
+            Endpoint<[Plant]>(.get, "me/garden", requiresAuthentication: true))
     }
 }
 // </backup>

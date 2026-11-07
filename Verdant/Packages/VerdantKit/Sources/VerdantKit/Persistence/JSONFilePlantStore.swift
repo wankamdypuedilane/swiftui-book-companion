@@ -19,9 +19,10 @@ public actor JSONFilePlantStore: PlantStore {
 
     /// The default location: `garden.json` in the app's Application Support folder.
     public static func defaultURL() throws -> URL {
-        let folder = try FileManager.default.url(for: .applicationSupportDirectory,
-                                                 in: .userDomainMask,
-                                                 appropriateFor: nil, create: true)
+        let folder = try FileManager.default.url(
+            for: .applicationSupportDirectory,
+            in: .userDomainMask,
+            appropriateFor: nil, create: true)
         return folder.appendingPathComponent("garden.json")
     }
 
@@ -33,7 +34,7 @@ public actor JSONFilePlantStore: PlantStore {
 
     public func save(_ plants: [Plant]) async throws {
         let data = try encoder.encode(plants)
-        try data.write(to: fileURL, options: [.atomic])   // never a half-written file
+        try data.write(to: fileURL, options: [.atomic])  // never a half-written file
     }
 }
 // </file>

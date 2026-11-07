@@ -6,13 +6,13 @@ import FoundationNetworking
 // <error>
 /// Every way a request can fail, in terms the app can act on.
 public enum APIError: Error, Equatable, Sendable {
-    case invalidRequest(String)                 // a bug: the request could not be built
-    case offline                                // no network connection
+    case invalidRequest(String)  // a bug: the request could not be built
+    case offline  // no network connection
     case timedOut
-    case transport(String)                      // other network failure
-    case unauthorized                           // 401: sign in again
-    case http(status: Int, message: String?)    // any other non-2xx status
-    case decoding(String)                       // the response does not match the model
+    case transport(String)  // other network failure
+    case unauthorized  // 401: sign in again
+    case http(status: Int, message: String?)  // any other non-2xx status
+    case decoding(String)  // the response does not match the model
     case cancelled
 
     /// Failures worth trying again automatically.
@@ -42,7 +42,9 @@ public enum APIError: Error, Equatable, Sendable {
     /// Maps a URLSession error to an APIError.
     static func from(_ error: any Error) -> APIError {
         if error is CancellationError { return .cancelled }
-        guard let urlError = error as? URLError else { return .transport(String(describing: error)) }
+        guard let urlError = error as? URLError else {
+            return .transport(String(describing: error))
+        }
         switch urlError.code {
         case .notConnectedToInternet, .networkConnectionLost, .dataNotAllowed: return .offline
         case .timedOut: return .timedOut

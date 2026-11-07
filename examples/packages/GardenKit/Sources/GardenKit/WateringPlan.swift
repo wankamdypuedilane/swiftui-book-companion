@@ -3,9 +3,9 @@
 /// visible to code that imports GardenKit.
 public struct WateringPlan: Sendable {
     public let plantName: String
-    public private(set) var intervalDays: Int     // readable outside, writable inside
-    var history: [Int] = []                        // internal: GardenKit only
-    private let createdOnDay: Int                  // private: this type only
+    public private(set) var intervalDays: Int  // readable outside, writable inside
+    var history: [Int] = []  // internal: GardenKit only
+    private let createdOnDay: Int  // private: this type only
 
     public init(plantName: String, intervalDays: Int, today: Int) {
         self.plantName = plantName

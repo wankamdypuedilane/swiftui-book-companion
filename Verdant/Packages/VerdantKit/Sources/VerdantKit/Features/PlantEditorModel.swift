@@ -15,19 +15,22 @@ public final class PlantEditorModel {
     private let garden: Garden
     private let now: () -> Date
 
-    public init(garden: Garden, plant: Plant? = nil, species: Species? = nil,
-                now: @escaping () -> Date = { .now }) {
+    public init(
+        garden: Garden, plant: Plant? = nil, species: Species? = nil,
+        now: @escaping () -> Date = { .now }
+    ) {
         self.garden = garden
         self.existing = plant
         self.isNew = plant == nil
         self.now = now
-        let start = if let plant {
-            PlantDraft(plant: plant)
-        } else if let species {
-            PlantDraft(species: species)
-        } else {
-            PlantDraft()
-        }
+        let start =
+            if let plant {
+                PlantDraft(plant: plant)
+            } else if let species {
+                PlantDraft(species: species)
+            } else {
+                PlantDraft()
+            }
         draft = start
         initialDraft = start
     }

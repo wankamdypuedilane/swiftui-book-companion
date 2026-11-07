@@ -18,8 +18,9 @@ struct ClusteredMapView: UIViewRepresentable {
         mapView.region = .kerbrume
         mapView.showsUserLocation = true
         mapView.pointOfInterestFilter = .excludingAll
-        mapView.register(MKMarkerAnnotationView.self,
-                         forAnnotationViewWithReuseIdentifier: Coordinator.markerID)
+        mapView.register(
+            MKMarkerAnnotationView.self,
+            forAnnotationViewWithReuseIdentifier: Coordinator.markerID)
         return mapView
     }
 
@@ -30,7 +31,8 @@ struct ClusteredMapView: UIViewRepresentable {
         let wanted = Set(places.map(\.id))
         mapView.removeAnnotations(current.filter { !wanted.contains($0.place.id) })
         let shown = Set(current.map(\.place.id))
-        mapView.addAnnotations(places.filter { !shown.contains($0.id) }.map(PlaceAnnotation.init))
+        mapView.addAnnotations(
+            places.filter { !shown.contains($0.id) }.map(PlaceAnnotation.init))
     }
 
     /// The delegate of the map view: it receives UIKit callbacks.
@@ -40,12 +42,16 @@ struct ClusteredMapView: UIViewRepresentable {
 
         init(selection: Binding<Place.ID?>) { self.selection = selection }
 
-        func mapView(_ mapView: MKMapView, viewFor annotation: any MKAnnotation) -> MKAnnotationView? {
-            guard let annotation = annotation as? PlaceAnnotation else { return nil }  // user dot
-            let view = mapView.dequeueReusableAnnotationView(withIdentifier: Self.markerID,
-                                                             for: annotation)
+        func mapView(
+            _ mapView: MKMapView, viewFor annotation: any MKAnnotation
+        ) -> MKAnnotationView? {
+            // The user's location dot is not a PlaceAnnotation: keep the default view.
+            guard let annotation = annotation as? PlaceAnnotation else { return nil }
+            let view = mapView.dequeueReusableAnnotationView(
+                withIdentifier: Self.markerID,
+                for: annotation)
             guard let marker = view as? MKMarkerAnnotationView else { return view }
-            marker.clusteringIdentifier = "places"           // markers close together merge
+            marker.clusteringIdentifier = "places"  // markers close together merge
             marker.glyphImage = UIImage(systemName: annotation.place.kind.symbolName)
             marker.markerTintColor = UIColor(annotation.place.kind.color)
             return marker
@@ -55,7 +61,7 @@ struct ClusteredMapView: UIViewRepresentable {
             if let annotation = annotation as? PlaceAnnotation {
                 selection.wrappedValue = annotation.place.id
             } else if let cluster = annotation as? MKClusterAnnotation {
-                mapView.showAnnotations(cluster.memberAnnotations, animated: true)   // zoom in
+                mapView.showAnnotations(cluster.memberAnnotations, animated: true)  // zoom in
             }
         }
     }

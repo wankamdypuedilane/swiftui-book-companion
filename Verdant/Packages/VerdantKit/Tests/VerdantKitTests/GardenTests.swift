@@ -40,7 +40,7 @@ struct GardenTests {
             .appendingPathComponent("verdant-\(UUID().uuidString).json")
         defer { try? FileManager.default.removeItem(at: url) }
         let store = JSONFilePlantStore(fileURL: url)
-        #expect(try await store.load().isEmpty)              // no file yet
+        #expect(try await store.load().isEmpty)  // no file yet
         let plants = SampleData.garden(reference: reference, calendar: utc)
         try await store.save(plants)
         #expect(try await store.load() == plants)

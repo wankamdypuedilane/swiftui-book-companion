@@ -17,7 +17,7 @@ struct SymbolsView: View {
             }
             Section("Rendering modes") {
                 HStack(spacing: 24) {
-                    Image(systemName: "cloud.sun.rain.fill")            // monochrome
+                    Image(systemName: "cloud.sun.rain.fill")  // monochrome
                     Image(systemName: "cloud.sun.rain.fill")
                         .symbolRenderingMode(.hierarchical)
                     Image(systemName: "cloud.sun.rain.fill")

@@ -27,9 +27,12 @@ struct DashboardHeader: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text("Hello, \(name)").font(.largeTitle.bold())
-            Text(thirsty == 0 ? "Everything is watered."
-                              : "\(thirsty) plants are thirsty today.")
-                .foregroundStyle(.secondary)
+            Text(
+                thirsty == 0
+                    ? "Everything is watered."
+                    : "\(thirsty) plants are thirsty today."
+            )
+            .foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }

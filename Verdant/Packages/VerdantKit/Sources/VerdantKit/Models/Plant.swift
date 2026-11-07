@@ -5,20 +5,22 @@ import Foundation
 public struct Plant: Identifiable, Codable, Hashable, Sendable {
     public let id: UUID
     public var nickname: String
-    public var speciesID: String?              // set when chosen from the catalogue
+    public var speciesID: String?  // set when chosen from the catalogue
     public var speciesName: String
     public var room: Room
     public var light: LightLevel
     public var wateringIntervalDays: Int
     public var acquiredOn: Date
-    public var careLog: [CareEvent]            // newest first
+    public var careLog: [CareEvent]  // newest first
     public var notes: String
     public var isFavorite: Bool
 
-    public init(id: UUID = UUID(), nickname: String, speciesID: String? = nil,
-                speciesName: String, room: Room, light: LightLevel = .medium,
-                wateringIntervalDays: Int, acquiredOn: Date,
-                careLog: [CareEvent] = [], notes: String = "", isFavorite: Bool = false) {
+    public init(
+        id: UUID = UUID(), nickname: String, speciesID: String? = nil,
+        speciesName: String, room: Room, light: LightLevel = .medium,
+        wateringIntervalDays: Int, acquiredOn: Date,
+        careLog: [CareEvent] = [], notes: String = "", isFavorite: Bool = false
+    ) {
         self.id = id
         self.nickname = nickname
         self.speciesID = speciesID

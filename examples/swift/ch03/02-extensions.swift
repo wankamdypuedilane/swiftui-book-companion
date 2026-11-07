@@ -8,7 +8,8 @@ extension Int {
 extension String {
     /// "boston fern" -> "Boston Fern"
     var titleCased: String {
-        split(separator: " ").map { $0.prefix(1).uppercased() + $0.dropFirst() }.joined(separator: " ")
+        split(separator: " ").map { $0.prefix(1).uppercased() + $0.dropFirst() }.joined(
+            separator: " ")
     }
 }
 

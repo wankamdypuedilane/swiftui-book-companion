@@ -14,21 +14,25 @@ enum LineError: Error, CustomStringConvertible {
 }
 
 func parseLine(_ text: String, number: Int) throws(LineError) -> (String, Int) {
-    let parts = text.split(separator: ":", maxSplits: 1, omittingEmptySubsequences: false).map { $0.trimmingCharacters(in: .whitespaces) }
+    let parts = text.split(separator: ":", maxSplits: 1, omittingEmptySubsequences: false).map {
+        $0.trimmingCharacters(in: .whitespaces)
+    }
     guard parts.count == 2 else { throw .missingSeparator(line: number) }
     guard !parts[0].isEmpty else { throw .emptyName(line: number) }
-    guard let days = Int(parts[1]), days > 0 else { throw .badInterval(line: number, text: parts[1]) }
+    guard let days = Int(parts[1]), days > 0 else {
+        throw .badInterval(line: number, text: parts[1])
+    }
     return (parts[0], days)
 }
 
 let input = """
-Fern: 3
-Cactus:21
-Pothos 7
-: 5
-Calathea: often
-Snake plant: 14
-"""
+    Fern: 3
+    Cactus:21
+    Pothos 7
+    : 5
+    Calathea: often
+    Snake plant: 14
+    """
 
 var schedule: [String: Int] = [:]
 var errors: [LineError] = []
@@ -40,5 +44,7 @@ for (index, line) in input.split(separator: "\n").enumerated() {
         errors.append(error)
     }
 }
-print("Parsed:", schedule.sorted { $0.key < $1.key }.map { "\($0.key)=\($0.value)" }.joined(separator: ", "))
+print(
+    "Parsed:",
+    schedule.sorted { $0.key < $1.key }.map { "\($0.key)=\($0.value)" }.joined(separator: ", "))
 errors.forEach { print("Skipped", $0) }

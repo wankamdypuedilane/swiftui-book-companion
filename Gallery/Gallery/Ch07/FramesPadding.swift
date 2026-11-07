@@ -26,7 +26,7 @@ struct FramesPaddingView: View {
                     .lineLimit(1)
                 Text("Important")
                     .lineLimit(1)
-                    .layoutPriority(1)        // gets its space before the other text
+                    .layoutPriority(1)  // gets its space before the other text
             }
             .background(.green.opacity(0.2))
         }

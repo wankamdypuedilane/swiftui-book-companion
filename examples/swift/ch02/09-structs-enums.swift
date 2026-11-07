@@ -1,7 +1,13 @@
 // Structures and enumerations.
 enum Light: String, CaseIterable {
     case low, medium, bright
-    var symbol: String { switch self { case .low: "◐"; case .medium: "◑"; case .bright: "●" } }
+    var symbol: String {
+        switch self {
+        case .low: "◐";
+        case .medium: "◑";
+        case .bright: "●"
+        }
+    }
 }
 
 struct Plant {
@@ -35,7 +41,9 @@ enum CareEvent {
     case fertilized(product: String)
     case repotted
 }
-let history: [CareEvent] = [.watered(millilitres: 250), .fertilized(product: "GrowMix"), .repotted]
+let history: [CareEvent] = [
+    .watered(millilitres: 250), .fertilized(product: "GrowMix"), .repotted,
+]
 for event in history {
     switch event {
     case .watered(let ml): print("Watered with \(ml) ml")

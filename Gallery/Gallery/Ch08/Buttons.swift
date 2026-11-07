@@ -8,15 +8,15 @@ struct ButtonsView: View {
         VStack(spacing: 16) {
             Text(log).font(.headline)
 
-            Button("Water") { log = "Watered" }                         // a text title
+            Button("Water") { log = "Watered" }  // a text title
 
-            Button {                                                    // any view as label
+            Button {  // any view as label
                 log = "Added"
             } label: {
                 Label("Add a plant", systemImage: "plus.circle.fill")
             }
 
-            Button("Delete", role: .destructive) { log = "Deleted" }   // red, announced
+            Button("Delete", role: .destructive) { log = "Deleted" }  // red, announced
 
             HStack {
                 Button("Bordered") { log = "Bordered" }.buttonStyle(.bordered)

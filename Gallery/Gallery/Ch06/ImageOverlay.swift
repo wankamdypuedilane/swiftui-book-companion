@@ -23,8 +23,10 @@ struct PhotoCard: View {
                 .foregroundStyle(.white)
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(.linearGradient(colors: [.clear, .black.opacity(0.7)],
-                                            startPoint: .top, endPoint: .bottom))
+                .background(
+                    .linearGradient(
+                        colors: [.clear, .black.opacity(0.7)],
+                        startPoint: .top, endPoint: .bottom))
             }
             .clipShape(.rect(cornerRadius: 20))
             .accessibilityElement(children: .combine)
@@ -36,10 +38,12 @@ struct ImageOverlayView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
-                PhotoCard(image: .greenhouse, title: "The glasshouse",
-                          subtitle: "Open Saturday 10–16")
-                PhotoCard(image: .leaves, title: "Leaf week",
-                          subtitle: "Swap your cuttings")
+                PhotoCard(
+                    image: .greenhouse, title: "The glasshouse",
+                    subtitle: "Open Saturday 10–16")
+                PhotoCard(
+                    image: .leaves, title: "Leaf week",
+                    subtitle: "Swap your cuttings")
             }
             .padding()
         }

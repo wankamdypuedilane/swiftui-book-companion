@@ -10,12 +10,13 @@ final class GalleryUITests: XCTestCase {
             app.launchArguments = ["-openExample", String(index)]
             app.launch()
             if app.staticTexts["No more examples"].waitForExistence(timeout: 2) { break }
-            XCTAssertTrue(app.navigationBars.firstMatch.waitForExistence(timeout: 10),
-                          "Example \(index) did not open")
+            XCTAssertTrue(
+                app.navigationBars.firstMatch.waitForExistence(timeout: 10),
+                "Example \(index) did not open")
             XCTAssertEqual(app.state, .runningForeground, "Example \(index) crashed")
             let screenshot = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
             screenshot.name = "gallery-\(index)"
-            screenshot.lifetime = .keepAlways          // exported by CI for the book's figures
+            screenshot.lifetime = .keepAlways  // exported by CI for the book's figures
             add(screenshot)
             index += 1
         }

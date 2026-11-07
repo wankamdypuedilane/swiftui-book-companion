@@ -1,14 +1,14 @@
 // Stored, computed, lazy and static properties; property observers.
 struct WaterTank {
-    static let maximum = 5_000                       // shared by all tanks
+    static let maximum = 5_000  // shared by all tanks
     var level = 2_000 {
         willSet { if newValue < 500 { print("warning: level will drop to \(newValue) ml") } }
         didSet {
-            if level > Self.maximum { level = Self.maximum }   // clamp
+            if level > Self.maximum { level = Self.maximum }  // clamp
             print("level changed from \(oldValue) to \(level) ml")
         }
     }
-    var percent: Double {                            // computed, read-write
+    var percent: Double {  // computed, read-write
         get { Double(level) / Double(Self.maximum) * 100 }
         set { level = Int(newValue / 100 * Double(Self.maximum)) }
     }

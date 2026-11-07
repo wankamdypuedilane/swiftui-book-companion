@@ -16,8 +16,10 @@ struct PlacesMapView: View {
         NavigationStack {
             Group {
                 if usesClustering {
-                    ClusteredMapView(places: model.visiblePlaces, selection: $model.selectedPlaceID)
-                        .ignoresSafeArea(edges: .bottom)
+                    ClusteredMapView(
+                        places: model.visiblePlaces, selection: $model.selectedPlaceID
+                    )
+                    .ignoresSafeArea(edges: .bottom)
                 } else {
                     map
                 }
@@ -25,8 +27,11 @@ struct PlacesMapView: View {
             .navigationTitle("Places")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar { toolbar }
-            .sheet(item: Binding(get: { model.selectedPlace },
-                                 set: { model.selectedPlaceID = $0?.id })) { place in
+            .sheet(
+                item: Binding(
+                    get: { model.selectedPlace },
+                    set: { model.selectedPlaceID = $0?.id })
+            ) { place in
                 PlaceDetailSheet(place: place, userLocation: location.location)
                     .presentationDetents([.fraction(0.3), .medium])
             }
@@ -47,10 +52,12 @@ struct PlacesMapView: View {
         @Bindable var model = model
         return Map(position: $position, selection: $model.selectedPlaceID) {
             ForEach(model.visiblePlaces) { place in
-                Marker(place.name, systemImage: place.kind.symbolName,
-                       coordinate: place.coordinate)
-                    .tint(place.kind.color)
-                    .tag(place.id)
+                Marker(
+                    place.name, systemImage: place.kind.symbolName,
+                    coordinate: place.coordinate
+                )
+                .tint(place.kind.color)
+                .tag(place.id)
             }
             UserAnnotation()
         }
@@ -59,7 +66,7 @@ struct PlacesMapView: View {
             MapCompass()
             MapScaleView()
         }
-        .mapStyle(.standard(pointsOfInterest: .excludingAll))   // only our places
+        .mapStyle(.standard(pointsOfInterest: .excludingAll))  // only our places
     }
 
     @ToolbarContentBuilder
@@ -68,11 +75,17 @@ struct PlacesMapView: View {
         ToolbarItem(placement: .topBarLeading) {
             Menu("Show", systemImage: "line.3.horizontal.decrease.circle") {
                 ForEach(Place.Kind.allCases, id: \.self) { kind in
-                    Toggle(kind.title, systemImage: kind.symbolName, isOn: Binding(
-                        get: { model.visibleKinds.contains(kind) },
-                        set: { isOn in
-                            if isOn { model.visibleKinds.insert(kind) } else { model.visibleKinds.remove(kind) }
-                        }))
+                    Toggle(
+                        kind.title, systemImage: kind.symbolName,
+                        isOn: Binding(
+                            get: { model.visibleKinds.contains(kind) },
+                            set: { isOn in
+                                if isOn {
+                                    model.visibleKinds.insert(kind)
+                                } else {
+                                    model.visibleKinds.remove(kind)
+                                }
+                            }))
                 }
                 Divider()
                 Toggle("Group nearby places (UIKit)", isOn: $usesClustering)
@@ -84,7 +97,8 @@ struct PlacesMapView: View {
                     await location.locateOnce()
                     if let coordinate = location.location?.coordinate {
                         withAnimation {
-                            position = .camera(MapCamera(centerCoordinate: coordinate, distance: 4_000))
+                            position = .camera(
+                                MapCamera(centerCoordinate: coordinate, distance: 4_000))
                         }
                     }
                 }

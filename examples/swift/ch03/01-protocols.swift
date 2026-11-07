@@ -22,7 +22,9 @@ struct Fertilizing: CareTask {
     let intervalDays = 30
     // Overrides the default: never fertilize during the winter rest.
     var winterRest = false
-    func isDue(daysSinceLastDone: Int) -> Bool { !winterRest && daysSinceLastDone >= intervalDays }
+    func isDue(daysSinceLastDone: Int) -> Bool {
+        !winterRest && daysSinceLastDone >= intervalDays
+    }
 }
 
 // `any CareTask` is a box that can hold any conforming value (an existential).

@@ -26,7 +26,7 @@ for input in ["7", "seven", "90"] {
     }
 }
 
-let maybe = try? parseInterval("12")       // Int? : nil if an error is thrown
+let maybe = try? parseInterval("12")  // Int? : nil if an error is thrown
 print(maybe as Any)
 
 func loadDefault() -> Int {

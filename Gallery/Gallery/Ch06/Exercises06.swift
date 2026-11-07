@@ -4,7 +4,7 @@ import SwiftUI
 /// Exercise 6.4: a light-requirement rating drawn with SF Symbols, supporting
 /// fractional values such as 2.5 by masking a filled row.
 struct SunRating: View {
-    let value: Double          // 0...maximum
+    let value: Double  // 0...maximum
     var maximum = 3
 
     var body: some View {

@@ -10,7 +10,7 @@ struct SeedlingTests {
     }()
 
     @Test func ageCountsCalendarDays() {
-        let sown = Date(timeIntervalSince1970: 1_767_225_600)   // 2026-01-01 00:00 UTC
+        let sown = Date(timeIntervalSince1970: 1_767_225_600)  // 2026-01-01 00:00 UTC
         let later = sown.addingTimeInterval(3 * 86_400 + 3_600)
         let seedling = Seedling(variety: "Basil", sownOn: sown, trayPosition: 0)
         #expect(seedling.ageInDays(on: later, calendar: calendar) == 3)

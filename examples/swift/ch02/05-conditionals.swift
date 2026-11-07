@@ -1,5 +1,5 @@
 // if, if expressions and switch.
-func advise(soilMoisture: Int, lux: Int) {          // moisture in percent, light in lux
+func advise(soilMoisture: Int, lux: Int) {  // moisture in percent, light in lux
     if soilMoisture < 20 {
         print("Water now")
     } else if soilMoisture < 40 {
@@ -12,11 +12,12 @@ func advise(soilMoisture: Int, lux: Int) {          // moisture in percent, ligh
     let advice = if soilMoisture < 30 { "dry" } else { "moist" }
     print("Soil is \(advice)")
 
-    let lightLevel = switch lux {
-    case ..<500: "low"
-    case 500..<2_500: "medium"
-    default: "bright"
-    }
+    let lightLevel =
+        switch lux {
+        case ..<500: "low"
+        case 500..<2_500: "medium"
+        default: "bright"
+        }
     print("Light level: \(lightLevel)")
 }
 

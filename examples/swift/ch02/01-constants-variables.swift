@@ -1,10 +1,10 @@
 // Constants, variables and type inference.
-let gardenName = "Rooftop Garden"     // a constant: it can never change
-var plantCount = 12                   // a variable: it can change
+let gardenName = "Rooftop Garden"  // a constant: it can never change
+var plantCount = 12  // a variable: it can change
 plantCount += 3
 
-let averageHeight: Double = 41.5      // explicit type annotation
-let isOpenToday = true                // inferred as Bool
+let averageHeight: Double = 41.5  // explicit type annotation
+let isOpenToday = true  // inferred as Bool
 
 print("\(gardenName) has \(plantCount) plants.")
 print("Average height: \(averageHeight) cm, open today: \(isOpenToday)")

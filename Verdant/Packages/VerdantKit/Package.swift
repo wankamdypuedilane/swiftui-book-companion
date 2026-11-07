@@ -8,7 +8,7 @@ let package = Package(
     name: "VerdantKit",
     platforms: [.iOS(.v18), .macOS(.v15)],
     products: [
-        .library(name: "VerdantKit", targets: ["VerdantKit"]),
+        .library(name: "VerdantKit", targets: ["VerdantKit"])
     ],
     targets: [
         .target(name: "VerdantKit"),

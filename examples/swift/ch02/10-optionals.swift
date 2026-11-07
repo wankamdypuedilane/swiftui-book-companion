@@ -2,12 +2,12 @@
 let nicknames: [String: String] = ["monstera": "Monty", "pothos": "Goldie"]
 
 let a: String? = nicknames["monstera"]
-let b = nicknames["ficus"]          // String? that is nil
+let b = nicknames["ficus"]  // String? that is nil
 print(a as Any, b as Any)
 
-if let a { print("Found \(a)") }                        // shorthand binding (Swift 5.7)
+if let a { print("Found \(a)") }  // shorthand binding (Swift 5.7)
 if let name = nicknames["pothos"], name.count > 3 { print("\(name) is a long name") }
-print(b ?? "no nickname")                               // nil-coalescing
+print(b ?? "no nickname")  // nil-coalescing
 
 struct Pot { var diameterCm: Int? }
 struct Plant { var name: String; var pot: Pot? }
@@ -22,6 +22,6 @@ func label(forDays text: String) -> String {
     guard let days = Int(text), days > 0 else {
         return "invalid interval"
     }
-    return "every \(days) days"           // days is available after the guard
+    return "every \(days) days"  // days is available after the guard
 }
 print(label(forDays: "7"), "|", label(forDays: "seven"), "|", label(forDays: "0"))

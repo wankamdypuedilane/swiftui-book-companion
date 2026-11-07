@@ -39,17 +39,23 @@ struct PlantEditorView: View {
                     Picker("Light", selection: $model.draft.light) {
                         ForEach(LightLevel.allCases) { Text($0.title).tag($0) }
                     }
-                    Stepper(value: $model.draft.wateringIntervalDays, in: PlantDraft.intervalRange) {
-                        LabeledContent("Water every", value: "\(model.draft.wateringIntervalDays) days")
+                    Stepper(
+                        value: $model.draft.wateringIntervalDays, in: PlantDraft.intervalRange
+                    ) {
+                        LabeledContent(
+                            "Water every", value: "\(model.draft.wateringIntervalDays) days")
                     }
-                    DatePicker("At home since", selection: $model.draft.acquiredOn,
-                               in: ...Date.now, displayedComponents: .date)
+                    DatePicker(
+                        "At home since", selection: $model.draft.acquiredOn,
+                        in: ...Date.now, displayedComponents: .date)
                 }
 
                 Section("Notes") {
-                    TextField("Anything worth remembering", text: $model.draft.notes, axis: .vertical)
-                        .lineLimit(3...8)
-                        .focused($focusedField, equals: .notes)
+                    TextField(
+                        "Anything worth remembering", text: $model.draft.notes, axis: .vertical
+                    )
+                    .lineLimit(3...8)
+                    .focused($focusedField, equals: .notes)
                 }
 
                 if !model.visibleIssues.isEmpty {
@@ -66,7 +72,7 @@ struct PlantEditorView: View {
             .navigationTitle(model.title)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar { toolbar }
-            .interactiveDismissDisabled(model.hasChanges)       // no accidental swipe-away
+            .interactiveDismissDisabled(model.hasChanges)  // no accidental swipe-away
             .confirmationDialog("Discard your changes?", isPresented: $isConfirmingDiscard) {
                 Button("Discard changes", role: .destructive) { dismiss() }
             }

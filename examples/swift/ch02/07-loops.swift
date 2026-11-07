@@ -6,7 +6,7 @@ for (index, plant) in plants.enumerated() { print(index + 1, plant) }
 for day in stride(from: 0, to: 15, by: 7) { print("Water on day \(day)") }
 for _ in 1...2 { print("Rotate the pot") }
 
-var water = 1_000            // millilitres in the can
+var water = 1_000  // millilitres in the can
 var round = 0
 while water >= 250 {
     water -= 250

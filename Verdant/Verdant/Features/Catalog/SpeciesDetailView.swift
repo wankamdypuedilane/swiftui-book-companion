@@ -17,14 +17,19 @@ struct SpeciesDetailView: View {
                 .padding(.vertical, 4)
             }
             Section("Care") {
-                LabeledContent("Light") { Label(species.light.title, systemImage: species.light.symbolName) }
+                LabeledContent("Light") {
+                    Label(species.light.title, systemImage: species.light.symbolName)
+                }
                 LabeledContent("Water every", value: "\(species.wateringDays) days")
                 LabeledContent("Difficulty", value: species.difficulty.title)
                 LabeledContent("Family", value: species.family)
                 LabeledContent("Safe for pets") {
-                    Label(species.petSafe ? "Yes" : "No",
-                          systemImage: species.petSafe ? "checkmark.circle" : "exclamationmark.triangle")
-                        .foregroundStyle(species.petSafe ? .green : .orange)
+                    Label(
+                        species.petSafe ? "Yes" : "No",
+                        systemImage: species.petSafe
+                            ? "checkmark.circle" : "exclamationmark.triangle"
+                    )
+                    .foregroundStyle(species.petSafe ? .green : .orange)
                 }
             }
             Section {

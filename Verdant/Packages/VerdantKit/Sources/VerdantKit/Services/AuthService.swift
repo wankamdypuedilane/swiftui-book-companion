@@ -12,27 +12,34 @@ public struct AuthService: Sendable {
     private struct TokenResponse: Decodable, Sendable {
         let accessToken: String
         let refreshToken: String
-        let expiresIn: Int                    // seconds
+        let expiresIn: Int  // seconds
         let email: String
     }
 
-    public func signIn(email: String, password: String,
-                       now: Date = .now) async throws(APIError) -> AuthSession {
+    public func signIn(
+        email: String, password: String,
+        now: Date = .now
+    ) async throws(APIError) -> AuthSession {
         let body = try Self.encode(Credentials(email: email, password: password))
-        let response = try await client.send(Endpoint<TokenResponse>(.post, "auth/token", body: body))
+        let response = try await client.send(
+            Endpoint<TokenResponse>(.post, "auth/token", body: body))
         return Self.session(from: response, now: now)
     }
 
-    public func refresh(refreshToken: String, now: Date = .now) async throws(APIError) -> AuthSession {
+    public func refresh(
+        refreshToken: String, now: Date = .now
+    ) async throws(APIError) -> AuthSession {
         let body = try Self.encode(RefreshRequest(refreshToken: refreshToken))
-        let response = try await client.send(Endpoint<TokenResponse>(.post, "auth/refresh", body: body))
+        let response = try await client.send(
+            Endpoint<TokenResponse>(.post, "auth/refresh", body: body))
         return Self.session(from: response, now: now)
     }
 
     private static func session(from response: TokenResponse, now: Date) -> AuthSession {
-        AuthSession(email: response.email, accessToken: response.accessToken,
-                    refreshToken: response.refreshToken,
-                    expiresAt: now.addingTimeInterval(TimeInterval(response.expiresIn)))
+        AuthSession(
+            email: response.email, accessToken: response.accessToken,
+            refreshToken: response.refreshToken,
+            expiresAt: now.addingTimeInterval(TimeInterval(response.expiresIn)))
     }
 
     private static func encode(_ value: some Encodable) throws(APIError) -> Data {

@@ -10,8 +10,10 @@ public final class TodayModel {
     private let schedule: WateringSchedule
     private let now: () -> Date
 
-    public init(garden: Garden, schedule: WateringSchedule = WateringSchedule(),
-                now: @escaping () -> Date = { .now }) {
+    public init(
+        garden: Garden, schedule: WateringSchedule = WateringSchedule(),
+        now: @escaping () -> Date = { .now }
+    ) {
         self.garden = garden
         self.schedule = schedule
         self.now = now

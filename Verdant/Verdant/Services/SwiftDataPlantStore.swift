@@ -68,14 +68,16 @@ actor SwiftDataPlantStore: PlantStore {
         let byID = Dictionary(uniqueKeysWithValues: existing.map { ($0.id, $0) })
         let keep = Set(plants.map(\.id))
         for record in existing where !keep.contains(record.id) {
-            modelContext.delete(record)                      // cascades to its events
+            modelContext.delete(record)  // cascades to its events
         }
         for plant in plants {
-            let record = byID[plant.id] ?? {
-                let new = PlantRecord(plant)
-                modelContext.insert(new)
-                return new
-            }()
+            let record =
+                byID[plant.id]
+                ?? {
+                    let new = PlantRecord(plant)
+                    modelContext.insert(new)
+                    return new
+                }()
             Self.copy(plant, into: record)
         }
         try modelContext.save()
@@ -100,16 +102,20 @@ actor SwiftDataPlantStore: PlantStore {
     }
 
     private static func plant(from record: PlantRecord) -> Plant {
-        Plant(id: record.id, nickname: record.nickname, speciesID: record.speciesID,
-              speciesName: record.speciesName,
-              room: Room(rawValue: record.roomRawValue) ?? .livingRoom,
-              light: LightLevel(rawValue: record.lightRawValue) ?? .medium,
-              wateringIntervalDays: record.wateringIntervalDays, acquiredOn: record.acquiredOn,
-              careLog: record.careEvents
-                  .map { CareEvent(id: $0.id, kind: CareEvent.Kind(rawValue: $0.kindRawValue) ?? .watered,
-                                   date: $0.date, note: $0.note) }
-                  .sorted { $0.date > $1.date },
-              notes: record.notes, isFavorite: record.isFavorite)
+        Plant(
+            id: record.id, nickname: record.nickname, speciesID: record.speciesID,
+            speciesName: record.speciesName,
+            room: Room(rawValue: record.roomRawValue) ?? .livingRoom,
+            light: LightLevel(rawValue: record.lightRawValue) ?? .medium,
+            wateringIntervalDays: record.wateringIntervalDays, acquiredOn: record.acquiredOn,
+            careLog: record.careEvents
+                .map {
+                    CareEvent(
+                        id: $0.id, kind: CareEvent.Kind(rawValue: $0.kindRawValue) ?? .watered,
+                        date: $0.date, note: $0.note)
+                }
+                .sorted { $0.date > $1.date },
+            notes: record.notes, isFavorite: record.isFavorite)
     }
 }
 // </store>

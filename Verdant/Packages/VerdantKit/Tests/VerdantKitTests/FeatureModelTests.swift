@@ -16,7 +16,9 @@ struct FeatureModelTests {
         var cactus = makePlant("Prickles", interval: 14)
         cactus.speciesName = "Easter lily cactus"
         let garden = await loadedGarden([cactus, makePlant("Fern", interval: 3)])
-        let model = GardenListModel(garden: garden, schedule: .init(calendar: utc)) { reference }
+        let model = GardenListModel(garden: garden, schedule: .init(calendar: utc)) {
+            reference
+        }
         model.searchText = "LILY"
         #expect(model.visiblePlants.map(\.nickname) == ["Prickles"])
         model.searchText = "fer"
@@ -24,10 +26,14 @@ struct FeatureModelTests {
     }
 
     @Test func sectionsFollowTheRoomOrder() async {
-        let garden = await loadedGarden([makePlant("Basil", interval: 2, room: .kitchen),
-                                         makePlant("Monty", interval: 7, room: .livingRoom),
-                                         makePlant("Thyme", interval: 3, room: .kitchen)])
-        let model = GardenListModel(garden: garden, schedule: .init(calendar: utc)) { reference }
+        let garden = await loadedGarden([
+            makePlant("Basil", interval: 2, room: .kitchen),
+            makePlant("Monty", interval: 7, room: .livingRoom),
+            makePlant("Thyme", interval: 3, room: .kitchen),
+        ])
+        let model = GardenListModel(garden: garden, schedule: .init(calendar: utc)) {
+            reference
+        }
         model.sortOrder = .name
         #expect(model.sections.map(\.room) == [.livingRoom, .kitchen])
         #expect(model.sections[1].plants.map(\.nickname) == ["Basil", "Thyme"])
@@ -36,7 +42,7 @@ struct FeatureModelTests {
     @Test func editorRefusesToSaveAnInvalidDraft() async {
         let garden = await loadedGarden([])
         let editor = PlantEditorModel(garden: garden) { reference }
-        #expect(editor.visibleIssues.isEmpty)                 // nothing shown before saving
+        #expect(editor.visibleIssues.isEmpty)  // nothing shown before saving
         #expect(await editor.save() == nil)
         #expect(editor.visibleIssues.contains(.nicknameTooShort))
         #expect(editor.visibleIssues.contains(.speciesMissing))
@@ -58,9 +64,11 @@ struct FeatureModelTests {
     }
 
     @Test func summaryCountsInOnePass() {
-        let plants = [makePlant("A", interval: 2, lastWatered: -3, room: .kitchen, favorite: true),
-                      makePlant("B", interval: 7, lastWatered: -1, room: .kitchen),
-                      makePlant("C", interval: 7, lastWatered: -10, room: .office)]
+        let plants = [
+            makePlant("A", interval: 2, lastWatered: -3, room: .kitchen, favorite: true),
+            makePlant("B", interval: 7, lastWatered: -1, room: .kitchen),
+            makePlant("C", interval: 7, lastWatered: -10, room: .office),
+        ]
         let summary = CareSummary(plants: plants, schedule: .init(calendar: utc), on: reference)
         #expect(summary.plantCount == 3)
         #expect(summary.thirstyCount == 2)
@@ -71,11 +79,13 @@ struct FeatureModelTests {
 
     @Test func remindersAreNeverInThePast() {
         let planner = ReminderPlanner(schedule: .init(calendar: utc), hour: 9)
-        let plants = [makePlant("Due later", interval: 7, lastWatered: -2),
-                      makePlant("Overdue", interval: 2, lastWatered: -5)]
-        let requests = planner.requests(for: plants, now: reference)       // 08:00 UTC
+        let plants = [
+            makePlant("Due later", interval: 7, lastWatered: -2),
+            makePlant("Overdue", interval: 2, lastWatered: -5),
+        ]
+        let requests = planner.requests(for: plants, now: reference)  // 08:00 UTC
         #expect(requests.map(\.title) == ["Time to water Overdue", "Time to water Due later"])
-        #expect(requests[0].fireDate == reference.addingTimeInterval(3_600))   // 09:00 today
+        #expect(requests[0].fireDate == reference.addingTimeInterval(3_600))  // 09:00 today
         #expect(requests.allSatisfy { $0.fireDate > reference })
     }
 }

@@ -10,7 +10,9 @@ let plants = [
 let thirsty = plants.filter { $0.daysSinceWatering >= $0.intervalDays }
 print(thirsty.map(\.name))
 
-let byUrgency = plants.sorted { ($0.intervalDays - $0.daysSinceWatering) < ($1.intervalDays - $1.daysSinceWatering) }
+let byUrgency = plants.sorted {
+    ($0.intervalDays - $0.daysSinceWatering) < ($1.intervalDays - $1.daysSinceWatering)
+}
 print(byUrgency.map(\.name))
 
 let totalDays = plants.reduce(0) { partial, plant in partial + plant.intervalDays }
@@ -22,7 +24,9 @@ print(inputs.compactMap { Int($0) })
 // A closure can capture and keep state.
 func makeCounter() -> () -> Int {
     var count = 0
-    return { count += 1; return count }
+    return {
+        count += 1; return count
+    }
 }
 let next = makeCounter()
 print(next(), next(), next())

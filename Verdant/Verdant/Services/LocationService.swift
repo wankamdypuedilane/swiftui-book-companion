@@ -17,8 +17,8 @@ final class LocationService {
     /// Finds the user's position once, then stops.
     func locateOnce() async {
         status = .locating
-        session = CLServiceSession(authorization: .whenInUse)    // may show the system prompt
-        defer { session = nil }                                   // release the session
+        session = CLServiceSession(authorization: .whenInUse)  // may show the system prompt
+        defer { session = nil }  // release the session
         do {
             for try await update in CLLocationUpdate.liveUpdates() {
                 if update.authorizationDenied || update.authorizationDeniedGlobally {
@@ -28,7 +28,7 @@ final class LocationService {
                 if let location = update.location, location.horizontalAccuracy < 500 {
                     self.location = location
                     status = .located
-                    return                                        // leaving the loop stops updates
+                    return  // leaving the loop stops updates
                 }
             }
         } catch {

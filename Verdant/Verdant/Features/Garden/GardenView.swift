@@ -68,11 +68,16 @@ private struct GardenList: View {
                             }
                         }
                         .contextMenu {
-                            Button(plant.isFavorite ? "Remove from favourites" : "Add to favourites",
-                                   systemImage: plant.isFavorite ? "star.slash" : "star") {
+                            Button(
+                                plant.isFavorite
+                                    ? "Remove from favourites" : "Add to favourites",
+                                systemImage: plant.isFavorite ? "star.slash" : "star"
+                            ) {
                                 Task { await model.toggleFavorite(plant) }
                             }
-                            Button("Water", systemImage: "drop") { Task { await model.water(plant) } }
+                            Button("Water", systemImage: "drop") {
+                                Task { await model.water(plant) }
+                            }
                         }
                     }
                 } header: {
@@ -101,8 +106,9 @@ private struct GardenList: View {
             }
         } else if model.hasNoResults {
             if model.searchText.isEmpty {
-                ContentUnavailableView("No matching plants", systemImage: "line.3.horizontal.decrease",
-                                       description: Text("Try another room or show all plants."))
+                ContentUnavailableView(
+                    "No matching plants", systemImage: "line.3.horizontal.decrease",
+                    description: Text("Try another room or show all plants."))
             } else {
                 ContentUnavailableView.search(text: model.searchText)
             }

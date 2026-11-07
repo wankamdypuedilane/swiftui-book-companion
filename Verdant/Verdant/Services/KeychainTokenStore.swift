@@ -19,7 +19,8 @@ struct KeychainTokenStore: TokenStore {
         ]
         var result: AnyObject?
         guard SecItemCopyMatching(query as CFDictionary, &result) == errSecSuccess,
-              let data = result as? Data else { return nil }
+            let data = result as? Data
+        else { return nil }
         return try? APIClient.makeDecoder().decode(AuthSession.self, from: data)
     }
 
@@ -29,12 +30,15 @@ struct KeychainTokenStore: TokenStore {
             kSecAttrService as String: service,
             kSecAttrAccount as String: account,
         ]
-        SecItemDelete(identity as CFDictionary)              // replace any previous value
-        guard let session, let data = try? APIClient.makeEncoder().encode(session) else { return }
+        SecItemDelete(identity as CFDictionary)  // replace any previous value
+        guard let session, let data = try? APIClient.makeEncoder().encode(session) else {
+            return
+        }
         var attributes = identity
         attributes[kSecValueData as String] = data
         // Readable after the first unlock, never synced or restored to another device.
-        attributes[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+        attributes[kSecAttrAccessible as String] =
+            kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
         let status = SecItemAdd(attributes as CFDictionary, nil)
         if status != errSecSuccess {
             Log.data.error("Keychain write failed: \(status)")

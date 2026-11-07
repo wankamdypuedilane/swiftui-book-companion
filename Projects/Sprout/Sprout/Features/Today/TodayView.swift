@@ -33,7 +33,7 @@ struct TodayView: View {
             .navigationTitle("Sprout")
             .onAppear { Log.data.debug("Showing \(seedlings.count) seedlings") }
         }
-        .tint(Color(.leafGreen))            // symbol generated from the asset catalog
+        .tint(Color(.leafGreen))  // symbol generated from the asset catalog
     }
 }
 // </view>
@@ -41,6 +41,7 @@ struct TodayView: View {
 #Preview {
     // A literal URL cannot fail to parse, so force unwrapping is acceptable here.
     let url = URL(string: "http://localhost:8080")!
-    TodayView(seedlings: Seedling.samples,
-              configuration: AppConfiguration(apiBaseURL: url, environmentName: "Preview"))
+    TodayView(
+        seedlings: Seedling.samples,
+        configuration: AppConfiguration(apiBaseURL: url, environmentName: "Preview"))
 }

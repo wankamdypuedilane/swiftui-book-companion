@@ -7,7 +7,7 @@ struct EditableListView: View {
 
     var body: some View {
         NavigationStack {
-            List($specimens) { $specimen in                       // a binding per element
+            List($specimens) { $specimen in  // a binding per element
                 NavigationLink {
                     SpecimenEditor(specimen: $specimen)
                 } label: {
@@ -29,7 +29,7 @@ struct SpecimenEditor: View {
 
     var body: some View {
         Form {
-            TextField("Name", text: $specimen.name)              // binding to a property
+            TextField("Name", text: $specimen.name)  // binding to a property
             TextField("Room", text: $specimen.room)
             TextField("Notes", text: $specimen.notes, axis: .vertical)
                 .lineLimit(3...6)

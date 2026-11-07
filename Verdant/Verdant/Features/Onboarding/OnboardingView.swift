@@ -15,7 +15,7 @@ struct OnboardingView: View {
             HStack {
                 Spacer()
                 Button("Skip", action: onFinish)
-                    .opacity(isLastPage ? 0 : 1)                 // keeps the layout stable
+                    .opacity(isLastPage ? 0 : 1)  // keeps the layout stable
                     .disabled(isLastPage)
                     .accessibilityHidden(isLastPage)
             }
@@ -26,11 +26,13 @@ struct OnboardingView: View {
                     OnboardingPageView(page: page).tag(page.id)
                 }
             }
-            .tabViewStyle(.page(indexDisplayMode: .never))      // we draw our own indicator
+            .tabViewStyle(.page(indexDisplayMode: .never))  // we draw our own indicator
 
-            PageIndicator(count: pages.count, selection: $selection,
-                          tint: pages[selection].tint)
-                .padding(.bottom, 24)
+            PageIndicator(
+                count: pages.count, selection: $selection,
+                tint: pages[selection].tint
+            )
+            .padding(.bottom, 24)
 
             Button {
                 if isLastPage {

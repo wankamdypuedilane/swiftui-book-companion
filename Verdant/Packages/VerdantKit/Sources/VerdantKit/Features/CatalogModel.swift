@@ -35,7 +35,7 @@ public final class CatalogModel {
         phase = .loading
         do {
             let result = try await repository.page(1, query: request.0, light: request.1)
-            guard !Task.isCancelled else { return }       // a newer search replaced this one
+            guard !Task.isCancelled else { return }  // a newer search replaced this one
             species = result.page.items
             canLoadMore = result.page.hasMore
             isShowingCachedData = result.isFromCache
@@ -51,7 +51,8 @@ public final class CatalogModel {
     /// Called when a row appears: loads the next page when the last row is shown.
     public func loadMoreIfNeeded(after item: Species) async {
         guard item.id == species.last?.id, canLoadMore, !isLoadingMore,
-              phase == .loaded, let (query, light) = loadedQuery else { return }
+            phase == .loaded, let (query, light) = loadedQuery
+        else { return }
         isLoadingMore = true
         defer { isLoadingMore = false }
         do {
@@ -62,7 +63,7 @@ public final class CatalogModel {
             isShowingCachedData = isShowingCachedData || result.isFromCache
             nextPage += 1
         } catch {
-            canLoadMore = false                // stop asking; pull to refresh retries
+            canLoadMore = false  // stop asking; pull to refresh retries
         }
     }
 }

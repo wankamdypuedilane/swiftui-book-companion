@@ -3,7 +3,7 @@ import Foundation
 // <species>
 /// A plant species from the Verdant catalogue (served by the API).
 public struct Species: Identifiable, Codable, Hashable, Sendable {
-    public let id: String                 // a stable slug, e.g. "monstera-deliciosa"
+    public let id: String  // a stable slug, e.g. "monstera-deliciosa"
     public var commonName: String
     public var scientificName: String
     public var family: String
@@ -14,9 +14,11 @@ public struct Species: Identifiable, Codable, Hashable, Sendable {
     public var summary: String
     public var symbolName: String
 
-    public init(id: String, commonName: String, scientificName: String, family: String,
-                light: LightLevel, wateringDays: Int, difficulty: Difficulty,
-                petSafe: Bool, summary: String, symbolName: String = "leaf") {
+    public init(
+        id: String, commonName: String, scientificName: String, family: String,
+        light: LightLevel, wateringDays: Int, difficulty: Difficulty,
+        petSafe: Bool, summary: String, symbolName: String = "leaf"
+    ) {
         self.id = id
         self.commonName = commonName
         self.scientificName = scientificName

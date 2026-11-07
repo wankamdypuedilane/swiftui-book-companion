@@ -8,7 +8,7 @@ struct MainTabView: View {
     @Environment(Garden.self) private var garden
 
     var body: some View {
-        @Bindable var router = router                  // bindings to an observable object
+        @Bindable var router = router  // bindings to an observable object
         TabView(selection: $router.selectedTab) {
             Tab("Today", systemImage: "sun.max", value: Router.TabID.today) {
                 TodayView()
@@ -31,7 +31,7 @@ struct MainTabView: View {
                 SettingsView()
             }
         }
-        .tabViewStyle(.sidebarAdaptable)                  // a sidebar on iPad, tabs on iPhone
+        .tabViewStyle(.sidebarAdaptable)  // a sidebar on iPad, tabs on iPhone
     }
 
     private var thirstyCount: Int {

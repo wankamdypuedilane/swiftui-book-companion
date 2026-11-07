@@ -13,15 +13,15 @@ class Sensor {
 final class MoistureSensor: Sensor {
     let threshold: Double
     init(id: String, threshold: Double) {
-        self.threshold = threshold        // phase 1: initialize own properties
-        super.init(id: id)                // then the superclass
+        self.threshold = threshold  // phase 1: initialize own properties
+        super.init(id: id)  // then the superclass
     }
     var isDry: Bool { (readings.last ?? 100) < threshold }
     override func describe() -> String { super.describe() + (isDry ? " (dry)" : " (ok)") }
 }
 
 let kitchen = MoistureSensor(id: "K1", threshold: 30)
-let alias = kitchen                       // same object, not a copy
+let alias = kitchen  // same object, not a copy
 alias.record(42)
 alias.record(18)
 print(kitchen.describe())
@@ -34,5 +34,5 @@ sensors.forEach { print($0.describe()) }
 do {
     let temporary = Sensor(id: "TMP")
     temporary.record(1)
-}                                         // last reference gone: deinit runs here
+}  // last reference gone: deinit runs here
 print("end of program")

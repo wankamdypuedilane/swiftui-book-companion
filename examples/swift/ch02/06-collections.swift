@@ -14,7 +14,7 @@ print(empty.first ?? "nothing", shoppingList.indices.contains(5))
 // Dictionaries map keys to values. Lookups return optionals.
 var wateringDays: [String: Int] = ["Fern": 3, "Cactus": 21]
 wateringDays["Pothos"] = 7
-wateringDays["Cactus"] = nil          // removes the key
+wateringDays["Cactus"] = nil  // removes the key
 print(wateringDays["Fern"] ?? 0, wateringDays["Cactus"] as Any)
 for (plant, days) in wateringDays.sorted(by: { $0.key < $1.key }) {
     print("  \(plant): every \(days) days")

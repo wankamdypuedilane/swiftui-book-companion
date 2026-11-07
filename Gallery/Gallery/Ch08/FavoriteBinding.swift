@@ -7,7 +7,7 @@ struct FavoriteButton: View {
 
     var body: some View {
         Button {
-            isFavorite.toggle()              // writes through the binding to the owner
+            isFavorite.toggle()  // writes through the binding to the owner
         } label: {
             Image(systemName: isFavorite ? "heart.fill" : "heart")
                 .foregroundStyle(isFavorite ? .red : .secondary)

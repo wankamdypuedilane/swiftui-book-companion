@@ -10,8 +10,9 @@ struct SwiftDataPlantStoreTests {
     /// A container that lives in memory only: every test starts from an empty database.
     func makeStore() throws -> SwiftDataPlantStore {
         let configuration = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: PlantRecord.self, CareEventRecord.self,
-                                           configurations: configuration)
+        let container = try ModelContainer(
+            for: PlantRecord.self, CareEventRecord.self,
+            configurations: configuration)
         return SwiftDataPlantStore(modelContainer: container)
     }
 
@@ -23,7 +24,7 @@ struct SwiftDataPlantStoreTests {
         #expect(loaded.count == plants.count)
         let monty = try #require(loaded.first { $0.nickname == "Monty" })
         let original = try #require(plants.first { $0.nickname == "Monty" })
-        #expect(monty == original)                     // including the sorted care log
+        #expect(monty == original)  // including the sorted care log
     }
 
     @Test func savingAGardenDeletesRemovedPlants() async throws {

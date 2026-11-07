@@ -14,9 +14,10 @@ struct RemoteImageView: View {
             case .success(let image):
                 image.resizable().scaledToFill()
             case .failure:
-                ContentUnavailableView("No photo",
-                                       systemImage: "photo.badge.exclamationmark",
-                                       description: Text("The image could not be loaded."))
+                ContentUnavailableView(
+                    "No photo",
+                    systemImage: "photo.badge.exclamationmark",
+                    description: Text("The image could not be loaded."))
             @unknown default:
                 EmptyView()
             }

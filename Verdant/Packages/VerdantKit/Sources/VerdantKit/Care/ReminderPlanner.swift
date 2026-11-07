@@ -19,7 +19,7 @@ public struct ReminderRequest: Hashable, Sendable {
 
 public struct ReminderPlanner: Sendable {
     public var schedule: WateringSchedule
-    public var hour: Int                     // local time at which reminders fire
+    public var hour: Int  // local time at which reminders fire
 
     public init(schedule: WateringSchedule = WateringSchedule(), hour: Int = 9) {
         self.schedule = schedule
@@ -31,7 +31,7 @@ public struct ReminderPlanner: Sendable {
     public func requests(for plants: [Plant], now: Date) -> [ReminderRequest] {
         plants.compactMap { plant -> ReminderRequest? in
             guard let dueSlot = slot(on: schedule.nextWatering(for: plant)),
-                  let fireDate = dueSlot > now ? dueSlot : nextSlot(after: now)
+                let fireDate = dueSlot > now ? dueSlot : nextSlot(after: now)
             else { return nil }
             return ReminderRequest(
                 identifier: "water-\(plant.id.uuidString)",
@@ -48,7 +48,8 @@ public struct ReminderPlanner: Sendable {
 
     private func nextSlot(after date: Date) -> Date? {
         guard let today = slot(on: date) else { return nil }
-        return today > date ? today : schedule.calendar.date(byAdding: .day, value: 1, to: today)
+        return today > date
+            ? today : schedule.calendar.date(byAdding: .day, value: 1, to: today)
     }
 }
 // </reminder>

@@ -35,10 +35,14 @@ public final class PlacesModel {
     }
 
     /// Places sorted by distance from a point, with the distance in metres.
-    public func nearest(to latitude: Double, _ longitude: Double,
-                        limit: Int = 3) -> [(place: Place, metres: Double)] {
+    public func nearest(
+        to latitude: Double, _ longitude: Double,
+        limit: Int = 3
+    ) -> [(place: Place, metres: Double)] {
         visiblePlaces
-            .map { ($0, Geo.distance(from: (latitude, longitude), to: ($0.latitude, $0.longitude))) }
+            .map {
+                ($0, Geo.distance(from: (latitude, longitude), to: ($0.latitude, $0.longitude)))
+            }
             .sorted { $0.1 < $1.1 }
             .prefix(limit)
             .map { (place: $0.0, metres: $0.1) }
@@ -51,7 +55,9 @@ public enum Geo {
         let earthRadius = 6_371_000.0
         let (lat1, lat2) = (a.0 * .pi / 180, b.0 * .pi / 180)
         let dLat = lat2 - lat1, dLon = (b.1 - a.1) * .pi / 180
-        let h = sin(dLat / 2) * sin(dLat / 2) + cos(lat1) * cos(lat2) * sin(dLon / 2) * sin(dLon / 2)
+        let h =
+            sin(dLat / 2) * sin(dLat / 2) + cos(lat1) * cos(lat2) * sin(dLon / 2)
+            * sin(dLon / 2)
         return 2 * earthRadius * asin(min(1, h.squareRoot()))
     }
 }

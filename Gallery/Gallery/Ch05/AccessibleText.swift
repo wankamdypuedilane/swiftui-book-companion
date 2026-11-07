@@ -12,7 +12,7 @@ struct AccessibleTextView: View {
                 Image(systemName: "drop.fill")
                     .font(.system(size: iconSize))
                     .foregroundStyle(.blue)
-                    .accessibilityHidden(true)      // decorative: VoiceOver skips it
+                    .accessibilityHidden(true)  // decorative: VoiceOver skips it
                 Text("Water every 7 days")
                     .font(.body)
             }
@@ -23,7 +23,7 @@ struct AccessibleTextView: View {
                 .font(.footnote)
                 .foregroundStyle(.secondary)
             Text("Never smaller than xSmall, never larger than xxxLarge")
-                .dynamicTypeSize(.xSmall ... .xxxLarge)   // limit only when necessary
+                .dynamicTypeSize(.xSmall ... .xxxLarge)  // limit only when necessary
         }
         .padding()
     }

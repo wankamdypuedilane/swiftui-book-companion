@@ -7,7 +7,7 @@ struct BasicNavigationView: View {
         NavigationStack {
             List(Specimen.samples) { specimen in
                 NavigationLink(specimen.name) {
-                    SpecimenDetail(specimen: specimen)       // built when the link is used
+                    SpecimenDetail(specimen: specimen)  // built when the link is used
                 }
             }
             .navigationTitle("My plants")

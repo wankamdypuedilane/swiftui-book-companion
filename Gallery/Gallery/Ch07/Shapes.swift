@@ -15,19 +15,22 @@ struct ShapesView: View {
                 .frame(height: 50)
 
                 HStack(spacing: 16) {
-                    Circle().stroke(.green, lineWidth: 8)           // centred on the edge
-                    Circle().strokeBorder(.green, lineWidth: 8)     // entirely inside
+                    Circle().stroke(.green, lineWidth: 8)  // centred on the edge
+                    Circle().strokeBorder(.green, lineWidth: 8)  // entirely inside
                     Circle().stroke(.green, style: StrokeStyle(lineWidth: 4, dash: [6, 4]))
                     RoundedRectangle(cornerRadius: 16)
                         .fill(.green.opacity(0.2))
-                        .stroke(.green, lineWidth: 2)           // fill, then stroke
+                        .stroke(.green, lineWidth: 2)  // fill, then stroke
                 }
                 .frame(height: 70)
 
                 RoundedRectangle(cornerRadius: 24)
-                    .fill(.linearGradient(colors: [.green, .yellow],
-                                          startPoint: .topLeading,
-                                          endPoint: .bottomTrailing))
+                    .fill(
+                        .linearGradient(
+                            colors: [.green, .yellow],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing)
+                    )
                     .frame(height: 100)
                     .overlay {
                         Text("Shapes fill the space they are offered").bold()

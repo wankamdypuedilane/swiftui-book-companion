@@ -24,7 +24,9 @@ struct CatalogView: View {
                     Menu("Light", systemImage: "sun.max") {
                         Picker("Light", selection: $model.lightFilter) {
                             Text("Any light").tag(LightLevel?.none)
-                            ForEach(LightLevel.allCases) { Text($0.title).tag(LightLevel?.some($0)) }
+                            ForEach(LightLevel.allCases) {
+                                Text($0.title).tag(LightLevel?.some($0))
+                            }
                         }
                     }
                 }
@@ -37,7 +39,7 @@ struct CatalogView: View {
                 // A change cancels the previous task, so typing quickly sends one request.
                 .task(id: SearchKey(query: model.query, light: model.lightFilter)) {
                     if model.phase != .idle {
-                        try? await Task.sleep(for: .milliseconds(300))   // debounce typing
+                        try? await Task.sleep(for: .milliseconds(300))  // debounce typing
                         guard !Task.isCancelled else { return }
                     }
                     await model.reload()
@@ -50,7 +52,8 @@ struct CatalogView: View {
     @ViewBuilder
     private var content: some View {
         switch model.phase {
-        case .idle, .loading where model.species.isEmpty:
+        case .idle,
+            .loading where model.species.isEmpty:
             ProgressView("Loading the catalogue…")
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         case .failed(let error) where model.species.isEmpty:
@@ -97,13 +100,16 @@ struct OfflineBanner: View {
     let isOffline: Bool
 
     var body: some View {
-        Label(isOffline ? "You are offline. Showing saved results."
-                        : "Showing saved results: the server could not be reached.",
-              systemImage: "icloud.slash")
-            .font(.footnote.weight(.medium))
-            .frame(maxWidth: .infinity)
-            .padding(8)
-            .background(.yellow.opacity(0.25))
+        Label(
+            isOffline
+                ? "You are offline. Showing saved results."
+                : "Showing saved results: the server could not be reached.",
+            systemImage: "icloud.slash"
+        )
+        .font(.footnote.weight(.medium))
+        .frame(maxWidth: .infinity)
+        .padding(8)
+        .background(.yellow.opacity(0.25))
     }
 }
 // </banner>
