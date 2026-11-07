@@ -19,7 +19,7 @@ jobs:
           apt-get update -qq && apt-get install -y -qq nodejs curl > /dev/null
           node --version
           (cd book-api && node server.js > /tmp/api.log 2>&1 &)
-          sleep 1 && curl -s http://localhost:8080/health
+          for i in $(seq 1 30); do curl -s http://localhost:8080/health && break; sleep 1; done
       - name: Run the examples and compare with the recorded output
         run: tools/run-swift-examples.sh --check
       - name: Test the Swift packages
@@ -47,7 +47,7 @@ jobs:
       - name: Start the demonstration API
         run: |
           (cd book-api && node server.js > "$RUNNER_TEMP/api.log" 2>&1 &)
-          sleep 1 && curl -s http://localhost:8080/health
+          for i in $(seq 1 30); do curl -s http://localhost:8080/health && break; sleep 1; done
       - name: Build and test the projects
         run: tools/ci-apple.sh
       - name: Upload screenshots
