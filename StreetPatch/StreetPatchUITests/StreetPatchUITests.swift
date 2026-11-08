@@ -48,12 +48,12 @@ final class StreetPatchUITests: XCTestCase {
     func testReportingAProblemThenWithdrawingIt() throws {
         let app = launch()
         signIn(app)
-        app.tabBars.buttons["Map"].tap()
-        // XCUITest reports this button, laid over the map, as not hittable (it computes
-        // no hit point for it), although it is on screen: tap the point at its centre.
+        // From the List tab: on the Map tab, XCUITest finds the map's own elements at the
+        // button's position once the map has loaded, and the tap does not reach it.
+        app.tabBars.buttons["List"].tap()
         let button = app.buttons["report.new"]
         XCTAssertTrue(button.waitForExistence(timeout: 10))
-        button.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+        button.tap()
 
         // Sending an empty form shows the problems instead of sending.
         app.buttons["composer.send"].tap()
