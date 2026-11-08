@@ -49,7 +49,9 @@ final class StreetPatchUITests: XCTestCase {
         let app = launch()
         signIn(app)
         app.tabBars.buttons["Map"].tap()
-        app.buttons["report.new"].tap()
+        let newReport = app.buttons["report.new"]
+        XCTAssertTrue(newReport.waitForExistence(timeout: 10))  // after the sheet closes
+        newReport.tap()
 
         // Sending an empty form shows the problems instead of sending.
         app.buttons["composer.send"].tap()
