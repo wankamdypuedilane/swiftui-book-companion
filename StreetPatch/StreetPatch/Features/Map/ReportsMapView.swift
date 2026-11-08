@@ -17,7 +17,8 @@ struct ReportsMapView: View {
     var body: some View {
         NavigationStack {
             Map(position: $position, selection: $selectedID) {
-                UserAnnotation()
+                // Showing the user's position asks for location access: not in UI tests.
+                if dependencies.usesLocation { UserAnnotation() }
                 ForEach(model.reports) { report in
                     Annotation(report.title, coordinate: report.coordinate.clCoordinate) {
                         CategoryIcon(category: report.category)
@@ -26,7 +27,7 @@ struct ReportsMapView: View {
                 }
             }
             .mapControls {
-                MapUserLocationButton()
+                if dependencies.usesLocation { MapUserLocationButton() }
                 MapCompass()
                 MapScaleView()
             }

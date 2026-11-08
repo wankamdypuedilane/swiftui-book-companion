@@ -138,6 +138,8 @@ struct ComposerView: View {
 /// A map with a pin. MapReader converts the tapped point to a coordinate.
 struct LocationPicker: View {
     @Binding var location: Coordinate?
+    @Environment(AppDependencies.self) private var dependencies
+    private var usesLocation: Bool { dependencies.usesLocation }
     @State private var position = MapCameraPosition.automatic
 
     var body: some View {
@@ -146,7 +148,7 @@ struct LocationPicker: View {
                 if let location {
                     Marker("Problem", systemImage: "mappin", coordinate: location.clCoordinate)
                 }
-                UserAnnotation()
+                if usesLocation { UserAnnotation() }
             }
             .onTapGesture { point in
                 if let coordinate = proxy.convert(point, from: .local) {
