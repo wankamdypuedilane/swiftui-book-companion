@@ -81,6 +81,16 @@ extension VerdantUITests {
         let sectionHeaders: Set = ["Needs water", "Reminders", "Account", "About"]
         for tab in ["Today", "Garden", "Settings"] {
             app.tabBars.buttons[tab].tap()
+            if tab == "Settings" {
+                // Fill the sign-in form so that its button is audited enabled, as people
+                // use it; a disabled button is dimmed and drawn by the system.
+                let email = app.textFields["E-mail"]
+                email.tap()
+                email.typeText("demo@verdant.example")
+                let password = app.secureTextFields["Password"]
+                password.tap()
+                password.typeText("x\n")  // return hides the keyboard
+            }
             try app.performAccessibilityAudit { issue in
                 // System styles whose text stops growing at large sizes by design: the
                 // navigation bar buttons (the Large Content Viewer shows their text on a
