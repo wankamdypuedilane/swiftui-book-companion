@@ -129,3 +129,31 @@ extension VerdantUITests {
     }
     // </deletion>
 }
+
+extension VerdantUITests {
+    /// Temporary diagnostic: which part of the Garden fails the contrast audit?
+    @MainActor
+    func testDiagnoseGardenContrast() throws {
+        let app = launch()
+        app.tabBars.buttons["Garden"].tap()
+        func failures(_ state: String) throws {
+            var count = 0
+            try app.performAccessibilityAudit(for: .contrast) { issue in
+                if issue.compactDescription.contains("failed") { count += 1 }
+                return true
+            }
+            print("DIAG \(state): \(count) contrast failures")
+        }
+        try failures("default")
+        let search = app.searchFields.firstMatch
+        if search.waitForExistence(timeout: 3) {
+            search.tap()
+            search.typeText("Mon\n")
+            try failures("search-typed")
+            app.buttons["Cancel"].firstMatch.tap()
+        }
+        app.buttons["Filter"].tap()
+        app.buttons["Favourites only"].tap()
+        try failures("favourites-only")
+    }
+}
