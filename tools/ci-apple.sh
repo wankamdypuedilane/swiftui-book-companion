@@ -67,7 +67,7 @@ for dir in "${DIRS[@]}"; do
     fi
   fi
   echo "::endgroup::"
-  if [ $rc -ne 0 ]; then tail -60 "$log"; summary+=("FAIL $name"); else summary+=("OK   $name ($action)"); fi
+  if [ $rc -ne 0 ]; then grep -E "^ +t = " "$log" | tail -150; tail -60 "$log"; summary+=("FAIL $name"); else summary+=("OK   $name ($action)"); fi
 done
 printf '%s\n' "${summary[@]}"
 printf '%s\n' "${summary[@]}" | grep -q '^FAIL' && exit 1 || exit 0
