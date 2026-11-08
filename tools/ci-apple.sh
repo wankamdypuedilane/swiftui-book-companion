@@ -39,9 +39,11 @@ for dir in "${DIRS[@]}"; do
   log="$RUNNER_TEMP/$name.log"
   set +e
   result="$RUNNER_TEMP/$name.xcresult"; rm -rf "$result"
+  # Ad hoc signing ("Sign to Run Locally"): no team needed in the simulator, and the
+  # app gets the entitlements that the Keychain requires.
   xcodebuild "$action" -project "$dir/$name.xcodeproj" -scheme "$name" \
     -destination "id=$DEST_ID" -skipPackagePluginValidation -resultBundlePath "$result" \
-    CODE_SIGNING_ALLOWED=NO > "$log" 2>&1
+    CODE_SIGN_IDENTITY=- CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM= > "$log" 2>&1
   rc=$?
   if [ "$action" = test ] && [ -d "$result" ]; then
     mkdir -p "$RUNNER_TEMP/screenshots/$name"
