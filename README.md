@@ -52,14 +52,6 @@ The server accepts `demo@verdant.example`, `resident@streetpatch.example` and
 exist only in this in-memory development server. Never deploy it, and never reuse these
 values anywhere. All data (species, places, the town of Kerbrume, reports) is fictional.
 
-## Known issues
-
-- Verdant's accessibility audit reports contrast failures in the Garden list: four
-  with the whole garden on screen, one when a search leaves a single plant. The audit cannot name the element, because each row combines its
-  children into one accessibility element. The same rows pass on the Today screen.
-  The UI test accepts this one case explicitly, and every other audit issue still fails
-  it. Corrections are welcome.
-
 ## License
 
 MIT, see `LICENSE`. Corrections are welcome as issues.

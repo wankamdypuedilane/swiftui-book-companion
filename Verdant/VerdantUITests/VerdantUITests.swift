@@ -96,11 +96,11 @@ extension VerdantUITests {
                 if issue.auditType == .contrast, issue.compactDescription.contains("nearly") {
                     return true
                 }
-                // Known issue, not yet found: in the Garden, a contrast failure the audit
-                // cannot attach to an element (it is inside a combined row). Listed in the
-                // README's known issues; every other failure still fails the test.
-                if tab == "Garden", issue.auditType == .contrast, issue.element == nil {
-                    print("Known issue on Garden:", issue.compactDescription)
+                // Text that has scrolled under the translucent tab bar is measured against
+                // the bar's material, not the list: it is not legible there by design.
+                if issue.auditType == .contrast, let element = issue.element,
+                    element.frame.minY >= app.tabBars.firstMatch.frame.minY
+                {
                     return true
                 }
                 // Anything else: print where the issue is, then let it fail the test.
