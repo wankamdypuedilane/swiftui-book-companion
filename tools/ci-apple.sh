@@ -43,7 +43,8 @@ for dir in "${DIRS[@]}"; do
   # app gets the entitlements that the Keychain requires.
   xcodebuild "$action" -project "$dir/$name.xcodeproj" -scheme "$name" \
     -destination "id=$DEST_ID" -skipPackagePluginValidation -resultBundlePath "$result" \
-    CODE_SIGN_IDENTITY=- CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM= > "$log" 2>&1
+    CODE_SIGN_IDENTITY=- CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM= GENERATE_INFOPLIST_FILE=YES \
+    > "$log" 2>&1
   rc=$?
   if [ "$action" = test ] && [ -d "$result" ]; then
     mkdir -p "$RUNNER_TEMP/screenshots/$name"
