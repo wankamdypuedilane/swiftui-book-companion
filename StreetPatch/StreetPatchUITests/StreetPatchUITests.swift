@@ -48,11 +48,12 @@ final class StreetPatchUITests: XCTestCase {
     func testReportingAProblemThenWithdrawingIt() throws {
         let app = launch()
         signIn(app)
-        // From the List tab: in CI, taps on the same button laid over the map did not
-        // open the form once the map had loaded its data (cause not established).
+        // Both the Map and the List tab have this button, and the hidden tab's copy stays
+        // in the hierarchy: take the one that can be tapped, on the List tab.
         app.tabBars.buttons["List"].tap()
-        let button = app.buttons["report.new"]
-        XCTAssertTrue(button.waitForExistence(timeout: 10))
+        let buttons = app.buttons.matching(identifier: "report.new")
+        XCTAssertTrue(buttons.firstMatch.waitForExistence(timeout: 10))
+        let button = try XCTUnwrap(buttons.allElementsBoundByIndex.first(where: \.isHittable))
         button.tap()
 
         // Sending an empty form shows the problems instead of sending.
