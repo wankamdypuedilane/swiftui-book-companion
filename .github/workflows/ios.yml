@@ -2,6 +2,11 @@ name: Companion CI
 on:
   push:
   workflow_dispatch:
+    inputs:
+      projects:
+        description: Project folders to build (empty for all), such as ./StreetPatch
+        required: false
+        default: ''
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: false
@@ -53,7 +58,7 @@ jobs:
           (cd book-api && node server.js > "$RUNNER_TEMP/api.log" 2>&1 &)
           for i in $(seq 1 30); do curl -s http://localhost:8080/health && break; sleep 1; done
       - name: Build and test the projects
-        run: tools/ci-apple.sh
+        run: tools/ci-apple.sh ${{ inputs.projects }}
       - name: Upload screenshots
         if: always()
         uses: actions/upload-artifact@v4

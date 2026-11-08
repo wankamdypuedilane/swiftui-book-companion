@@ -55,6 +55,9 @@ final class StreetPatchUITests: XCTestCase {
         XCTAssertTrue(buttons.firstMatch.waitForExistence(timeout: 10))
         let button = try XCTUnwrap(buttons.allElementsBoundByIndex.first(where: \.isHittable))
         button.tap()
+        if !app.buttons["composer.send"].waitForExistence(timeout: 5) {
+            print(app.debugDescription)  // what opened instead of the form
+        }
 
         // Sending an empty form shows the problems instead of sending.
         app.buttons["composer.send"].tap()
