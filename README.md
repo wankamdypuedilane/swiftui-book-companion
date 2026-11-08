@@ -54,8 +54,8 @@ values anywhere. All data (species, places, the town of Kerbrume, reports) is fi
 
 ## Known issues
 
-- Verdant's accessibility audit reports one contrast failure per visible row of the
-  Garden list. The audit cannot name the element, because each row combines its
+- Verdant's accessibility audit reports contrast failures in the Garden list: four
+  with the whole garden on screen, one when a search leaves a single plant. The audit cannot name the element, because each row combines its
   children into one accessibility element. The same rows pass on the Today screen.
   The UI test accepts this one case explicitly, and every other audit issue still fails
   it. Corrections are welcome.
