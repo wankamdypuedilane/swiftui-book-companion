@@ -2,7 +2,7 @@ import StreetPatchKit
 import SwiftUI
 
 // <reportbutton>
-/// "Report a problem", shown at the bottom of the Map and List tabs: reporting is the
+/// "Report a problem", in the navigation bar of the Map and List tabs: reporting is the
 /// reason the app exists, so it is one tap away. Signed out, it asks to sign in first.
 struct ReportButton: View {
     /// The sheet's content needs an identity: a new one for every presentation.
@@ -24,15 +24,8 @@ struct ReportButton: View {
                 isSigningIn = true
             }
         } label: {
-            Label("Report a problem", systemImage: "plus.circle.fill")
-                .font(.headline)
-                .padding(.horizontal, 8)
-                .padding(.vertical, 6)
+            Label("Report a problem", systemImage: "plus")  // the bar shows the icon
         }
-        .buttonStyle(.borderedProminent)
-        .buttonBorderShape(.capsule)
-        .shadow(radius: 4, y: 2)
-        .padding(.bottom, 8)
         .accessibilityIdentifier("report.new")
         .sheet(item: $composer) { ComposerView(model: $0.model) }
         .sheet(isPresented: $isSigningIn) { SignInView() }

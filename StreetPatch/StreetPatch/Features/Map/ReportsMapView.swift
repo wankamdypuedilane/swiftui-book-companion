@@ -31,7 +31,9 @@ struct ReportsMapView: View {
                 MapCompass()
                 MapScaleView()
             }
-            .safeAreaInset(edge: .bottom) { ReportButton() }
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) { ReportButton() }
+            }
             .navigationTitle("Kerbrume")
             .navigationBarTitleDisplayMode(.inline)
             .sheet(item: selectedReport) { report in

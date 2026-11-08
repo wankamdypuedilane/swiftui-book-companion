@@ -35,8 +35,10 @@ struct ReportListView: View {
             .navigationDestination(for: Report.self) { report in
                 ReportDetailView(model: dependencies.makeDetail(for: report))
             }
-            .toolbar { filterMenu }
-            .safeAreaInset(edge: .bottom) { ReportButton() }
+            .toolbar {
+                filterMenu
+                ToolbarItem(placement: .primaryAction) { ReportButton() }
+            }
             .refreshable { await model.reload() }
             .task(id: model.filter) { await model.reload() }
             .task {

@@ -48,8 +48,8 @@ final class StreetPatchUITests: XCTestCase {
     func testReportingAProblemThenWithdrawingIt() throws {
         let app = launch()
         signIn(app)
-        // Both the Map and the List tab have this button, and the hidden tab's copy stays
-        // in the hierarchy: take the one that can be tapped, on the List tab.
+        // Both the Map and the List tab have this button in their navigation bar; the
+        // hidden tab's copy can stay in the hierarchy, so take the one that can be tapped.
         app.tabBars.buttons["List"].tap()
         let buttons = app.buttons.matching(identifier: "report.new")
         XCTAssertTrue(buttons.firstMatch.waitForExistence(timeout: 10))
