@@ -49,8 +49,10 @@ final class StreetPatchUITests: XCTestCase {
         let app = launch()
         signIn(app)
         app.tabBars.buttons["Map"].tap()
-        let newReport = app.buttons["report.new"]
-        XCTAssertTrue(newReport.waitForExistence(timeout: 10))  // after the sheet closes
+        // The Map and List tabs both have this button; the List's one is offscreen.
+        let newReport = app.buttons.matching(identifier: "report.new")
+            .matching(NSPredicate(format: "hittable == true")).firstMatch
+        XCTAssertTrue(newReport.waitForExistence(timeout: 10))
         newReport.tap()
 
         // Sending an empty form shows the problems instead of sending.

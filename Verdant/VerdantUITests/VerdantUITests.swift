@@ -119,10 +119,11 @@ extension VerdantUITests {
                 if issue.auditType == .contrast, issue.compactDescription.contains("nearly") {
                     return true
                 }
-                // Text that has scrolled under the translucent tab bar is measured against
-                // the bar's material, not the list: it is not legible there by design.
+                // Text that has scrolled under the translucent tab bar, or into the edge
+                // effect that fades content just above it (iOS 26), is measured against
+                // that material, not the list: it is not meant to be read there.
                 if issue.auditType == .contrast, let element = issue.element,
-                    element.frame.minY >= app.tabBars.firstMatch.frame.minY
+                    element.frame.maxY > app.tabBars.firstMatch.frame.minY - 44
                 {
                     return true
                 }
