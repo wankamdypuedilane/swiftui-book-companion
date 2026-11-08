@@ -1,0 +1,82 @@
+# Verdant, the house-plant companion built from Chapter 10 to Chapter 20.
+# Generate the Xcode project with: xcodegen generate
+name: Verdant
+options:
+  bundleIdPrefix: com.example.masteringswiftui
+  deploymentTarget:
+    iOS: "18.0"
+packages:
+  VerdantKit:
+    path: Packages/VerdantKit
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    SWIFT_DEFAULT_ACTOR_ISOLATION: MainActor
+    SWIFT_APPROACHABLE_CONCURRENCY: YES
+    ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS: YES
+targets:
+  Verdant:
+    type: application
+    platform: iOS
+    sources: [Verdant]
+    configFiles:
+      Debug: Config/Debug.xcconfig
+      Release: Config/Release.xcconfig
+    dependencies:
+      - package: VerdantKit
+    info:
+      path: Verdant/Info.plist
+      properties:
+        CFBundleDisplayName: Verdant
+        UILaunchScreen:
+          UIColorName: AccentColor
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: true
+        VerdantAPIBaseURL: $(VERDANT_API_BASE_URL)
+        NSLocationWhenInUseUsageDescription: >-
+          Verdant uses your location to show the nurseries and plant-swap places near you.
+          Your location never leaves your device.
+        NSAppTransportSecurity:
+          NSAllowsLocalNetworking: true
+        CFBundleURLTypes:
+          - CFBundleURLName: com.example.masteringswiftui.verdant
+            CFBundleURLSchemes: [verdant]
+        ITSAppUsesNonExemptEncryption: false
+    settings:
+      base:
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+  VerdantTests:
+    type: bundle.unit-test
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+    platform: iOS
+    sources: [VerdantTests]
+    dependencies:
+      - target: Verdant
+      - package: VerdantKit
+  VerdantUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        # XCTestCase's initializers are nonisolated: subclasses cannot default to MainActor.
+        SWIFT_DEFAULT_ACTOR_ISOLATION: nonisolated
+    sources: [VerdantUITests]
+    dependencies:
+      - target: Verdant
+schemes:
+  Verdant:
+    build:
+      targets: {Verdant: all}
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets: [VerdantTests, VerdantUITests]
+    archive:
+      config: Release

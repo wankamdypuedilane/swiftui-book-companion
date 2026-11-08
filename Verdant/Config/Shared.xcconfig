@@ -1,0 +1,2 @@
+// Settings shared by every configuration of Verdant.
+PRODUCT_BUNDLE_IDENTIFIER = com.example.masteringswiftui.verdant

@@ -1,0 +1,107 @@
+{
+  "sourceLanguage": "en",
+  "version": "1.0",
+  "strings": {
+    "Welcome to your garden": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bienvenue dans votre jardin"
+          }
+        }
+      }
+    },
+    "%lld plants need water": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld plant needs water"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld plants need water"
+                }
+              }
+            }
+          }
+        },
+        "fr": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld plante a besoin d’eau"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld plantes ont besoin d’eau"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Plants: %lld": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plantes : %lld"
+          }
+        }
+      }
+    },
+    "Water every day": {
+      "comment": "A watering interval",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arroser tous les jours"
+          }
+        }
+      }
+    },
+    "Translated text": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Texte traduit"
+          }
+        }
+      }
+    },
+    "Formatted for the locale": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mis en forme pour la langue"
+          }
+        }
+      }
+    },
+    "In code": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dans le code"
+          }
+        }
+      }
+    }
+  }
+}

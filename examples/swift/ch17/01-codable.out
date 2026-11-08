@@ -1,0 +1,12 @@
+Aloe 21 false
+The Glass Leaf nil 48.3905
+2019-04-02
+["K1=42", "K2=17"]
+Missing key: wateringDays at []
+Type mismatch: Int for ["wateringDays"]
+{
+  "common_name" : "Aloe",
+  "id" : "aloe-vera",
+  "pet_safe" : false,
+  "watering_days" : 21
+}

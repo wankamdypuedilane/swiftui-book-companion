@@ -1,0 +1,56 @@
+# Gallery: every small SwiftUI example of Part II, in one app.
+# Generate the Xcode project with: xcodegen generate
+name: Gallery
+options:
+  bundleIdPrefix: com.example.masteringswiftui
+  developmentLanguage: en
+  deploymentTarget:
+    iOS: "18.0"
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    SWIFT_DEFAULT_ACTOR_ISOLATION: MainActor
+    SWIFT_APPROACHABLE_CONCURRENCY: YES
+    ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS: YES
+    ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+targets:
+  Gallery:
+    type: application
+    platform: iOS
+    sources: [Gallery]
+    info:
+      path: Gallery/Info.plist
+      properties:
+        CFBundleDisplayName: Gallery
+        CFBundleLocalizations: [en, fr]
+        UILaunchScreen: {}
+        UIAppFonts: [Inconsolata-Bold.otf]
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
+  GalleryTests:
+    type: bundle.unit-test
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+    platform: iOS
+    sources: [GalleryTests]
+    dependencies:
+      - target: Gallery
+  GalleryUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        # XCTestCase's initializers are nonisolated: subclasses cannot default to MainActor.
+        SWIFT_DEFAULT_ACTOR_ISOLATION: nonisolated
+    sources: [GalleryUITests]
+    dependencies:
+      - target: Gallery
+schemes:
+  Gallery:
+    build:
+      targets: {Gallery: all}
+    test:
+      targets: [GalleryTests, GalleryUITests]

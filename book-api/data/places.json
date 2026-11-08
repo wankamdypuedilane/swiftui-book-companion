@@ -1,0 +1,110 @@
+[
+  {
+    "id": "pl-01",
+    "name": "The Glass Leaf Nursery",
+    "kind": "nursery",
+    "latitude": 48.3905,
+    "longitude": -4.486,
+    "address": "12 Quai des Serres, Kerbrume",
+    "openingHours": "Tue–Sat 9:00–18:00"
+  },
+  {
+    "id": "pl-02",
+    "name": "Fernhollow Garden Centre",
+    "kind": "nursery",
+    "latitude": 48.4052,
+    "longitude": -4.5011,
+    "address": "3 Route du Vallon, Kerbrume",
+    "openingHours": "Mon–Sun 10:00–19:00"
+  },
+  {
+    "id": "pl-03",
+    "name": "Cuttings Corner",
+    "kind": "swapPoint",
+    "latitude": 48.3871,
+    "longitude": -4.4793,
+    "address": "Place du Marché, Kerbrume",
+    "openingHours": "Saturday 10:00–13:00"
+  },
+  {
+    "id": "pl-04",
+    "name": "Library Seed & Plant Swap",
+    "kind": "swapPoint",
+    "latitude": 48.3958,
+    "longitude": -4.4712,
+    "address": "Médiathèque, 8 rue des Lettres, Kerbrume",
+    "openingHours": "Wed 14:00–18:00"
+  },
+  {
+    "id": "pl-05",
+    "name": "Allotments of the Old Fort",
+    "kind": "garden",
+    "latitude": 48.3829,
+    "longitude": -4.4955,
+    "address": "Chemin du Fort, Kerbrume",
+    "openingHours": "Daily, sunrise to sunset"
+  },
+  {
+    "id": "pl-06",
+    "name": "Rooftop Garden at Le Hangar",
+    "kind": "garden",
+    "latitude": 48.3925,
+    "longitude": -4.4644,
+    "address": "Le Hangar, 21 rue du Port, Kerbrume",
+    "openingHours": "Thu–Sun 11:00–17:00"
+  },
+  {
+    "id": "pl-07",
+    "name": "Green Thumb Market Stall",
+    "kind": "nursery",
+    "latitude": 48.388,
+    "longitude": -4.4902,
+    "address": "Halles de Kerbrume, stand 14",
+    "openingHours": "Fri–Sun 8:00–13:00"
+  },
+  {
+    "id": "pl-08",
+    "name": "Neighbourhood Swap Box",
+    "kind": "swapPoint",
+    "latitude": 48.4011,
+    "longitude": -4.4826,
+    "address": "Square des Tilleuls, Kerbrume",
+    "openingHours": "Always open"
+  },
+  {
+    "id": "pl-09",
+    "name": "Botanical Volunteers' Garden",
+    "kind": "garden",
+    "latitude": 48.4089,
+    "longitude": -4.474,
+    "address": "Parc du Moulin, Kerbrume",
+    "openingHours": "Tue & Sat 9:00–12:00"
+  },
+  {
+    "id": "pl-10",
+    "name": "Cactus & Co.",
+    "kind": "nursery",
+    "latitude": 48.3941,
+    "longitude": -4.4777,
+    "address": "5 rue des Dunes, Kerbrume",
+    "openingHours": "Tue–Sat 10:00–18:30"
+  },
+  {
+    "id": "pl-11",
+    "name": "Repair Café Plant Table",
+    "kind": "swapPoint",
+    "latitude": 48.3851,
+    "longitude": -4.4699,
+    "address": "Maison des Associations, Kerbrume",
+    "openingHours": "First Sunday, 14:00–17:00"
+  },
+  {
+    "id": "pl-12",
+    "name": "Riverside Community Orchard",
+    "kind": "garden",
+    "latitude": 48.3992,
+    "longitude": -4.5096,
+    "address": "Berges de l'Élorn, Kerbrume",
+    "openingHours": "Daily"
+  }
+]

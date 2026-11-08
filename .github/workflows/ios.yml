@@ -1,0 +1,68 @@
+name: Companion CI
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      projects:
+        description: Project folders to build (empty for all), such as ./StreetPatch
+        required: false
+        default: ''
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  linux:
+    name: Swift examples and packages (Linux)
+    runs-on: ubuntu-latest
+    container: swift:6.3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Swift version
+        run: swift --version
+      - name: Start the demonstration API
+        run: |
+          apt-get update -qq && apt-get install -y -qq nodejs curl > /dev/null
+          node --version
+          (cd book-api && node server.js > /tmp/api.log 2>&1 &)
+          for i in $(seq 1 30); do curl -s http://localhost:8080/health && break; sleep 1; done
+      - name: Test the demonstration API
+        run: node --test book-api/test/*.test.js
+      - name: Run the examples and compare with the recorded output
+        run: tools/run-swift-examples.sh --check
+      - name: Test the Swift packages
+        env:
+          VERDANT_API_URL: http://localhost:8080/verdant/v1/
+          STREETPATCH_API_URL: http://localhost:8080/streetpatch/v1/
+        run: |
+          for p in $(find . -name Package.swift -not -path '*/.build/*' \
+                       -not -path './Projects/*' | sort); do
+            d=$(dirname "$p"); echo "::group::$d"
+            (cd "$d" && swift build && (swift test || [ ! -d Tests ]))
+            echo "::endgroup::"
+          done
+  apple:
+    name: Xcode projects (iOS simulator)
+    runs-on: macos-26
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - name: Select Xcode 26.6, the version the book was tested with
+        run: |
+          sudo xcode-select -s /Applications/Xcode_26.6.app
+          xcodebuild -version
+          swift --version
+      - name: Install XcodeGen and SwiftLint
+        run: brew install xcodegen swiftlint
+      - name: Start the demonstration API
+        run: |
+          (cd book-api && node server.js > "$RUNNER_TEMP/api.log" 2>&1 &)
+          for i in $(seq 1 30); do curl -s http://localhost:8080/health && break; sleep 1; done
+      - name: Build and test the projects
+        run: tools/ci-apple.sh ${{ inputs.projects }}
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: ${{ runner.temp }}/screenshots
+          if-no-files-found: ignore

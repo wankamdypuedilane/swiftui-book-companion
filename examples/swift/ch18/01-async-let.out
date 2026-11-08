@@ -1,0 +1,3 @@
+Sequential: 28 42
+Concurrent: 28 42
+Concurrent was about 2 times faster

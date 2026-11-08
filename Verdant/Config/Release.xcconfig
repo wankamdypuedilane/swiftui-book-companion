@@ -1,0 +1,3 @@
+#include "Shared.xcconfig"
+// A placeholder: replace it with your own HTTPS server before publishing.
+VERDANT_API_BASE_URL = https:/$()/api.verdant.example/verdant/v1/

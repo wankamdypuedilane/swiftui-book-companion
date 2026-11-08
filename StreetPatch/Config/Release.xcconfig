@@ -1,0 +1,3 @@
+#include "Shared.xcconfig"
+// A placeholder: replace it with the town's HTTPS server before publishing.
+STREETPATCH_API_BASE_URL = https:/$()/api.streetpatch.example/streetpatch/v1/

@@ -1,0 +1,65 @@
+# StreetPatch, the capstone project of Chapter 25.
+# Generate the Xcode project with: xcodegen generate
+name: StreetPatch
+options:
+  bundleIdPrefix: com.example.masteringswiftui
+  deploymentTarget:
+    iOS: "18.0"
+packages:
+  StreetPatchKit:
+    path: Packages/StreetPatchKit
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    SWIFT_DEFAULT_ACTOR_ISOLATION: MainActor
+    SWIFT_APPROACHABLE_CONCURRENCY: YES
+targets:
+  StreetPatch:
+    type: application
+    platform: iOS
+    sources: [StreetPatch]
+    configFiles:
+      Debug: Config/Debug.xcconfig
+      Release: Config/Release.xcconfig
+    dependencies:
+      - package: StreetPatchKit
+    info:
+      path: StreetPatch/Info.plist
+      properties:
+        CFBundleDisplayName: StreetPatch
+        UILaunchScreen:
+          UIColorName: AccentColor
+        StreetPatchAPIBaseURL: $(STREETPATCH_API_BASE_URL)
+        NSLocationWhenInUseUsageDescription: >-
+          StreetPatch uses your location to place a new report where you stand and to
+          show the reports around you. Only the place of a report is sent, when you send it.
+        NSAppTransportSecurity:
+          NSAllowsLocalNetworking: true
+        ITSAppUsesNonExemptEncryption: false
+    settings:
+      base:
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+  StreetPatchUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        SWIFT_DEFAULT_ACTOR_ISOLATION: nonisolated
+    sources: [StreetPatchUITests]
+    dependencies:
+      - target: StreetPatch
+schemes:
+  StreetPatch:
+    build:
+      targets: {StreetPatch: all}
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets: [StreetPatchUITests]
+    archive:
+      config: Release

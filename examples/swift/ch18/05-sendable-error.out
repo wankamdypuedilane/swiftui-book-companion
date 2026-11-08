@@ -1,0 +1,1 @@
+05-sendable-error.swift:11:27: error: passing closure as a 'sending' parameter risks causing data races between code in the current task and concurrent execution of the closure

@@ -1,0 +1,3 @@
+#include "Shared.xcconfig"
+// The demonstration API of the companion repository (book-api), on this Mac.
+VERDANT_API_BASE_URL = http:/$()/localhost:8080/verdant/v1/

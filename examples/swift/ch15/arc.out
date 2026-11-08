@@ -1,0 +1,12 @@
+After the first block: nothing was released (a leak)
+Tenant while Yann exists: Yann
+Gardener Yann released
+Tenant after Yann was released: none
+Basil is in tray A
+Tray A released
+Seedling Basil released
+Water Fern
+The fern timer was not released: self -> closure -> self
+Water Cactus
+Timer for Cactus released
+End of program
