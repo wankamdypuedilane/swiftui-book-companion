@@ -45,14 +45,14 @@ final class StreetPatchUITests: XCTestCase {
     }
 
     @MainActor
-    func testReportingAProblemThenWithdrawingIt() {
+    func testReportingAProblemThenWithdrawingIt() throws {
         let app = launch()
         signIn(app)
         app.tabBars.buttons["Map"].tap()
         // The Map and List tabs both have this button; the List's one is offscreen.
-        let newReport = app.buttons.matching(identifier: "report.new")
-            .matching(NSPredicate(format: "hittable == true")).firstMatch
-        XCTAssertTrue(newReport.waitForExistence(timeout: 10))
+        let buttons = app.buttons.matching(identifier: "report.new")
+        XCTAssertTrue(buttons.firstMatch.waitForExistence(timeout: 10))
+        let newReport = try XCTUnwrap(buttons.allElementsBoundByIndex.first { $0.isHittable })
         newReport.tap()
 
         // Sending an empty form shows the problems instead of sending.
