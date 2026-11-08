@@ -81,10 +81,7 @@ private struct GardenList: View {
                         }
                     }
                 } header: {
-                    // Primary colour: in the default header style, these headers failed
-                    // the contrast audit (one failure per room).
                     Label(section.room.title, systemImage: section.room.symbolName)
-                        .foregroundStyle(.primary)
                 }
             }
         }
