@@ -37,14 +37,7 @@ struct SettingsView: View {
                     .privacySensitiveWhenInactive()
                 Section("About") {
                     Button("Show the introduction again") { hasCompletedOnboarding = false }
-                    // Not LabeledContent: the audit found that its label stops growing
-                    // with Dynamic Type. Two Text views in a row follow every size.
-                    HStack {
-                        Text("Version")
-                        Spacer()
-                        Text(Bundle.main.versionString).foregroundStyle(.secondary)
-                    }
-                    .accessibilityElement(children: .combine)
+                    LabeledContent("Version", value: Bundle.main.versionString)
                 }
             }
             .navigationTitle("Settings")
