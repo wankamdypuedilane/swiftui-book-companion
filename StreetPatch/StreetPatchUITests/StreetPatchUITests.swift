@@ -27,6 +27,13 @@ final class StreetPatchUITests: XCTestCase {
         password.typeText("local-only-demo-password")
         app.buttons["signIn.submit"].tap()
         XCTAssertTrue(app.buttons["Sign out"].waitForExistence(timeout: 10))
+        // A signed app has AutoFill: iOS may offer to save the password, in a sheet that
+        // covers the app. Decline it.
+        let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+        for notNow in [app.buttons["Not Now"], springboard.buttons["Not Now"]]
+        where notNow.waitForExistence(timeout: 3) {
+            notNow.tap()
+        }
     }
 
     // <uitests>
