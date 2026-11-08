@@ -49,15 +49,11 @@ final class StreetPatchUITests: XCTestCase {
         let app = launch()
         signIn(app)
         app.tabBars.buttons["Map"].tap()
-        // The Map and List tabs both have this button; the List's one is offscreen.
-        let buttons = app.buttons.matching(identifier: "report.new")
-        XCTAssertTrue(buttons.firstMatch.waitForExistence(timeout: 10))
-        guard let newReport = buttons.allElementsBoundByIndex.first(where: \.isHittable) else {
-            print(app.debugDescription)  // the hierarchy, to see what covers the button
-            XCTFail("No visible report button")
-            return
-        }
-        newReport.tap()
+        // XCUITest reports this button, laid over the map, as not hittable (it computes
+        // no hit point for it), although it is on screen: tap the point at its centre.
+        let button = app.buttons["report.new"]
+        XCTAssertTrue(button.waitForExistence(timeout: 10))
+        button.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
 
         // Sending an empty form shows the problems instead of sending.
         app.buttons["composer.send"].tap()
