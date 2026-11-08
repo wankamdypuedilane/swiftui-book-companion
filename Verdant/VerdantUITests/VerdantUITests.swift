@@ -81,10 +81,13 @@ extension VerdantUITests {
         for tab in ["Today", "Garden", "Settings"] {
             app.tabBars.buttons[tab].tap()
             try app.performAccessibilityAudit { issue in
-                // Text in navigation bar buttons stops growing at large sizes by design;
-                // the system shows it in the Large Content Viewer on a long press instead.
-                if issue.auditType == .dynamicType, let label = issue.element?.label,
-                    app.navigationBars.buttons[label].exists
+                // System controls whose text stops growing at large sizes by design: the
+                // navigation bar buttons (the Large Content Viewer shows their text on a
+                // long press) and the search field of .searchable.
+                if [.dynamicType, .textClipped].contains(issue.auditType),
+                    let element = issue.element,
+                    element.elementType == .searchField
+                        || app.navigationBars.buttons[element.label].exists
                 {
                     return true  // true: a known limitation of a system control, ignored
                 }
