@@ -47,6 +47,7 @@ targets:
     platform: iOS
     settings:
       base:
+        GENERATE_INFOPLIST_FILE: YES
         SWIFT_DEFAULT_ACTOR_ISOLATION: nonisolated
     sources: [StreetPatchUITests]
     dependencies:

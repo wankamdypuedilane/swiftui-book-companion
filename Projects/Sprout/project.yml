@@ -46,6 +46,9 @@ targets:
         ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS: YES
   SproutTests:
     type: bundle.unit-test
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
     platform: iOS
     sources: [SproutTests]
     dependencies:

@@ -50,6 +50,9 @@ targets:
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
   VerdantTests:
     type: bundle.unit-test
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
     platform: iOS
     sources: [VerdantTests]
     dependencies:
@@ -60,6 +63,7 @@ targets:
     platform: iOS
     settings:
       base:
+        GENERATE_INFOPLIST_FILE: YES
         # XCTestCase's initializers are nonisolated: subclasses cannot default to MainActor.
         SWIFT_DEFAULT_ACTOR_ISOLATION: nonisolated
     sources: [VerdantUITests]

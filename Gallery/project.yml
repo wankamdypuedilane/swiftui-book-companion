@@ -30,6 +30,9 @@ targets:
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
   GalleryTests:
     type: bundle.unit-test
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
     platform: iOS
     sources: [GalleryTests]
     dependencies:
@@ -39,6 +42,7 @@ targets:
     platform: iOS
     settings:
       base:
+        GENERATE_INFOPLIST_FILE: YES
         # XCTestCase's initializers are nonisolated: subclasses cannot default to MainActor.
         SWIFT_DEFAULT_ACTOR_ISOLATION: nonisolated
     sources: [GalleryUITests]

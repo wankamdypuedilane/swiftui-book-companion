@@ -52,7 +52,11 @@ final class StreetPatchUITests: XCTestCase {
         // The Map and List tabs both have this button; the List's one is offscreen.
         let buttons = app.buttons.matching(identifier: "report.new")
         XCTAssertTrue(buttons.firstMatch.waitForExistence(timeout: 10))
-        let newReport = try XCTUnwrap(buttons.allElementsBoundByIndex.first { $0.isHittable })
+        guard let newReport = buttons.allElementsBoundByIndex.first(where: \.isHittable) else {
+            print(app.debugDescription)  // the hierarchy, to see what covers the button
+            XCTFail("No visible report button")
+            return
+        }
         newReport.tap()
 
         // Sending an empty form shows the problems instead of sending.

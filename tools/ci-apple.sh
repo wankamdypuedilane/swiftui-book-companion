@@ -43,7 +43,7 @@ for dir in "${DIRS[@]}"; do
   # app gets the entitlements that the Keychain requires.
   xcodebuild "$action" -project "$dir/$name.xcodeproj" -scheme "$name" \
     -destination "id=$DEST_ID" -skipPackagePluginValidation -resultBundlePath "$result" \
-    CODE_SIGN_IDENTITY=- CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM= GENERATE_INFOPLIST_FILE=YES \
+    CODE_SIGN_IDENTITY=- CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM= \
     > "$log" 2>&1
   rc=$?
   if [ "$action" = test ] && [ -d "$result" ]; then
@@ -55,6 +55,7 @@ for dir in "${DIRS[@]}"; do
   grep -E "(error|warning): " "$log" | grep -v "appintentsmetadataprocessor" | sort -u | head -40 || true
   grep -E "^Test Suite '.*xctest' (passed|failed)|Test run with|\*\* (BUILD|TEST) " "$log" | tail -6 || true
   grep -A60 "Audit issue" "$log" | grep -v "^ *t = " | head -80 || true    # audit details
+  grep -A80 "^Attributes: Application" "$log" | head -80 || true    # hierarchy dumps
   # Apps with an archive configuration are also built in Release for a real device
   # (without signing): the configuration used for TestFlight and the App Store.
   if [ $rc -eq 0 ] && grep -q "archive:" "$dir/project.yml"; then
