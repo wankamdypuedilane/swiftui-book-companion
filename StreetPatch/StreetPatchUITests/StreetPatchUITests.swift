@@ -48,8 +48,8 @@ final class StreetPatchUITests: XCTestCase {
     func testReportingAProblemThenWithdrawingIt() throws {
         let app = launch()
         signIn(app)
-        // From the List tab: on the Map tab, XCUITest finds the map's own elements at the
-        // button's position once the map has loaded, and the tap does not reach it.
+        // From the List tab: in CI, taps on the same button laid over the map did not
+        // open the form once the map had loaded its data (cause not established).
         app.tabBars.buttons["List"].tap()
         let button = app.buttons["report.new"]
         XCTAssertTrue(button.waitForExistence(timeout: 10))
