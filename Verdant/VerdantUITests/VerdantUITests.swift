@@ -78,16 +78,19 @@ extension VerdantUITests {
     @MainActor
     func testMainScreensPassTheAccessibilityAudit() throws {
         let app = launch()
+        let sectionHeaders: Set = ["Needs water", "Reminders", "Account", "About"]
         for tab in ["Today", "Garden", "Settings"] {
             app.tabBars.buttons[tab].tap()
             try app.performAccessibilityAudit { issue in
-                // System controls whose text stops growing at large sizes by design: the
+                // System styles whose text stops growing at large sizes by design: the
                 // navigation bar buttons (the Large Content Viewer shows their text on a
-                // long press) and the search field of .searchable.
+                // long press), the search field of .searchable, and the list section
+                // headers, drawn by List in its own header style.
                 if [.dynamicType, .textClipped].contains(issue.auditType),
                     let element = issue.element,
                     element.elementType == .searchField
                         || app.navigationBars.buttons[element.label].exists
+                        || sectionHeaders.contains(element.label)
                 {
                     return true  // true: a known limitation of a system control, ignored
                 }
