@@ -7,12 +7,18 @@ struct WateringBadge: View {
     let status: WateringStatus
 
     var body: some View {
-        Label(text, systemImage: status.needsWater ? "drop.fill" : "drop")
-            .font(.caption.weight(.semibold))
-            .padding(.horizontal, 8)
-            .padding(.vertical, 4)
-            .foregroundStyle(color)
-            .background(color.opacity(0.15), in: .capsule)
+        // The colour goes to the icon and the background; the text stays in the primary
+        // colour, because orange text on white fails the contrast check.
+        HStack(spacing: 4) {
+            Image(systemName: status.needsWater ? "drop.fill" : "drop")
+                .foregroundStyle(color)
+                .accessibilityHidden(true)
+            Text(text)
+        }
+        .font(.caption.weight(.semibold))
+        .padding(.horizontal, 8)
+        .padding(.vertical, 4)
+        .background(color.opacity(0.15), in: .capsule)
     }
 
     private var text: String {
