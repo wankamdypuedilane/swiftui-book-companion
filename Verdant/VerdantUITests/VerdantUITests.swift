@@ -94,11 +94,12 @@ extension VerdantUITests {
             try app.performAccessibilityAudit { issue in
                 // System styles whose text stops growing at large sizes by design: the
                 // navigation bar buttons (the Large Content Viewer shows their text on a
-                // long press), the search field of .searchable, and the list section
-                // headers, drawn by List in its own header style.
+                // long press), single-line text fields (the search field of .searchable
+                // and the sign-in fields: they scroll their text sideways by design), and
+                // the list section headers, drawn by List in its own header style.
                 if [.dynamicType, .textClipped].contains(issue.auditType),
                     let element = issue.element,
-                    element.elementType == .searchField
+                    [.searchField, .textField, .secureTextField].contains(element.elementType)
                         || app.navigationBars.buttons[element.label].exists
                         || sectionHeaders.contains(element.label)
                 {
