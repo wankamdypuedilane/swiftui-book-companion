@@ -103,6 +103,12 @@ extension VerdantUITests {
                 {
                     return true
                 }
+                // Disabled controls are dimmed on purpose; WCAG exempts inactive
+                // components from the contrast requirement.
+                if issue.auditType == .contrast, let element = issue.element, !element.isEnabled
+                {
+                    return true
+                }
                 // Known issue, not yet found: in the Garden, a contrast failure the audit
                 // cannot attach to an element (it is inside a combined row). Listed in the
                 // README's known issues; every other failure still fails the test.
