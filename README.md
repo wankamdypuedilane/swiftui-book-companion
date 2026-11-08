@@ -52,6 +52,15 @@ The server accepts `demo@verdant.example`, `resident@streetpatch.example` and
 exist only in this in-memory development server. Never deploy it, and never reuse these
 values anywhere. All data (species, places, the town of Kerbrume, reports) is fictional.
 
+## Known issues
+
+- Verdant's accessibility audit reports a contrast failure in the Garden list that it
+  cannot attach to an element, because each row combines its children into one
+  accessibility element. It persists when a search leaves a single plant, and the same
+  rows pass on the Today screen. The UI test accepts exactly this case (a contrast issue
+  without an element, on the Garden tab); every other issue still fails it.
+  Corrections are welcome.
+
 ## License
 
 MIT, see `LICENSE`. Corrections are welcome as issues.
